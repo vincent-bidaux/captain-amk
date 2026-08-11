@@ -1,0 +1,721 @@
+TITRE XIV - ACTES DE RÉÉDUCATION ET DE RÉADAPTATION FONCTIONNELLES
+Modifié par décisions UNCAM du 13/12/07, du 16/03/10 pour les masseurs-kinésithérapeutes et les médecins, du 20/12/11 pour les
+sages-femmes, du 09/02/12 pour les masseurs-kinésithérapeutes et les médecins (et les sages-femmes), du 31/03/15 et du
+14/12/23, et du 21/01/26 pour les masseurs-kinésithérapeutes
+
+Les actes de rééducation personnellement effectués par un masseur-kinésithérapeute, présent au titre XIV, peuvent être pris en
+charge ou remboursés par les caisses d'Assurance Maladie lorsqu'ils font l'objet d'une prescription écrite du médecin (sauf
+dispositions législatives ou dispositions réglementaires dérogatoires) mentionnant l'indication médicale de l'intervention du masseur-
+kinésithérapeute (dérogation à l'article 5 des Dispositions générales). Le médecin peut, s'il le souhaite, préciser sa prescription, qui
+s'impose alors au masseur-kinésithérapeute.
+
+La Haute Autorité de Santé a validé un référentiel déterminant un nombre d'actes au-delà duquel un accord préalable est
+nécessaire pour permettre, à titre exceptionnel, d'initier ou de poursuivre la prise en charge de la rééducation par les caisses
+d'assurance maladie correspondant à des situations médicales :
+
+   a) pour les rééducations après libération du nerf médian au canal carpien, une demande d’accord préalable doit être faite
+      par le professionnel de santé réalisant les actes avant de débuter la rééducation. A celle-ci est jointe la prescription
+      accompagnée d’un argumentaire médical établi par le professionnel de santé réalisant les actes et motivant le caractère
+      exceptionnel de ce traitement.
+   b) pour les autres situations médicales soumises à référentiel, une demande d’accord préalable doit être faite par le
+      professionnel de santé réalisant les actes lorsqu’à titre exceptionnel une prolongation du traitement est nécessaire au-delà
+      du nombre d’actes défini. A celle-ci est jointe une prescription accompagnée d’un argumentaire médical établi par le
+      professionnel de santé réalisant les actes. Cet argumentaire apporte des précisions sur la non atteinte des objectifs de la
+      rééducation, et sur la nécessité de poursuivre le traitement. Dans les cas où la prescription initiale comporterait un nombre
+      de séances supérieur au seuil prévu par le référentiel, la demande d’accord préalable est faite dans les mêmes conditions.
+
+
+Pour les actes du présent titre, les dispositions de l'article 14-B des Dispositions générales applicables en cas d'urgence justifiée par
+l'état du malade sont étendues aux actes répétés, en cas de nécessité impérieuse d'un traitement quotidien.
+
+
+
+
+Version en vigueur du 21/06/2026
+                                                                                                                                      135
+Deuxième partie : Nomenclature des actes médicaux n’utilisant pas les radiations ionisantes
+
+Sauf exceptions prévues dans le texte, la durée des séances est de l'ordre de trente minutes. Hormis les modalités particulières de
+traitement prévues par le chapitre III, le masseur-kinésithérapeute, ou la sage-femme pour les actes de l’article 8 du chapitre II, se
+consacre exclusivement à son patient.
+
+Les cotations comprennent les différents actes et techniques utilisés par le masseur-kinésithérapeute, ou la sage-femme pour les
+actes de l’article 8 du chapitre II, pendant la séance à des fins de rééducation, que ce soient des manœuvres de massage, des
+actes de gymnastique médicale ou des techniques de physiothérapie. Sauf exceptions prévues dans le texte, ces cotations ne
+sont pas cumulables entre elles.
+
+À chaque séance s'applique donc une seule cotation, correspondant au traitement de la pathologie ou du territoire anatomique
+en cause.
+
+Il découle de ces dispositions liminaires spécifiques que, sauf exceptions prévues dans le texte, il n'est pas possible d'appliquer une
+seconde cotation pour une même séance.
+Il est possible d'effectuer deux séances le même jour à la condition d'avoir deux prescriptions distinctes, pour des affections en
+rapport avec des articles de la NGAP différents, portant sur deux régions anatomiques distinctes et réalisés lors de deux séances
+distinctes facturées à taux plein par dérogation à l'article 11B de dispositions générales.
+
+
+CHAPITRE I. - ACTES DE DIAGNOSTIC
+Section 1. - ACTES ISOLÉS
+(Modifié par décision UNCAM du 07/05/19, du 27/05/2021 et du 14/12/2023 pour les masseurs-kinésithérapeutes)
+
+Ces actes, effectués par le médecin ou par le masseur-kinésithérapeute sur prescription médicale, ne donnent lieu à
+facturation qu'en l'absence de traitement de rééducation ou de réadaptation fonctionnelles en cours ou de prescription
+concomitante d'un tel traitement.
+
+
+
+
+Version en vigueur du 21/06/2026
+                                                                                                                                    136
+Deuxième partie : Nomenclature des actes médicaux n’utilisant pas les radiations ionisantes
+
+
+
+Désignation de l'acte                                                                   Coefficient Lettre clé
+Bilan ostéoarticulaire simple des conséquences motrices des affections orthopédiques ou
+rhumatologiques inflammatoires ou non :
+pour un membre                                                                          5           AMK
+pour deux membres ou un membre et le tronc                                              8,5         AMK
+pour tout le corps                                                                      10          AMK
+Ce bilan doit préciser l'état orthopédique du malade ou du blessé et notamment :
+ - l'essentiel des déformations constatées ;
+ - le degré de liberté de ses articulations avec mesures ;
+ - éventuellement, la dimension des segments des membres, etc.
+Il peut être appuyé par des examens complémentaires et, éventuellement, par une
+iconographie photographique.
+
+Bilan musculaire (avec tests) des conséquences motrices des affections neurologiques :
+pour un membre                                                                                     5            AMK
+pour deux membres                                                                                  10           AMK
+pour tout le corps                                                                                 20           AMK
+
+
+
+
+Section 2 - BILAN-DIAGNOSTIC KINÉSITHÉRAPIQUE EFFECTUÉ PAR LE MASSEUR-KINÉSITHÉRAPEUTE
+Les modalités décrites ci-dessous s'appliquent aux actes des chapitres II et III.
+
+      1. Contenu du bilan-diagnostic kinésithérapique
+
+         a. Le bilan, extrait du dossier masso-kinésithérapique, permet d'établir le diagnostic kinésithérapique et d'assurer la liaison
+            avec le médecin prescripteur.
+            Le bilan est le reflet des examens cliniques successifs réalisés par le masseur-kinésithérapeute et comporte :
+
+Version en vigueur du 21/06/2026
+                                                                                                                                     137
+Deuxième partie : Nomenclature des actes médicaux n’utilisant pas les radiations ionisantes
+
+         -   l'évaluation initiale des déficiences (analyse des déformations et des degrés de liberté articulaire, évaluation de la force
+             musculaire, de la sensibilité, de la douleur...) ;
+         -   l'évaluation initiale des incapacités fonctionnelles (évaluation des aptitudes gestuelles, possibilité ou non de réaliser les
+             gestes de la vie courante et de la vie professionnelle...).
+
+         Ces évaluations permettent d'établir un diagnostic kinésithérapique et de choisir les actes et les techniques les plus
+         appropriés.
+
+         b. Le bilan-diagnostic kinésithérapique est enrichi, au fil du traitement, par :
+         - la description du protocole thérapeutique mis en oeuvre (choix des actes et des techniques, nombre et rythme des
+            séances, lieu de traitement, traitement individuel et/ou en groupe) ;
+         - la description des événements ayant éventuellement justifié des modifications thérapeutiques ou l'interruption du
+            traitement ;
+         - les résultats obtenus par le traitement, notamment en termes anatomiques et fonctionnels par rapport à l'objectif initial ;
+         - les conseils éventuellement donnés par le masseur-kinésithérapeute à son patient ;
+         - les propositions consécutives (poursuite du traitement, exercices d'entretien et de prévention...).
+
+      2. Envoi du bilan-diagnostic kinésithérapique au médecin prescripteur
+         Une fiche synthétique du bilan-diagnostic kinésithérapique initial : évaluation, diagnostic kinésithérapique, protocole
+         thérapeutique précisant le nombre de séances, est adressée dès le début du traitement au médecin prescripteur.
+         Toutefois, lorsque le nombre de séances préconisé par le masseur-kinésithérapeute est inférieur à 10, l'information du
+         médecin prescripteur peut se limiter à une copie de la demande d'accord préalable.
+         Une fiche synthétique du bilan-diagnostic kinésithérapique est adressée au médecin prescripteur au terme d'un
+         traitement supérieur ou égal à 10 séances. Le cas échéant, cette fiche comporte les motifs et les modalités d'une
+         proposition de prolongation du traitement, notamment quant au nombre de séances. Une nouvelle demande d'accord
+         préalable est adressée au service médical, accompagnée d'une nouvelle prescription et d'une copie de la fiche.
+         À tout moment, notamment au vu de la fiche synthétique, le médecin prescripteur peut intervenir, en concertation avec
+         le masseur-kinésithérapeute, pour demander une modification du protocole thérapeutique ou interrompre le traitement.
+         La fiche synthétique du bilan-diagnostic kinésithérapique est tenue à la disposition du patient et du service médical à sa
+         demande.
+
+
+
+Version en vigueur du 21/06/2026
+                                                                                                                                       138
+Deuxième partie : Nomenclature des actes médicaux n’utilisant pas les radiations ionisantes
+
+      3. Modalités de rémunération du bilan-diagnostic kinésithérapique
+      (Modifié par décision UNCAM du 16/04/18 et du 14/12/23 pour les masseurs-kinésithérapeutes)
+
+       Désignation de l'acte                                                                       Coefficient Lettre clé
+       La cotation du bilan est forfaitaire.
+       Bilan-diagnostic kinésithérapique pour un nombre de séances compris entre 1 et 10, puis       10,7      AMK
+       à la 30 séance, puis de nouveau toutes les 20 séances réalisées pour traitement de
+               e
+
+       rééducation et de réadaptation fonctionnelle figurant au chapitre II ou III, sauf exception
+       ci-dessous.
+       Bilan-diagnostic kinésithérapique pour un nombre de séances compris entre 1 et 10, puis       10,8      AMK
+       à la 60 séance, puis de nouveau toutes les 50 séances réalisées pour traitement de
+               e
+
+       rééducation des conséquences des affections neurologiques et musculaires, en dehors
+       des atteintes périphériques radiculaires ou tronculaires.
+
+
+
+CHAPITRE II - TRAITEMENTS INDIVIDUELS DE RÉÉDUCATION ET DE RÉADAPTATION FONCTIONNELLES
+Article 1 - Rééducation des conséquences des affections orthopédiques et rhumatologiques
+(Modifié par les décisions UNCAM du 03/04/07 du 14/12/23 du 28/06/24 et du 11/03/26 pour les masseurs-kinésithérapeutes)
+
+Les cotations afférentes aux actes de cet article comprennent l'éventuelle rééducation des ceintures.
+
+A-Rééducation des conséquences des affections orthopédiques et rhumatologiques du rachis (hors déviations latérales ou
+sagittales du rachis de l'article 1 E.)
+
+La cotation est la même quand la pathologie rachidienne s'accompagne d'une radiculalgie n'entraînant pas de déficit moteur.
+
+Désignation de l'acte                                                                            Coefficient Lettre clé
+
+Rééducation dans le cadre de la prise en charge d'une lombalgie commune                              8,09         RAM
+
+
+Version en vigueur du 21/06/2026
+                                                                                                                              139
+Deuxième partie : Nomenclature des actes médicaux n’utilisant pas les radiations ionisantes
+
+Acte soumis à référentiel avec :
+- en traitement habituel de 1 à 15 séances pour une série d'actes
+- nécessité d'un accord préalable à partir de la 16ème séance ou à partir de la 31ème
+séance, si 30 séances pour lombalgie commune ont été prises en charge dans les 12 mois
+précédents
+Rééducation des conséquences d'une affection du rachis lombo-sacré hors référentiel
+- sans chirurgie                                                                              8,11   RAM
+- avec chirurgie                                                                              8,09   RAO
+Rééducation des conséquences d'une affection du rachis dorsal
+- sans chirurgie                                                                              8,10   RAM
+- avec chirurgie                                                                              8,08   RAO
+Rééducation dans le cadre de la prise en charge d'une cervicalgie non spécifique sans
+atteinte neurologique
+Acte soumis à référentiel avec :
+- en traitement habituel de 1 à 15 séances pour une série d'actes                             8,07   RAM
+- nécessité d'un accord préalable à partir de la 16ème séance ou à partir de la 31ème
+séance, si 30 séances pour cervicalgie non spécifique sans atteinte neurologique ont été
+prises en charge dans les 12 mois précédents
+Rééducation dans le cadre d'un traumatisme récent du rachis cervical sans lésion
+neurologique
+Acte soumis à référentiel avec :                                                              8,08   RAM
+- en traitement habituel de 1 à 10 séances
+- nécessité d'un accord préalable à partir de la 16ème séance
+Rééducation des conséquences d'une affection du rachis cervical (hors référentiel)
+- sans chirurgie                                                                              8,12   RAM
+- avec chirurgie                                                                              8,10   RAO
+Rééducation des conséquences d'une affection d'au moins deux segments du rachis
+- sans chirurgie                                                                              8,13   RAM
+- avec chirurgie sur au moins un segment                                                      8,11   RAO
+
+
+Version en vigueur du 21/06/2026
+                                                                                                           140
+Deuxième partie : Nomenclature des actes médicaux n’utilisant pas les radiations ionisantes
+
+
+
+B - Rééducation des conséquences des affections orthopédiques et rhumatologiques du membre supérieur et de sa racine (hors
+amputations - l'article 1 F)
+
+
+Désignation de l'acte                                                                           Coefficient Lettre clé
+
+Rééducation après libération du nerf médian au canal carpien
+Acte soumis à référentiel : un accord préalable du service du contrôle médical est nécessaire
+                                                                                                   8,09          RSC
+avant de commencer le traitement (situation médicale ne nécessitant qu'à titre exceptionnel
+d'engager une rééducation)
+Rééducation des conséquences d'une affection du poignet ou main (hors référentiel)
+- non opérée                                                                                       8,10          VSM
+- opérée                                                                                           8,11          VSC
+Rééducation des conséquences d'une fracture de l'extrémité distale des deux os de l'avant-
+bras
+Acte soumis à référentiel avec :
+- en traitement habituel de 1 à 25 séances
+- nécessité d'un accord préalable à partir de la 26ème séance
+- non opérée                                                                                       8,11          RSM
+- opérée                                                                                           8,10          RSC
+Rééducation des conséquences d'une fracture avec ou sans luxation du coude chez l'adulte
+Acte soumis à référentiel avec :
+- en traitement habituel de 1 à 30 séances pour une série d'actes
+- nécessité d'un accord préalable à partir de la 31ème séance
+- non opérée                                                                                       8,12          RSM
+- opérée                                                                                           8,12          RSC
+Rééducation des conséquences d'une affection du coude ou de l'avant-bras (hors
+référentiel)
+
+Version en vigueur du 21/06/2026
+                                                                                                                         141
+Deuxième partie : Nomenclature des actes médicaux n’utilisant pas les radiations ionisantes
+
+- non opérée                                                                                      8,09   VSM
+- opérée                                                                                          8,09   VSC
+Rééducation dans le cadre d'une tendinopathie de la coiffe des rotateurs non opérée
+Acte soumis à référentiel avec :
+                                                                                                  8,09   RSM
+- en traitement habituel de 1 à 25 séances
+- nécessité d'un accord préalable à partir de la 26ème séance
+Rééducation après réinsertion et/ou suture d'un ou de plusieurs tendons de la coiffe des
+rotateurs de l'épaule, par arthroscopie ou abord direct
+Acte soumis à référentiel avec :
+- en traitement habituel de 1 à 50 séances
+- nécessité d'un accord préalable à partir de la 51ème séance                                     8,11   RSC
+Ces 50 séances couvrent la rééducation postopératoire initiale correspondant à la phase de
+cicatrisation et visant à maintenir une mobilité passive (environ 6 semaines) et la rééducation
+postopératoire secondaire visant à restaurer la mobilité active et la force musculaire (environ
+3 mois).
+Rééducation des conséquences d'une fracture non opérée de l'extrémité proximale de
+l'humérus
+Acte soumis à référentiel avec                                                                    8,10   RSM
+- en traitement habituel de 1 à 30 séances
+- nécessité d'un accord préalable à partir de la 31ème séance
+Rééducation des conséquences d'une affection de l'épaule ou du bras (hors référentiel)
+- non opérée                                                                                      8,08   VSM
+- opérée                                                                                          8,10   VSC
+Rééducation secondaire à l'affection d'au moins deux segments du même membre supérieur
+- sans chirurgie                                                                                  8,11   VSM
+- avec chirurgie sur au moins un segment                                                          8,12   VSC
+
+
+
+
+Version en vigueur du 21/06/2026
+                                                                                                               142
+Deuxième partie : Nomenclature des actes médicaux n’utilisant pas les radiations ionisantes
+
+
+
+C - Rééducation des conséquences des affections orthopédiques et rhumatologiques du membre inférieur et de sa racine (hors
+amputations de l'article 1 F)
+
+
+Désignation de l'acte                                                                         Coefficient Lettre clé
+
+Rééducation des conséquences d'une entorse externe récente de cheville-pied
+- opérée                                                                                         8,11          RIC
+- non opérée                                                                                     8,10          RIM
+Acte soumis à référentiel avec :
+- en traitement habituel de 1 à 10 séances
+- nécessité d'un accord préalable à partir de la 11ème séance
+Rééducation des conséquences d'une affection de la cheville ou pied (hors référentiel)
+
+- non opérée                                                                                     8,10          VIM
+- opérée                                                                                         8,11          VIC
+Rééducation après arthroplastie du genou par prothèse totale ou uni-compartimentaire             8,12          RIC
+Acte soumis à référentiel avec :
+- en traitement habituel de 1 à 25 séances
+- nécessité d'un accord préalable à partir de la 26ème séance
+Rééducation après reconstruction du ligament croisé antérieur du genou                           8,08          RIC
+Acte soumis à référentiel avec
+- en traitement habituel de 1 à 40 séances
+- nécessité d'un accord préalable à partir de la 41ème séance
+Rééducation après méniscectomie isolée, totale ou subtotale, par arthroscopie                    8,09          RIC
+Acte soumis à référentiel avec :
+- en traitement habituel de 1 à 15 séances
+- nécessité d'un accord préalable à partir de la 16ème séance
+
+
+Version en vigueur du 21/06/2026
+                                                                                                                       143
+Deuxième partie : Nomenclature des actes médicaux n’utilisant pas les radiations ionisantes
+
+Rééducation des conséquences d'une affection du genou ou de la jambe (hors référentiel)
+- non opérée                                                                                           8,11          VIM
+- opérée                                                                                               8,10          VIC
+Rééducation après arthroplastie de hanche par prothèse totale                                          8,10          RIC
+Acte soumis à référentiel avec :
+- en traitement habituel de 1 à 15 séances
+- nécessité d'un accord préalable à partir de la 16ème séance
+Rééducation des conséquences d'une affection de la hanche ou de la cuisse (hors
+référentiel)
+- non opérée                                                                                           8,09          VIM
+- opérée                                                                                               8,09          VIC
+Rééducation secondaire à l'affection d'au moins deux segments du même membre inférieur
+- sans chirurgie                                                                                       8,12          VIM
+- avec chirurgie sur au moins un segment                                                               8,12          VIC
+
+
+
+D - Rééducation des conséquences des affections orthopédiques et rhumatologiques de tout ou partie de plusieurs membres, ou
+du tronc et d'un ou plusieurs membres
+
+
+ Désignation de l'acte                                                                             Coefficient Lettre clé
+
+ Rééducation secondaire à l'affection d'au moins 2 territoires lésés (hors 2 territoires ou plus du
+ même membre ou 2 territoires ou plus du rachis)
+ - sans chirurgie                                                                                   9,79       TER
+ - avec chirurgie sur au moins un territoire                                                        9,81       TER
+
+
+
+
+Version en vigueur du 21/06/2026
+                                                                                                                            144
+    Deuxième partie : Nomenclature des actes médicaux n’utilisant pas les radiations ionisantes
+
+E- Rééducation pour déviation latérale ou sagittale du rachis (personnes de moins de 18 ans)
+     Désignation de l'acte                                                                        Coefficient Lettre clé
+
+     Rééducation pour déviation du Rachis lombo-sacré                                             8,09        DRA
+     Rééducation pour déviation du Rachis dorsal                                                  8,08        DRA
+     Rééducation pour déviation du Rachis cervical                                                8,11        DRA
+     Rééducation pour déviation portant sur au moins deux segments rachis                         8,10        DRA
+
+
+F- Rééducation et réadaptation après amputation de tout ou partie des membres, y compris l'adaptation à l'appareillage
+
+     Désignation de l'acte                                                                        Coefficient Lettre clé
+
+     Rééducation après amputation d'un membre supérieur                                           8,11        APM
+     Rééducation après amputation d'un membre inférieur                                           8,10        APM
+     Rééducation après amputation d'au moins 2 membres                                            9,80        APM
+.
+Article 2 - Rééducation des conséquences des affections rhumatismales inflammatoires
+ (Modifié par décision UNCAM du 07/05/19, du 27/05/2021 et du 14/12/2023 pour les masseurs-kinésithérapeutes)
+
+
+Désignation de l'acte                                                                       Coefficient Lettre clé
+Rééducation des malades atteints de rhumatisme inflammatoire (pelvispondylite, polyarthrite
+rhumatoïde...)
+atteinte localisée à un membre ou le tronc                                                  8           NMI
+atteinte de plusieurs membres, ou du tronc et d'un ou plusieurs membres                     9,01        NMI
+
+
+
+
+Version en vigueur du 21/06/2026
+                                                                                                                           145
+Deuxième partie : Nomenclature des actes médicaux n’utilisant pas les radiations ionisantes
+
+
+
+Article 3 - Rééducation de la paroi abdominale
+(Modifié par décision UNCAM du 07/05/19, du 27/05/2021 et du 14/12/2023 pour les masseurs-kinésithérapeutes)
+
+Désignation de l'acte                                                                         Coefficient Lettre clé
+Rééducation abdominale pré-opératoire ou post-opératoire                                      8,01        RAB
+Inclut la rééducation abdominale post-césarienne
+Rééducation abdominale du post-partum                                                         8           RAB
+
+
+
+Article 4 - Rééducation des conséquences d'affections neurologiques et musculaires
+(Modifié par décision UNCAM du 27/04/06 ,07/05/19 et du 27/05/2021 et du 14/12/2023 pour les masseurs-kinésithérapeutes et du
+04/07/06 pour les médecins)
+
+
+Désignation de l'acte                                                                         Coefficient Lettre clé
+Rééducation des atteintes périphériques radiculaires ou tronculaires :
+atteintes localisées à un membre ou à la face                                                 8,5         NMI
+atteintes intéressant plusieurs membres                                                       10,01       NMI
+Rééducation de l'hémiplégie                                                                   9           NMI
+Rééducation de la paraplégie et de la tétraplégie                                             11,01       NMI
+Rééducation des affections neurologiques stables ou évolutives pouvant regrouper des
+déficiences diverses (commande musculaire, tonus, sensibilité, équilibre, coordination...) en
+dehors de l'hémiplégie et de la paraplégie, notamment les affections neurodégénératives
+- localisation des déficiences à un membre et sa racine                                       8,51        NMI
+- localisation des déficiences à 2 membres ou plus, ou d'un membre et à tout ou partie du 10              NMI
+tronc et de la face
+Les cotations afférentes aux deux actes ci-dessus ne s'appliquent pas à la rééducation de la
+déambulation chez les personnes âgées.
+
+
+Version en vigueur du 21/06/2026
+                                                                                                                            146
+Deuxième partie : Nomenclature des actes médicaux n’utilisant pas les radiations ionisantes
+
+Rééducation des malades atteints de myopathie                                                  10,99      NMI
+Rééducation des malades atteints d'encéphalopathie infantile, du stade initial aux 11                     NMI
+conséquences à l’âge adulte
+Rééducation des enfants présentant une paralysie cérébrale ou un polyhandicap                  16         TER
+Cet acte s'intègre au parcours de rééducation et de réadaptation des enfants en situation de
+polyhandicap ou de paralysie cérébrale (formation adaptée, objectifs de rééducation…).
+La prescription initiale de cet acte doit émaner de l'établissement ou du service sanitaire ou
+médico-social coordonnant le parcours de soins du patient.
+Les séances d'une durée de l'ordre de 30 minutes sont à adapter aux capacités physiques de
+l'enfant et au rythme des autres prises en charge.
+
+
+
+
+Article 5 - Rééducation des conséquences des affections respiratoires
+(Modifié par les décisions UNCAM du 22/05/12, du 16/04/18, du 07/05/19, du 27/05/2021 et du 14/12/2023)
+
+
+Désignation de l'acte                                                                       Coefficient Lettre clé
+Rééducation des maladies respiratoires avec désencombrement urgent (bronchiolite du 8,49                ARL
+nourrisson, poussée aiguë au cours d'une pathologie respiratoire chronique).
+Les séances peuvent être réalisées au rythme de deux par jour et la durée est adaptée en
+fonction de la situation clinique.
+Rééducation des maladies respiratoires, obstructives, restrictives ou mixtes (en dehors des 8,5         ARL
+situations d'urgence)
+Rééducation respiratoire préopératoire ou post-opératoire                                   8,51        ARL
+Prise en charge kinésithérapique respiratoire du patient atteint de mucoviscidose.          10          ARL
+Comprenant :
+    - la kinésithérapie respiratoire de ventilation et de désencombrement,
+    - la réadaptation à l’effort,
+    - l’apprentissage de l’aérosolthérapie, des méthodes d’autodrainage bronchique, des
+
+Version en vigueur du 21/06/2026
+                                                                                                                     147
+Deuxième partie : Nomenclature des actes médicaux n’utilisant pas les radiations ionisantes
+
+       signes d’alertes respiratoires.
+La fréquence des séances de kinésithérapie dépend de l’âge et de l’état clinique du patient
+pouvant aller jusqu’à 2 séances par jour en cas d’encombrement important ou
+d’exacerbation
+Lorsque 2 séances non consécutives sont réalisées dans la même journée, chaque séance est
+cotée ARL 10.
+Réadaptation respiratoire kinésithérapique pour les patients atteints de handicap respiratoire 28   ARL
+chronique et prise en charge individuelle
+Comprenant :
+    - kinésithérapie respiratoire ;
+    - réentrainement à l’exercice sur machine ;
+    - renforcement musculaire ;
+    - éducation à la santé.
+Conditions d’exécution et contre-indications conformes aux avis de la Haute Autorité de
+santé en vigueur.
+Conditions de facturation :
+Prise en charge par l’Assurance maladie pour Affection de Longue Durée « ALD » pour
+broncho-pneumopathie chronique obstructive « BPCO ». Séances d’une durée de l’ordre de
+1h30 à raison d’une séquence de 20 séances en fonction de l’évolution de l’état clinique du
+patient.
+Réadaptation respiratoire kinésithérapique pour les patients atteints de handicap respiratoire 20   ARL
+chronique en prise en charge de groupe de 2 à 4 personnes avec rééducation respiratoire en
+individuel
+Comprenant :
+    - kinésithérapie respiratoire en prise en charge individuelle ;
+    - réentrainement à l’exercice sur machine ;
+    - renforcement musculaire ;
+    - éducation à la santé.
+Conditions d’exécution et contre-indications conformes aux avis de la Haute Autorité de
+santé en vigueur.
+Conditions de facturation :
+
+Version en vigueur du 21/06/2026
+                                                                                                          148
+Deuxième partie : Nomenclature des actes médicaux n’utilisant pas les radiations ionisantes
+
+Prise en charge par l’assurance maladie pour Affection de Longue Durée « ALD » pour
+broncho-pneumopathie chronique obstructive « BPCO ». Séances d’une durée de l’ordre de
+1h30 à raison d’une séquence de 20 séances en fonction de l’évolution de l’état clinique du
+patient.
+
+
+
+
+Article 6 - Rééducation dans le cadre des pathologies maxillo-faciales et oto-rhino-laryngologiques
+(Modifié par décision UNCAM du 07/05/19, du 27/05/2021 et du 14/12/2023 pour les masseurs-kinésithérapeutes)
+
+
+Désignation de l'acte                                                                         Coefficient Lettre clé
+Rééducation maxillo-faciale en dehors de la paralysie faciale                                 7,99        ARL
+Rééducation vestibulaire et des troubles de l'équilibre                                       8           ARL
+Rééducation des troubles de la déglutition isolés                                             8,01        ARL
+
+
+
+Article 7 - Rééducation des conséquences des affections vasculaires
+(Modifié par décision UNCAM du 31 mars 2015, 07/05/19, du 27/05/2021 et du 14/12/2023)
+
+
+Désignation de l'acte                                                                     Coefficient Lettre clé
+Rééducation pour artériopathie des membres inférieurs (claudication, troubles trophiques) 8,01        RAV
+Rééducation pour insuffisance veineuse des membres inférieurs avec retentissement 7,99                RAV
+articulaire et/ou troubles trophiques
+Rééducation pour lymphœdèmes vrais (après chirurgie et/ou radiothérapie, lymphœdèmes
+congénitaux) par drainage manuel :
+pour un membre ou pour le cou et la face                                                  8           RAV
+
+
+Version en vigueur du 21/06/2026
+                                                                                                                       149
+Deuxième partie : Nomenclature des actes médicaux n’utilisant pas les radiations ionisantes
+
+pour deux membres                                                                  9          RAV
+Rééducation pour un lymphœdème du membre supérieur après traitement d’un cancer du 15,5       RAV
+sein, associée à une rééducation de l’épaule homolatérale à la phase intensive du
+traitement du lymphœdème
+
+INDICATIONS :
+Phase intensive du traitement du lymphœdème sous réserve de l’existence des critères
+suivants :
+           - différence de circonférence de plus de 2 cm à un niveau au moins du membre
+             atteint par rapport au membre contro latéral,
+           - asymétrie des amplitudes passives entre les 2 épaules, survenue ou aggravée
+             après traitement du cancer du sein,
+           - compliance à l'ensemble du traitement nécessairement associé au DLM
+             (bandages),
+           - répercussion fonctionnelle importante (perte d’autonomie) due au
+             lymphœdème et à la raideur de l’épaule
+
+NON-INDICATIONS
+La phase d’entretien du traitement et les soins palliatifs
+
+CONTRE-INDICATIONS :
+- les pathologies aigues loco-régionales du membre supérieur concerné non diagnostiquées
+ou traitées
+- l’insuffisance cardiaque décompensée
+- les tumeurs malignes non traitées
+- l’hyperalgie de l’épaule
+- la présence d’une chambre implantable du coté opéré en sous claviculaire
+- la présence de matériel d’ostéosynthèse sous-cutané avec une partie externe, au niveau
+du membre supérieur à traiter
+
+La durée de ces séances est de l’ordre de 60 mn. Elles comprennent des soins d’hygiène de
+
+
+Version en vigueur du 21/06/2026
+                                                                                                    150
+Deuxième partie : Nomenclature des actes médicaux n’utilisant pas les radiations ionisantes
+
+la peau, la rééducation de l’épaule, le drainage lymphatique manuel et la pose de
+bandages.
+Le nombre optimal de séances est de 10. Les cas exceptionnels nécessitant plus de 10
+séances devront être précédés par un BDK.
+
+Source: rapport d’évaluation de la HAS sur la prise en charge masso-kinésithérapique d’un
+lymphœdème et d’une raideur de l’épaule après traitement d’un cancer du sein –
+décembre 2012
+
+La cotation de l’acte tient compte du bandage, et celui-ci ne peut pas faire l’objet d’un
+supplément pour bandage multicouche.
+
+Supplément pour bandage multicouche :
+un membre                                                                                     1        RAV
+deux membres                                                                                  2        RAV
+
+
+
+Article 8 - Rééducation des conséquences des affections périnéosphinctériennes
+(Modifié par décision UNCAM du 27/04/06 ,07/05/19, du 27/05/2021 et du 14/12/2023 pour les masseurs-kinésithérapeutes ; du
+04/07/06 pour les médecins ; du 20/12/11 et du 06/11/18 pour les sages-femmes)
+
+Désignation de l'acte                                                            Coefficient Lettre clé         AP
+Rééducation périnéale active sous contrôle manuel et/ou électrostimulation et/ou 8,5         RAB
+biofeedback
+                                                                                 7,5         SF
+
+
+Article 9 - Rééducation de la déambulation du sujet âgé
+(Modifié par les décisions UNCAM du 07/05/19, du 27/05/2021 et du 14/12/2023 pour les masseurs-kinésithérapeutes)
+
+
+
+Version en vigueur du 21/06/2026
+                                                                                                                             151
+Deuxième partie : Nomenclature des actes médicaux n’utilisant pas les radiations ionisantes
+
+Désignation de l'acte                                                                  Coefficient Lettre clé
+Les actes ci-dessous sont réalisés en dehors des cas où il existe une autre pathologie
+nécessitant une rééducation spécifique.
+Rééducation analytique et globale, musculo-articulaire des deux membres inférieurs, de 8,5         RPE
+la posture, de l'équilibre et de la coordination chez le sujet âgé
+
+
+
+
+Article 10 - Rééducation des patients atteints de brûlures
+(Modifié par les décisions UNCAM du 07/05/19, du 27/05/2021 et du 14/12/2023 pour les masseurs-kinésithérapeutes)
+
+
+Désignation de l'acte                                                                     Coefficient Lettre clé
+Les séances peuvent être réalisées au rythme de deux par jour en fonction de la situation
+clinique.
+Rééducation d'un patient atteint de brûlures localisées à un membre ou à un segment 8                 RPB
+de membre
+Rééducation d'un patient atteint de brûlures étendues à plusieurs membres et/ou au 9                  RPB
+tronc
+
+
+
+
+Article 11 -Soins palliatifs
+(Modifié par la décision UNCAM du 14/12/2023)
+Désignation de l'acte                                                                       Coefficient Lettre clé
+Prise en charge, dans le cadre des soins palliatifs, comportant les actes nécessaires en 12             PLL
+fonction des situations cliniques (mobilisation, massage, drainage bronchique...), cotation
+journalière forfaitaire quel que soit le nombre d'interventions
+
+
+Version en vigueur du 21/06/2026
+                                                                                                                     152
+Deuxième partie : Nomenclature des actes médicaux n’utilisant pas les radiations ionisantes
+
+CHAPITRE III - MODALITÉS PARTICULIÈRES DE CONDUITE DU TRAITEMENT
+
+
+Article 1 -Traitements de groupe
+Les traitements de groupe ne peuvent s'appliquer qu'aux rééducations figurant dans les articles 1, 2, 3 et 4 du chapitre II. Le
+praticien enseigne et dirige les exercices et contrôle les phases de repos tout au long de la séance.
+
+Ces traitements de groupe doivent concerner des malades qui bénéficient d'un programme homogène d'exercices de
+rééducation. Le nombre de malades par groupe ne peut excéder trois. La durée totale de la séance est égale au nombre de
+patients que multiplie une demi-heure. La cotation est celle du libellé correspondant du chapitre II.
+
+
+Article 2 - Traitements conduits en parallèle de plusieurs patients
+Si le praticien choisit d'accueillir deux ou trois patients (le nombre de malades pris en charge simultanément ne peut excéder trois),
+le temps consacré individuellement à chaque patient par le praticien doit être de l'ordre de trente minutes, par période continue
+ou fractionnée.
+
+La cotation est celle du libellé correspondant du chapitre II.
+
+
+CHAPITRE IV – DIVERS
+(Modifié par la décision UNCAM du 14/12/2023)
+
+
+Désignation de l'acte                                                                         Coefficient Lettre clé
+Kinébalnéothérapie.
+Pour les actes du chapitre II, la kinébalnéothérapie donne lieu à supplément
+     - en bassin (dimensions minimales : 2 m x 1,80 m x 0,60 m)                               2,5         AMK
+     - en piscine (dimensions minimales : 2 m x 3 m x 1,10 m)                                 3,5         AMK
+
+
+
+Version en vigueur du 21/06/2026
+                                                                                                                                   153
+Deuxième partie : Nomenclature des actes médicaux n’utilisant pas les radiations ionisantes
+
+
+
+
+CHAPITRE V : RÉÉDUCATIONS SOUMISES À RÉFÉRENTIEL abrogé par décision UNCAM du 14/12/2023
+
+
+TITRE XV – ACTES DIVERS
+CHAPITRE IV - CURES THERMALES
+
+
+Article 1 : abrogé par arrêté du 22 septembre 2003 portant modification du règlement conventionnel minimal applicable aux
+médecins en l’absence de convention médicale
+
+
+Article 2 - Honoraires de surveillance médicale
+(Modifié par décision UNCAM du 25/09/13 et 29/10/2024)
+
+Conformément aux dispositions de l'arrêté du 08/06/1960 relatif au remboursement, au titre de l'Assurance Maladie, des honoraires
+de surveillance médicale des cures thermales et des frais de traitement dans les établissements thermaux, les honoraires dus aux
+médecins pour la surveillance des cures thermales sont calculés sous la forme d'un forfait, dont la valeur est déterminée dans les
+mêmes conditions que celle des lettres clés visées à l'article 2 de la présente Nomenclature.
+
+
+Sous réserve des exceptions prévues à l'article 3 ci-après, le forfait de surveillance médicale des cures thermales rémunère tous les
+actes accomplis y compris les 3 consultations minimum requises pour une cure complète et se rapportant directement à l'affection
+ayant provoqué la cure. Il peut être facturé au maximum trois fois par patient quel que soit le nombre de médecins intervenants.
+
+Cas particulier
+
+Lorsque deux orientations thérapeutiques sont traitées par deux médecins : le praticien surveillant l’orientation principale est
+rémunéré par le forfait STH et le praticien surveillant l'orientation secondaire, par le forfait THR.
+
+
+Version en vigueur du 21/06/2026
+                                                                                                                                   154

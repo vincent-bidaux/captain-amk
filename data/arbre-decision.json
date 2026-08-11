@@ -1,0 +1,519 @@
+{
+  "meta": {
+    "version": "1.0.0",
+    "base": "NGAP titre XIV, version du 21/06/2026",
+    "principe": "Une seule cotation par séance (art. liminaire du titre XIV). Le BDK, les suppléments (kinébalnéothérapie, bandage) et les indemnités de déplacement se cumulent en dehors de cet arbre.",
+    "format": "Graphe de nœuds. Un nœud est soit une question (`options`), soit une feuille (`acte` = id dans actes-ngap.json). Chaque option porte un `label` court affichable en fil d'Ariane."
+  },
+
+  "racine": "type-prestation",
+
+  "noeuds": {
+    "type-prestation": {
+      "question": "Que faut-il coter ?",
+      "options": [
+        { "label": "Traitement de rééducation", "next": "article", "aide": "Cas standard : séance de rééducation prescrite (chapitre II)." },
+        { "label": "Bilan-diagnostic kinésithérapique (BDK)", "next": "bdk", "aide": "Cumulable avec la cotation de rééducation." },
+        { "label": "Bilan isolé", "next": "bilan-isole", "aide": "Uniquement en l'absence de traitement de rééducation en cours ou prescrit concomitamment." }
+      ]
+    },
+
+    "bilan-isole": {
+      "question": "Quel type de bilan ?",
+      "options": [
+        { "label": "Ostéoarticulaire — un membre", "next": "f-c1s1-osteoarticulaire-1membre" },
+        { "label": "Ostéoarticulaire — deux membres ou un membre et le tronc", "next": "f-c1s1-osteoarticulaire-2membres" },
+        { "label": "Ostéoarticulaire — tout le corps", "next": "f-c1s1-osteoarticulaire-corps" },
+        { "label": "Musculaire (neurologique) — un membre", "next": "f-c1s1-musculaire-1membre" },
+        { "label": "Musculaire (neurologique) — deux membres", "next": "f-c1s1-musculaire-2membres" },
+        { "label": "Musculaire (neurologique) — tout le corps", "next": "f-c1s1-musculaire-corps" }
+      ]
+    },
+
+    "bdk": {
+      "question": "Le traitement relève-t-il des affections neurologiques et musculaires (art. 4), hors atteintes périphériques radiculaires ou tronculaires ?",
+      "options": [
+        { "label": "Oui", "next": "f-bdk-neuro" },
+        { "label": "Non", "next": "f-bdk-standard" }
+      ]
+    },
+
+    "article": {
+      "question": "Article de la NGAP",
+      "aide": "Correspond au premier niveau de choix : la famille d'affections visée par la prescription.",
+      "options": [
+        { "label": "Orthopédique et rhumatologique", "next": "art1-localisation", "article": 1 },
+        { "label": "Rhumatisme inflammatoire", "next": "art2-etendue", "article": 2 },
+        { "label": "Paroi abdominale", "next": "art3-contexte", "article": 3 },
+        { "label": "Neurologique et musculaire", "next": "art4-type", "article": 4 },
+        { "label": "Respiratoire", "next": "art5-type", "article": 5 },
+        { "label": "Maxillo-facial et ORL", "next": "art6-type", "article": 6 },
+        { "label": "Conséquence des affections vasculaires", "next": "art7-type", "article": 7 },
+        { "label": "Périnéosphinctérienne", "next": "f-art8-perineale", "article": 8 },
+        { "label": "Sujet âgé", "next": "f-art9-deambulation-sujet-age", "article": 9 },
+        { "label": "Patient atteint de brûlure", "next": "art10-etendue", "article": 10 },
+        { "label": "Soin palliatif", "next": "f-art11-soins-palliatifs", "article": 11 }
+      ]
+    },
+
+    "art1-localisation": {
+      "question": "Localisation",
+      "options": [
+        { "label": "Uniquement le rachis", "next": "art1-A-segment" },
+        { "label": "Membre supérieur", "next": "art1-B-amputation" },
+        { "label": "Membre inférieur", "next": "art1-C-amputation" },
+        { "label": "Plusieurs membres, ou membre et tronc", "next": "art1-D-amputation" }
+      ]
+    },
+
+    "art1-A-segment": {
+      "question": "Segment rachidien concerné",
+      "options": [
+        { "label": "Déviation latérale ou sagittale du rachis (< 18 ans)", "next": "art1-E-segment" },
+        { "label": "Rachis lombo-sacré", "next": "art1-A-lombaire-motif" },
+        { "label": "Rachis dorsal", "next": "art1-A-dorsal-chirurgie" },
+        { "label": "Rachis cervical", "next": "art1-A-cervical-motif" },
+        { "label": "Au moins deux segments du rachis", "next": "art1-A-multi-chirurgie" }
+      ]
+    },
+    "art1-A-lombaire-motif": {
+      "question": "S'agit-il d'une lombalgie commune ?",
+      "aide": "La lombalgie commune est un acte soumis à référentiel HAS.",
+      "options": [
+        { "label": "Lombalgie commune", "next": "f-art1-A-lombalgie-commune" },
+        { "label": "Autre affection du rachis lombo-sacré", "next": "art1-A-lombaire-chirurgie" }
+      ]
+    },
+    "art1-A-lombaire-chirurgie": {
+      "question": "Contexte chirurgical ?",
+      "options": [
+        { "label": "Sans chirurgie", "next": "f-art1-A-lombosacre-sans-chirurgie" },
+        { "label": "Avec chirurgie", "next": "f-art1-A-lombosacre-avec-chirurgie" }
+      ]
+    },
+    "art1-A-dorsal-chirurgie": {
+      "question": "Contexte chirurgical ?",
+      "options": [
+        { "label": "Sans chirurgie", "next": "f-art1-A-dorsal-sans-chirurgie" },
+        { "label": "Avec chirurgie", "next": "f-art1-A-dorsal-avec-chirurgie" }
+      ]
+    },
+    "art1-A-cervical-motif": {
+      "question": "Situation clinique",
+      "options": [
+        { "label": "Cervicalgie non spécifique sans atteinte neurologique", "next": "f-art1-A-cervicalgie-non-specifique" },
+        { "label": "Traumatisme récent du rachis cervical sans lésion neurologique", "next": "f-art1-A-traumatisme-cervical-recent" },
+        { "label": "Autre affection du rachis cervical", "next": "art1-A-cervical-chirurgie" }
+      ]
+    },
+    "art1-A-cervical-chirurgie": {
+      "question": "Contexte chirurgical ?",
+      "options": [
+        { "label": "Sans chirurgie", "next": "f-art1-A-cervical-sans-chirurgie" },
+        { "label": "Avec chirurgie", "next": "f-art1-A-cervical-avec-chirurgie" }
+      ]
+    },
+    "art1-A-multi-chirurgie": {
+      "question": "Contexte chirurgical ?",
+      "options": [
+        { "label": "Sans chirurgie", "next": "f-art1-A-multisegments-sans-chirurgie" },
+        { "label": "Avec chirurgie sur au moins un segment", "next": "f-art1-A-multisegments-avec-chirurgie" }
+      ]
+    },
+
+    "art1-E-segment": {
+      "question": "Segment concerné par la déviation",
+      "aide": "Article 1 E — réservé aux personnes de moins de 18 ans.",
+      "options": [
+        { "label": "Rachis lombo-sacré", "next": "f-art1-E-deviation-lombosacre" },
+        { "label": "Rachis dorsal", "next": "f-art1-E-deviation-dorsal" },
+        { "label": "Rachis cervical", "next": "f-art1-E-deviation-cervical" },
+        { "label": "Au moins deux segments", "next": "f-art1-E-deviation-multisegments" }
+      ]
+    },
+
+    "art1-B-amputation": {
+      "question": "Le patient est-il amputé ?",
+      "options": [
+        { "label": "Non", "next": "art1-B-segment" },
+        { "label": "Oui", "next": "f-art1-F-amputation-membre-superieur" }
+      ]
+    },
+    "art1-B-segment": {
+      "question": "Segment du membre supérieur",
+      "options": [
+        { "label": "Épaule ou bras", "next": "art1-B-epaule-motif" },
+        { "label": "Coude ou avant-bras", "next": "art1-B-coude-motif" },
+        { "label": "Poignet ou main", "next": "art1-B-poignet-motif" },
+        { "label": "Au moins deux segments du même membre", "next": "art1-B-multi-chirurgie" }
+      ]
+    },
+    "art1-B-epaule-motif": {
+      "question": "Situation clinique",
+      "options": [
+        { "label": "Tendinopathie de la coiffe des rotateurs non opérée", "next": "f-art1-B-tendinopathie-coiffe-non-operee" },
+        { "label": "Après réinsertion et/ou suture de tendons de la coiffe", "next": "f-art1-B-reinsertion-coiffe" },
+        { "label": "Fracture non opérée de l'extrémité proximale de l'humérus", "next": "f-art1-B-fracture-humerus-proximale" },
+        { "label": "Autre affection de l'épaule ou du bras", "next": "art1-B-epaule-chirurgie" }
+      ]
+    },
+    "art1-B-epaule-chirurgie": {
+      "question": "Contexte chirurgical ?",
+      "options": [
+        { "label": "Non opérée", "next": "f-art1-B-epaule-bras-non-operee" },
+        { "label": "Opérée", "next": "f-art1-B-epaule-bras-operee" }
+      ]
+    },
+    "art1-B-coude-motif": {
+      "question": "Situation clinique",
+      "options": [
+        { "label": "Fracture de l'extrémité distale des deux os de l'avant-bras", "next": "art1-B-fracture-avant-bras-chirurgie" },
+        { "label": "Fracture avec ou sans luxation du coude chez l'adulte", "next": "art1-B-fracture-coude-chirurgie" },
+        { "label": "Autre affection du coude ou de l'avant-bras", "next": "art1-B-coude-chirurgie" }
+      ]
+    },
+    "art1-B-fracture-avant-bras-chirurgie": {
+      "question": "Contexte chirurgical ?",
+      "options": [
+        { "label": "Non opérée", "next": "f-art1-B-fracture-avant-bras-non-operee" },
+        { "label": "Opérée", "next": "f-art1-B-fracture-avant-bras-operee" }
+      ]
+    },
+    "art1-B-fracture-coude-chirurgie": {
+      "question": "Contexte chirurgical ?",
+      "options": [
+        { "label": "Non opérée", "next": "f-art1-B-fracture-coude-non-operee" },
+        { "label": "Opérée", "next": "f-art1-B-fracture-coude-operee" }
+      ]
+    },
+    "art1-B-coude-chirurgie": {
+      "question": "Contexte chirurgical ?",
+      "options": [
+        { "label": "Non opérée", "next": "f-art1-B-coude-avant-bras-non-operee" },
+        { "label": "Opérée", "next": "f-art1-B-coude-avant-bras-operee" }
+      ]
+    },
+    "art1-B-poignet-motif": {
+      "question": "Situation clinique",
+      "options": [
+        { "label": "Après libération du nerf médian au canal carpien", "next": "f-art1-B-canal-carpien" },
+        { "label": "Autre affection du poignet ou de la main", "next": "art1-B-poignet-chirurgie" }
+      ]
+    },
+    "art1-B-poignet-chirurgie": {
+      "question": "Contexte chirurgical ?",
+      "options": [
+        { "label": "Non opérée", "next": "f-art1-B-poignet-main-non-operee" },
+        { "label": "Opérée", "next": "f-art1-B-poignet-main-operee" }
+      ]
+    },
+    "art1-B-multi-chirurgie": {
+      "question": "Contexte chirurgical ?",
+      "options": [
+        { "label": "Sans chirurgie", "next": "f-art1-B-deux-segments-sans-chirurgie" },
+        { "label": "Avec chirurgie sur au moins un segment", "next": "f-art1-B-deux-segments-avec-chirurgie" }
+      ]
+    },
+
+    "art1-C-amputation": {
+      "question": "Le patient est-il amputé ?",
+      "options": [
+        { "label": "Non", "next": "art1-C-segment" },
+        { "label": "Oui", "next": "f-art1-F-amputation-membre-inferieur" }
+      ]
+    },
+    "art1-C-segment": {
+      "question": "Segment du membre inférieur",
+      "options": [
+        { "label": "Hanche ou cuisse", "next": "art1-C-hanche-motif" },
+        { "label": "Genou ou jambe", "next": "art1-C-genou-motif" },
+        { "label": "Cheville ou pied", "next": "art1-C-cheville-motif" },
+        { "label": "Au moins deux segments du même membre", "next": "art1-C-multi-chirurgie" }
+      ]
+    },
+    "art1-C-hanche-motif": {
+      "question": "Situation clinique",
+      "options": [
+        { "label": "Après arthroplastie de hanche par prothèse totale", "next": "f-art1-C-arthroplastie-hanche" },
+        { "label": "Autre affection de la hanche ou de la cuisse", "next": "art1-C-hanche-chirurgie" }
+      ]
+    },
+    "art1-C-hanche-chirurgie": {
+      "question": "Contexte chirurgical ?",
+      "options": [
+        { "label": "Non opérée", "next": "f-art1-C-hanche-cuisse-non-operee" },
+        { "label": "Opérée", "next": "f-art1-C-hanche-cuisse-operee" }
+      ]
+    },
+    "art1-C-genou-motif": {
+      "question": "Situation clinique",
+      "options": [
+        { "label": "Après arthroplastie du genou (PTG ou uni-compartimentaire)", "next": "f-art1-C-arthroplastie-genou" },
+        { "label": "Après reconstruction du ligament croisé antérieur", "next": "f-art1-C-lca" },
+        { "label": "Après méniscectomie isolée par arthroscopie", "next": "f-art1-C-meniscectomie" },
+        { "label": "Autre affection du genou ou de la jambe", "next": "art1-C-genou-chirurgie" }
+      ]
+    },
+    "art1-C-genou-chirurgie": {
+      "question": "Contexte chirurgical ?",
+      "options": [
+        { "label": "Non opérée", "next": "f-art1-C-genou-jambe-non-operee" },
+        { "label": "Opérée", "next": "f-art1-C-genou-jambe-operee" }
+      ]
+    },
+    "art1-C-cheville-motif": {
+      "question": "Situation clinique",
+      "options": [
+        { "label": "Entorse externe récente de cheville-pied", "next": "art1-C-entorse-chirurgie" },
+        { "label": "Autre affection de la cheville ou du pied", "next": "art1-C-cheville-chirurgie" }
+      ]
+    },
+    "art1-C-entorse-chirurgie": {
+      "question": "Contexte chirurgical ?",
+      "options": [
+        { "label": "Non opérée", "next": "f-art1-C-entorse-cheville-non-operee" },
+        { "label": "Opérée", "next": "f-art1-C-entorse-cheville-operee" }
+      ]
+    },
+    "art1-C-cheville-chirurgie": {
+      "question": "Contexte chirurgical ?",
+      "options": [
+        { "label": "Non opérée", "next": "f-art1-C-cheville-pied-non-operee" },
+        { "label": "Opérée", "next": "f-art1-C-cheville-pied-operee" }
+      ]
+    },
+    "art1-C-multi-chirurgie": {
+      "question": "Contexte chirurgical ?",
+      "options": [
+        { "label": "Sans chirurgie", "next": "f-art1-C-deux-segments-sans-chirurgie" },
+        { "label": "Avec chirurgie sur au moins un segment", "next": "f-art1-C-deux-segments-avec-chirurgie" }
+      ]
+    },
+
+    "art1-D-amputation": {
+      "question": "Le patient est-il amputé ?",
+      "options": [
+        { "label": "Non", "next": "art1-D-chirurgie" },
+        { "label": "Oui", "next": "art1-F-etendue" }
+      ]
+    },
+    "art1-D-chirurgie": {
+      "question": "Contexte chirurgical ?",
+      "aide": "Article 1 D — hors 2 territoires ou plus du même membre (art. 1 B/C) et hors 2 territoires ou plus du rachis (art. 1 A).",
+      "options": [
+        { "label": "Sans chirurgie", "next": "f-art1-D-multiterritoires-sans-chirurgie" },
+        { "label": "Avec chirurgie sur au moins un territoire", "next": "f-art1-D-multiterritoires-avec-chirurgie" }
+      ]
+    },
+    "art1-F-etendue": {
+      "question": "Étendue de l'amputation",
+      "options": [
+        { "label": "Un membre supérieur", "next": "f-art1-F-amputation-membre-superieur" },
+        { "label": "Un membre inférieur", "next": "f-art1-F-amputation-membre-inferieur" },
+        { "label": "Au moins deux membres", "next": "f-art1-F-amputation-deux-membres" }
+      ]
+    },
+
+    "art2-etendue": {
+      "question": "Étendue de l'atteinte",
+      "options": [
+        { "label": "Localisée à un membre ou le tronc", "next": "f-art2-localise" },
+        { "label": "Plusieurs membres, ou tronc et un ou plusieurs membres", "next": "f-art2-plusieurs-membres" }
+      ]
+    },
+
+    "art3-contexte": {
+      "question": "Contexte",
+      "options": [
+        { "label": "Pré-opératoire ou post-opératoire (dont post-césarienne)", "next": "f-art3-abdominale-perioperatoire" },
+        { "label": "Post-partum", "next": "f-art3-abdominale-postpartum" }
+      ]
+    },
+
+    "art4-type": {
+      "question": "Type d'affection neurologique ou musculaire",
+      "options": [
+        { "label": "Atteinte périphérique radiculaire ou tronculaire", "next": "art4-peripherique-etendue" },
+        { "label": "Hémiplégie", "next": "f-art4-hemiplegie" },
+        { "label": "Paraplégie ou tétraplégie", "next": "f-art4-para-tetraplegie" },
+        { "label": "Autre affection neurologique stable ou évolutive (dont neurodégénérative)", "next": "art4-neuro-etendue" },
+        { "label": "Myopathie", "next": "f-art4-myopathie" },
+        { "label": "Encéphalopathie infantile", "next": "f-art4-encephalopathie-infantile" },
+        { "label": "Paralysie cérébrale ou polyhandicap de l'enfant", "next": "f-art4-paralysie-cerebrale-polyhandicap" }
+      ]
+    },
+    "art4-peripherique-etendue": {
+      "question": "Étendue de l'atteinte",
+      "options": [
+        { "label": "Un membre ou la face", "next": "f-art4-peripherique-1membre" },
+        { "label": "Plusieurs membres", "next": "f-art4-peripherique-plusieurs-membres" }
+      ]
+    },
+    "art4-neuro-etendue": {
+      "question": "Localisation des déficiences",
+      "aide": "Ne s'applique pas à la rééducation de la déambulation chez la personne âgée (article 9).",
+      "options": [
+        { "label": "Un membre et sa racine", "next": "f-art4-neuro-1membre" },
+        { "label": "Deux membres ou plus, ou un membre et tout ou partie du tronc et de la face", "next": "f-art4-neuro-2membres" }
+      ]
+    },
+
+    "art5-type": {
+      "question": "Situation respiratoire",
+      "options": [
+        { "label": "Désencombrement urgent (bronchiolite, poussée aiguë)", "next": "f-art5-desencombrement-urgent" },
+        { "label": "Maladie obstructive, restrictive ou mixte (hors urgence)", "next": "f-art5-obstructives-restrictives" },
+        { "label": "Pré-opératoire ou post-opératoire", "next": "f-art5-perioperatoire" },
+        { "label": "Mucoviscidose", "next": "f-art5-mucoviscidose" },
+        { "label": "Réadaptation respiratoire (handicap respiratoire chronique, ALD BPCO)", "next": "art5-readaptation-modalite" }
+      ]
+    },
+    "art5-readaptation-modalite": {
+      "question": "Modalité de prise en charge",
+      "options": [
+        { "label": "Individuelle", "next": "f-art5-readaptation-individuelle" },
+        { "label": "Groupe de 2 à 4 personnes avec rééducation respiratoire en individuel", "next": "f-art5-readaptation-groupe" }
+      ]
+    },
+
+    "art6-type": {
+      "question": "Type de rééducation",
+      "options": [
+        { "label": "Maxillo-faciale (hors paralysie faciale)", "next": "f-art6-maxillo-faciale" },
+        { "label": "Vestibulaire et troubles de l'équilibre", "next": "f-art6-vestibulaire" },
+        { "label": "Troubles de la déglutition isolés", "next": "f-art6-deglutition" }
+      ]
+    },
+
+    "art7-type": {
+      "question": "Type d'affection vasculaire",
+      "options": [
+        { "label": "Artériopathie des membres inférieurs", "next": "f-art7-arteriopathie" },
+        { "label": "Insuffisance veineuse des membres inférieurs", "next": "f-art7-insuffisance-veineuse" },
+        { "label": "Lymphœdème vrai (drainage manuel)", "next": "art7-lymphoedeme-etendue" },
+        { "label": "Lymphœdème du membre supérieur après cancer du sein (phase intensive, avec épaule)", "next": "f-art7-lymphoedeme-sein" }
+      ]
+    },
+    "art7-lymphoedeme-etendue": {
+      "question": "Étendue",
+      "options": [
+        { "label": "Un membre, ou le cou et la face", "next": "f-art7-lymphoedeme-1membre" },
+        { "label": "Deux membres", "next": "f-art7-lymphoedeme-2membres" }
+      ]
+    },
+
+    "art10-etendue": {
+      "question": "Étendue des brûlures",
+      "options": [
+        { "label": "Localisées à un membre ou un segment de membre", "next": "f-art10-brulures-localisees" },
+        { "label": "Étendues à plusieurs membres et/ou au tronc", "next": "f-art10-brulures-etendues" }
+      ]
+    },
+
+    "f-c1s1-osteoarticulaire-1membre": { "acte": "c1s1-osteoarticulaire-1membre" },
+    "f-c1s1-osteoarticulaire-2membres": { "acte": "c1s1-osteoarticulaire-2membres" },
+    "f-c1s1-osteoarticulaire-corps": { "acte": "c1s1-osteoarticulaire-corps" },
+    "f-c1s1-musculaire-1membre": { "acte": "c1s1-musculaire-1membre" },
+    "f-c1s1-musculaire-2membres": { "acte": "c1s1-musculaire-2membres" },
+    "f-c1s1-musculaire-corps": { "acte": "c1s1-musculaire-corps" },
+    "f-bdk-standard": { "acte": "bdk-standard" },
+    "f-bdk-neuro": { "acte": "bdk-neuro" },
+
+    "f-art1-A-lombalgie-commune": { "acte": "art1-A-lombalgie-commune" },
+    "f-art1-A-lombosacre-sans-chirurgie": { "acte": "art1-A-lombosacre-sans-chirurgie" },
+    "f-art1-A-lombosacre-avec-chirurgie": { "acte": "art1-A-lombosacre-avec-chirurgie" },
+    "f-art1-A-dorsal-sans-chirurgie": { "acte": "art1-A-dorsal-sans-chirurgie" },
+    "f-art1-A-dorsal-avec-chirurgie": { "acte": "art1-A-dorsal-avec-chirurgie" },
+    "f-art1-A-cervicalgie-non-specifique": { "acte": "art1-A-cervicalgie-non-specifique" },
+    "f-art1-A-traumatisme-cervical-recent": { "acte": "art1-A-traumatisme-cervical-recent" },
+    "f-art1-A-cervical-sans-chirurgie": { "acte": "art1-A-cervical-sans-chirurgie" },
+    "f-art1-A-cervical-avec-chirurgie": { "acte": "art1-A-cervical-avec-chirurgie" },
+    "f-art1-A-multisegments-sans-chirurgie": { "acte": "art1-A-multisegments-sans-chirurgie" },
+    "f-art1-A-multisegments-avec-chirurgie": { "acte": "art1-A-multisegments-avec-chirurgie" },
+
+    "f-art1-B-canal-carpien": { "acte": "art1-B-canal-carpien" },
+    "f-art1-B-poignet-main-non-operee": { "acte": "art1-B-poignet-main-non-operee" },
+    "f-art1-B-poignet-main-operee": { "acte": "art1-B-poignet-main-operee" },
+    "f-art1-B-fracture-avant-bras-non-operee": { "acte": "art1-B-fracture-avant-bras-non-operee" },
+    "f-art1-B-fracture-avant-bras-operee": { "acte": "art1-B-fracture-avant-bras-operee" },
+    "f-art1-B-fracture-coude-non-operee": { "acte": "art1-B-fracture-coude-non-operee" },
+    "f-art1-B-fracture-coude-operee": { "acte": "art1-B-fracture-coude-operee" },
+    "f-art1-B-coude-avant-bras-non-operee": { "acte": "art1-B-coude-avant-bras-non-operee" },
+    "f-art1-B-coude-avant-bras-operee": { "acte": "art1-B-coude-avant-bras-operee" },
+    "f-art1-B-tendinopathie-coiffe-non-operee": { "acte": "art1-B-tendinopathie-coiffe-non-operee" },
+    "f-art1-B-reinsertion-coiffe": { "acte": "art1-B-reinsertion-coiffe" },
+    "f-art1-B-fracture-humerus-proximale": { "acte": "art1-B-fracture-humerus-proximale" },
+    "f-art1-B-epaule-bras-non-operee": { "acte": "art1-B-epaule-bras-non-operee" },
+    "f-art1-B-epaule-bras-operee": { "acte": "art1-B-epaule-bras-operee" },
+    "f-art1-B-deux-segments-sans-chirurgie": { "acte": "art1-B-deux-segments-sans-chirurgie" },
+    "f-art1-B-deux-segments-avec-chirurgie": { "acte": "art1-B-deux-segments-avec-chirurgie" },
+
+    "f-art1-C-entorse-cheville-operee": { "acte": "art1-C-entorse-cheville-operee" },
+    "f-art1-C-entorse-cheville-non-operee": { "acte": "art1-C-entorse-cheville-non-operee" },
+    "f-art1-C-cheville-pied-non-operee": { "acte": "art1-C-cheville-pied-non-operee" },
+    "f-art1-C-cheville-pied-operee": { "acte": "art1-C-cheville-pied-operee" },
+    "f-art1-C-arthroplastie-genou": { "acte": "art1-C-arthroplastie-genou" },
+    "f-art1-C-lca": { "acte": "art1-C-lca" },
+    "f-art1-C-meniscectomie": { "acte": "art1-C-meniscectomie" },
+    "f-art1-C-genou-jambe-non-operee": { "acte": "art1-C-genou-jambe-non-operee" },
+    "f-art1-C-genou-jambe-operee": { "acte": "art1-C-genou-jambe-operee" },
+    "f-art1-C-arthroplastie-hanche": { "acte": "art1-C-arthroplastie-hanche" },
+    "f-art1-C-hanche-cuisse-non-operee": { "acte": "art1-C-hanche-cuisse-non-operee" },
+    "f-art1-C-hanche-cuisse-operee": { "acte": "art1-C-hanche-cuisse-operee" },
+    "f-art1-C-deux-segments-sans-chirurgie": { "acte": "art1-C-deux-segments-sans-chirurgie" },
+    "f-art1-C-deux-segments-avec-chirurgie": { "acte": "art1-C-deux-segments-avec-chirurgie" },
+
+    "f-art1-D-multiterritoires-sans-chirurgie": { "acte": "art1-D-multiterritoires-sans-chirurgie" },
+    "f-art1-D-multiterritoires-avec-chirurgie": { "acte": "art1-D-multiterritoires-avec-chirurgie" },
+
+    "f-art1-E-deviation-lombosacre": { "acte": "art1-E-deviation-lombosacre" },
+    "f-art1-E-deviation-dorsal": { "acte": "art1-E-deviation-dorsal" },
+    "f-art1-E-deviation-cervical": { "acte": "art1-E-deviation-cervical" },
+    "f-art1-E-deviation-multisegments": { "acte": "art1-E-deviation-multisegments" },
+
+    "f-art1-F-amputation-membre-superieur": { "acte": "art1-F-amputation-membre-superieur" },
+    "f-art1-F-amputation-membre-inferieur": { "acte": "art1-F-amputation-membre-inferieur" },
+    "f-art1-F-amputation-deux-membres": { "acte": "art1-F-amputation-deux-membres" },
+
+    "f-art2-localise": { "acte": "art2-localise" },
+    "f-art2-plusieurs-membres": { "acte": "art2-plusieurs-membres" },
+
+    "f-art3-abdominale-perioperatoire": { "acte": "art3-abdominale-perioperatoire" },
+    "f-art3-abdominale-postpartum": { "acte": "art3-abdominale-postpartum" },
+
+    "f-art4-peripherique-1membre": { "acte": "art4-peripherique-1membre" },
+    "f-art4-peripherique-plusieurs-membres": { "acte": "art4-peripherique-plusieurs-membres" },
+    "f-art4-hemiplegie": { "acte": "art4-hemiplegie" },
+    "f-art4-para-tetraplegie": { "acte": "art4-para-tetraplegie" },
+    "f-art4-neuro-1membre": { "acte": "art4-neuro-1membre" },
+    "f-art4-neuro-2membres": { "acte": "art4-neuro-2membres" },
+    "f-art4-myopathie": { "acte": "art4-myopathie" },
+    "f-art4-encephalopathie-infantile": { "acte": "art4-encephalopathie-infantile" },
+    "f-art4-paralysie-cerebrale-polyhandicap": { "acte": "art4-paralysie-cerebrale-polyhandicap" },
+
+    "f-art5-desencombrement-urgent": { "acte": "art5-desencombrement-urgent" },
+    "f-art5-obstructives-restrictives": { "acte": "art5-obstructives-restrictives" },
+    "f-art5-perioperatoire": { "acte": "art5-perioperatoire" },
+    "f-art5-mucoviscidose": { "acte": "art5-mucoviscidose" },
+    "f-art5-readaptation-individuelle": { "acte": "art5-readaptation-individuelle" },
+    "f-art5-readaptation-groupe": { "acte": "art5-readaptation-groupe" },
+
+    "f-art6-maxillo-faciale": { "acte": "art6-maxillo-faciale" },
+    "f-art6-vestibulaire": { "acte": "art6-vestibulaire" },
+    "f-art6-deglutition": { "acte": "art6-deglutition" },
+
+    "f-art7-arteriopathie": { "acte": "art7-arteriopathie" },
+    "f-art7-insuffisance-veineuse": { "acte": "art7-insuffisance-veineuse" },
+    "f-art7-lymphoedeme-1membre": { "acte": "art7-lymphoedeme-1membre" },
+    "f-art7-lymphoedeme-2membres": { "acte": "art7-lymphoedeme-2membres" },
+    "f-art7-lymphoedeme-sein": { "acte": "art7-lymphoedeme-sein" },
+
+    "f-art8-perineale": { "acte": "art8-perineale" },
+    "f-art9-deambulation-sujet-age": { "acte": "art9-deambulation-sujet-age" },
+
+    "f-art10-brulures-localisees": { "acte": "art10-brulures-localisees" },
+    "f-art10-brulures-etendues": { "acte": "art10-brulures-etendues" },
+
+    "f-art11-soins-palliatifs": { "acte": "art11-soins-palliatifs" }
+  }
+}

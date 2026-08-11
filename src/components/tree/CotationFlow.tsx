@@ -9,6 +9,7 @@ import ResultCard from "./ResultCard";
 import { costUsd } from "@/lib/ngap/pricing";
 import { arbre, getActeForNode, getNode } from "@/lib/ngap/tree";
 import { isFeuille } from "@/lib/ngap/types";
+import { useWorkState } from "@/lib/ui/workState";
 import type { ArbreOption, DecideResult, PathStep } from "@/lib/ngap/types";
 
 type PatientName = { prenom: string | null; nom: string | null };
@@ -19,6 +20,7 @@ interface DecideApiResponse extends Omit<DecideResult, "patientName"> {
 }
 
 export default function CotationFlow() {
+  const { startWork } = useWorkState();
   const [started, setStarted] = useState(false);
   const [aiEnabled, setAiEnabled] = useState(false);
   const [ordonnanceText, setOrdonnanceText] = useState("");
@@ -111,12 +113,14 @@ export default function CotationFlow() {
     setOrdonnanceText(text);
     setAiEnabled(true);
     setStarted(true);
+    startWork();
     void runAutoWalk(arbre.racine, text, true);
   }
 
   function handleSkipManual() {
     setAiEnabled(false);
     setStarted(true);
+    startWork();
   }
 
   function handleChoose(question: string, option: ArbreOption) {

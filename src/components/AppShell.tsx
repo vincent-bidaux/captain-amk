@@ -3,20 +3,24 @@
 import { useState } from "react";
 import type { ReactNode } from "react";
 import SessionsSidebar from "./SessionsSidebar";
+import { WorkStateProvider, useWorkState } from "@/lib/ui/workState";
 
-export default function AppShell({ children }: { children: ReactNode }) {
+function AppShellInner({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
+  const { expanded } = useWorkState();
 
   return (
     <div className="flex min-h-full flex-1">
-      {/* Desktop sidebar */}
-      <aside className="hidden w-72 shrink-0 border-r border-border bg-surface md:block">
-        <SessionsSidebar />
-      </aside>
+      {/* Desktop docked sidebar — seulement une fois le travail démarré */}
+      {expanded && (
+        <aside className="hidden w-72 shrink-0 border-r border-border bg-surface md:block">
+          <SessionsSidebar />
+        </aside>
+      )}
 
-      {/* Mobile off-canvas sidebar */}
+      {/* Off-canvas sidebar : toujours sur mobile, et sur desktop tant que replié */}
       {open && (
-        <div className="fixed inset-0 z-40 md:hidden">
+        <div className="fixed inset-0 z-40">
           <button
             type="button"
             aria-label="Fermer le menu"
@@ -30,12 +34,16 @@ export default function AppShell({ children }: { children: ReactNode }) {
       )}
 
       <div className="flex min-h-full flex-1 flex-col">
-        <header className="flex items-center gap-3 border-b border-border bg-surface px-4 py-3 md:hidden">
+        <header
+          className={`flex items-center gap-3 border-b border-border bg-surface px-4 py-3 ${
+            expanded ? "md:hidden" : ""
+          }`}
+        >
           <button
             type="button"
             aria-label="Ouvrir le menu"
             onClick={() => setOpen(true)}
-            className="rounded-md border border-border px-2 py-1 text-sm"
+            className="cursor-pointer rounded-md border border-border px-2 py-1 text-sm"
           >
             ☰
           </button>
@@ -45,5 +53,13 @@ export default function AppShell({ children }: { children: ReactNode }) {
         <div className="flex flex-1 flex-col">{children}</div>
       </div>
     </div>
+  );
+}
+
+export default function AppShell({ children }: { children: ReactNode }) {
+  return (
+    <WorkStateProvider>
+      <AppShellInner>{children}</AppShellInner>
+    </WorkStateProvider>
   );
 }

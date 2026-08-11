@@ -5,6 +5,8 @@ import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import Logo from "@/components/Logo";
 import { SESSIONS_CHANGED_EVENT, notifySessionsChanged } from "@/lib/session/events";
+import { APP_VERSION } from "@/lib/version";
+import { useWorkState } from "@/lib/ui/workState";
 import type { SavedSessionSummary } from "@/lib/session/types";
 
 const DESCRIPTION =
@@ -13,6 +15,7 @@ const DESCRIPTION =
 export default function SessionsSidebar({ onNavigate }: { onNavigate?: () => void }) {
   const pathname = usePathname();
   const router = useRouter();
+  const { expanded } = useWorkState();
   const [sessions, setSessions] = useState<SavedSessionSummary[]>([]);
   const [showArchived, setShowArchived] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -74,7 +77,9 @@ export default function SessionsSidebar({ onNavigate }: { onNavigate?: () => voi
         onClick={onNavigate}
         className="flex flex-col gap-2 border-b border-border px-4 py-5 transition-colors hover:bg-background"
       >
-        <Logo size="full" className="rounded-md" />
+        {/* Le logo n'apparaît ici qu'une fois le travail démarré : sur l'accueil replié,
+            il est déjà affiché en grand au centre — jamais les deux à la fois. */}
+        {expanded && <Logo size="full" className="rounded-md" />}
         <div>
           <p className="text-lg font-semibold tracking-tight">Captain AMK</p>
           <p className="text-xs text-muted">{DESCRIPTION}</p>
@@ -157,6 +162,20 @@ export default function SessionsSidebar({ onNavigate }: { onNavigate?: () => voi
           Le nom du patient n&apos;est conservé que si vous le choisissez à
           l&apos;enregistrement. La cotation reste sous la responsabilité du
           praticien.
+        </p>
+        <div className="mt-2 flex items-center gap-3 text-[11px] text-muted">
+          <Link href="/aide" onClick={onNavigate} className="hover:text-foreground hover:underline">
+            Aide
+          </Link>
+          <Link href="/sources" onClick={onNavigate} className="hover:text-foreground hover:underline">
+            Sources
+          </Link>
+        </div>
+        <p className="mt-2 text-[11px] text-muted">
+          <Link href="/changelog" onClick={onNavigate} className="hover:text-foreground hover:underline">
+            v{APP_VERSION}
+          </Link>{" "}
+          — Par Vincent Bidaux, La Rochelle
         </p>
       </div>
     </div>

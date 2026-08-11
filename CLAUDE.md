@@ -76,6 +76,31 @@ Netlify (pas d'hébergement HDS certifié), dans un repo **public** — la case 
 praticien décider au cas par cas s'il veut cette traçabilité nominative pour telle session, sans
 que ce soit automatique/invisible.
 
+## Versioning et changelog
+
+- `package.json.version` / `src/lib/version.ts` (`APP_VERSION`) font foi pour le numéro affiché
+  dans le pied de la barre latérale (lien vers `/changelog`). Bump semver à chaque groupe de
+  changements notable livré en production.
+- Deux endroits à tenir à jour ensemble à chaque bump : `CHANGELOG.md` (racine du repo, format
+  technique) et `src/app/changelog/page.tsx` (même contenu, formulé pour le praticien, affiché
+  dans l'app). Pas de génération automatique de l'un à partir de l'autre — les deux sont édités à
+  la main.
+
+## Barre latérale repliable (2026-08-11, soir)
+
+- `src/lib/ui/workState.tsx` expose `WorkStateProvider`/`useWorkState()` : un contexte React
+  partagé entre `AppShell`, la page d'accueil et `CotationFlow`, avec un seul booléen `expanded`.
+- Par défaut (arrivée sur `/`), `expanded = false` : la barre latérale docked disparaît, seul un
+  bouton ☰ en haut (même pattern que le mode mobile) ouvre la liste des sessions/Aide/Sources en
+  panneau superposé. Le gros logo reste affiché au centre de la page d'accueil.
+- `expanded` passe à `true` dès que le praticien démarre un travail (`handleAnalyze` ou
+  `handleSkipManual` dans `CotationFlow`, ou navigation directe vers `/sessions/[id]`). La barre
+  latérale docked apparaît alors sur desktop, et le gros logo de l'accueil disparaît — le seul
+  logo visible passe à celui, petit, en haut de la barre latérale. Objectif : ne jamais avoir le
+  logo affiché deux fois à l'écran.
+- Revenir sur `/` (lien « + Nouvelle session ») réinitialise `expanded` à `false` via l'effet de
+  `usePathname()` dans `WorkStateProvider`.
+
 ## Stack technique
 
 - Next.js (App Router) + TypeScript + Tailwind CSS, déployé sur Netlify (Next.js Runtime auto).
@@ -117,8 +142,11 @@ Tous les groupes fonctionnels (1 à 7) terminés et validés en production :
   bouton « copier les résultats »
 - Fil d'Ariane : connecteurs visuels entre étapes, clic sur une étape passée = « Modifier le
   choix » et **rejoue cette étape** (pas la suivante)
+- **v1.0.0** : pied de barre latérale avec version (lien `/changelog`) et signature, pages
+  `/aide` et `/sources`, barre latérale repliable (voir section dédiée ci-dessus)
 
-Polish continu au fil des retours utilisateur (2026-08-11, après-midi) : voir git log pour le détail.
+Polish continu au fil des retours utilisateur (2026-08-11, après-midi et soir) : voir git log et
+`CHANGELOG.md` pour le détail.
 
 - `docs/SPEC-NGAP.md` — spécification réglementaire complète, à lire en premier
 - `data/actes-ngap.json` — catalogue des 94 actes du titre XIV (lettre-clé, coefficient, référentiel, éligibilité IFS)

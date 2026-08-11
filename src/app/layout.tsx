@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 const description =
-  "Aide à la cotation NGAP pour les masseurs-kinésithérapeutes : à partir du texte d'une ordonnance, l'app propose la cotation et montre son raisonnement, corrigeable à chaque étape.";
+  "Cotation NGAP en 1 clic pour kinésithérapeutes — AMK, AMS, AMC, majorations et indemnités";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://captain-amk.netlify.app"),

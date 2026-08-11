@@ -3,8 +3,12 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
+import Logo from "@/components/Logo";
 import { SESSIONS_CHANGED_EVENT, notifySessionsChanged } from "@/lib/session/events";
 import type { SavedSessionSummary } from "@/lib/session/types";
+
+const DESCRIPTION =
+  "Cotation NGAP en 1 clic pour kinésithérapeutes — AMK, AMS, AMC, majorations et indemnités";
 
 export default function SessionsSidebar({ onNavigate }: { onNavigate?: () => void }) {
   const pathname = usePathname();
@@ -65,10 +69,17 @@ export default function SessionsSidebar({ onNavigate }: { onNavigate?: () => voi
 
   return (
     <div className="flex h-full flex-col">
-      <div className="border-b border-border px-4 py-5">
-        <p className="text-lg font-semibold tracking-tight">Captain AMK</p>
-        <p className="text-xs text-muted">Cotation NGAP kinésithérapie</p>
-      </div>
+      <Link
+        href="/"
+        onClick={onNavigate}
+        className="flex items-center gap-3 border-b border-border px-4 py-5 transition-colors hover:bg-background"
+      >
+        <Logo size="tiny" className="shrink-0 rounded-md" />
+        <div className="min-w-0">
+          <p className="text-lg font-semibold tracking-tight">Captain AMK</p>
+          <p className="text-xs text-muted">{DESCRIPTION}</p>
+        </div>
+      </Link>
 
       <div className="px-3 py-3">
         <Link
@@ -130,7 +141,7 @@ export default function SessionsSidebar({ onNavigate }: { onNavigate?: () => voi
           </ul>
         )}
 
-        {sessions.some((s) => s.archived) && (
+        {(showArchived || sessions.some((s) => s.archived)) && (
           <button
             type="button"
             onClick={() => setShowArchived((v) => !v)}

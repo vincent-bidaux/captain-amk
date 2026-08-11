@@ -94,8 +94,16 @@ export interface PathStep {
   chosenLabel: string;
   chosenAide?: string;
   nextNodeId: string;
-  /** Whether this step was decided by the AI from the ordonnance text, or answered manually. */
-  source: "ia" | "manuel";
+  /** Whether this step was decided automatically from the ordonnance text, or answered manually. */
+  source: "auto" | "manuel";
+}
+
+/** Header info shown at the top of a cotation result — extracted from the ordonnance. */
+export interface OrdonnanceHeaderData {
+  patientName: { prenom: string | null; nom: string | null } | null;
+  medecinNom: string | null;
+  dateOrdonnance: string | null;
+  prescription: string | null;
 }
 
 /** Result of asking the AI to decide a single tree question from the ordonnance text. */
@@ -104,6 +112,8 @@ export interface DecideResult {
   optionIndex: number;
   justification: string;
   patientName?: { prenom: string | null; nom: string | null };
+  medecinNom?: string | null;
+  dateOrdonnance?: string | null;
   usage: {
     inputTokens: number;
     outputTokens: number;

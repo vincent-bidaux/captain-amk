@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { use, useEffect, useState } from "react";
+import Logo from "@/components/Logo";
 import BreadcrumbStep from "@/components/tree/BreadcrumbStep";
 import ResultCard from "@/components/tree/ResultCard";
 import { notifySessionsChanged } from "@/lib/session/events";
@@ -72,6 +73,10 @@ export default function SessionDetailPage({
 
   return (
     <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col px-4 py-8">
+      <div className="mb-4 mt-2">
+        <Logo size="compact" />
+      </div>
+
       <div className="mb-4 flex items-center justify-between gap-3">
         <div className="min-w-0">
           <p className="truncate text-lg font-semibold">{session.title}</p>
@@ -99,9 +104,14 @@ export default function SessionDetailPage({
       </div>
 
       {session.path.length > 0 && (
-        <div className="mb-4 flex flex-col gap-1 border-b border-border pb-2">
+        <div className="mb-4 flex flex-col gap-0 border-b border-border pb-2">
           {session.path.map((step, i) => (
-            <BreadcrumbStep key={`${step.nodeId}-${i}`} step={step} readOnly />
+            <BreadcrumbStep
+              key={`${step.nodeId}-${i}`}
+              step={step}
+              readOnly
+              showConnector={i > 0}
+            />
           ))}
         </div>
       )}
@@ -112,6 +122,12 @@ export default function SessionDetailPage({
           path={session.path}
           currentNodeId={session.currentNodeId}
           readOnly
+          ordonnanceHeader={{
+            patientName: session.patientName ?? null,
+            medecinNom: session.medecinNom ?? null,
+            dateOrdonnance: session.dateOrdonnance ?? null,
+            prescription: session.prescription ?? null,
+          }}
         />
       ) : (
         <div className="rounded-xl border border-dashed border-border bg-surface p-5">

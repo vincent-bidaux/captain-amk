@@ -17,13 +17,10 @@ export default function OrdonnanceEntry({
   const [text, setText] = useState("");
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
+  const [dragging, setDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  async function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0];
-    e.target.value = ""; // allow re-selecting the same file later
-    if (!file) return;
-
+  async function handleFile(file: File) {
     setUploading(true);
     setUploadError(null);
     try {
@@ -47,13 +44,38 @@ export default function OrdonnanceEntry({
     }
   }
 
+  function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    e.target.value = ""; // allow re-selecting the same file later
+    if (file) void handleFile(file);
+  }
+
+  function handleDrop(e: React.DragEvent<HTMLDivElement>) {
+    e.preventDefault();
+    setDragging(false);
+    if (disabled || uploading) return;
+    const file = e.dataTransfer.files?.[0];
+    if (file) void handleFile(file);
+  }
+
   return (
-    <div className="rounded-xl border border-border bg-surface p-5">
+    <div
+      onDragOver={(e) => {
+        e.preventDefault();
+        if (!disabled && !uploading) setDragging(true);
+      }}
+      onDragLeave={() => setDragging(false)}
+      onDrop={handleDrop}
+      className={`rounded-xl border p-5 transition-colors ${
+        dragging ? "border-accent bg-accent/10" : "border-border bg-surface"
+      }`}
+    >
       <p className="text-lg font-semibold">Texte de l&apos;ordonnance</p>
       <p className="mt-1 text-sm text-muted">
-        Collez le texte de la prescription, ou importez une photo / un PDF.
-        L&apos;IA propose une cotation en suivant l&apos;arbre de décision et
-        s&apos;arrête pour vous demander dès qu&apos;une information manque.
+        Collez le texte de la prescription, ou importez / glissez-déposez une
+        photo ou un PDF. Captain AMK propose une cotation en suivant l&apos;arbre
+        de décision et s&apos;arrête pour vous demander dès qu&apos;une
+        information manque.
       </p>
 
       <div className="mt-3 flex flex-wrap items-center gap-2">
@@ -69,9 +91,11 @@ export default function OrdonnanceEntry({
           type="button"
           onClick={() => fileInputRef.current?.click()}
           disabled={disabled || uploading}
-          className="rounded-lg border border-border px-3 py-1.5 text-sm font-medium transition-colors hover:bg-background disabled:cursor-not-allowed disabled:opacity-40"
+          className="cursor-pointer rounded-lg border border-border px-3 py-1.5 text-sm font-medium transition-colors hover:bg-background disabled:cursor-not-allowed disabled:opacity-40"
         >
-          {uploading ? "Transcription en cours…" : "📎 Importer une photo / un PDF"}
+          {uploading
+            ? "Transcription en cours…"
+            : "📎 Importer une photo / un PDF (ou glissez-déposez)"}
         </button>
       </div>
       {uploadError && <p className="mt-2 text-xs text-danger">{uploadError}</p>}

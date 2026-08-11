@@ -98,7 +98,14 @@ export default function SessionsSidebar({ onNavigate }: { onNavigate?: () => voi
                     pathname === `/sessions/${s.id}` ? "bg-background" : ""
                   }`}
                 >
-                  <span className="min-w-0 flex-1 truncate">{s.title}</span>
+                  <span className="min-w-0 flex-1">
+                    <span className="block truncate">{s.title}</span>
+                    {s.patientDisplay && (
+                      <span className="block truncate text-xs text-muted">
+                        {s.patientDisplay}
+                      </span>
+                    )}
+                  </span>
                   <span className="flex shrink-0 items-center gap-1 opacity-0 group-hover:opacity-100">
                     <button
                       type="button"
@@ -136,8 +143,9 @@ export default function SessionsSidebar({ onNavigate }: { onNavigate?: () => voi
 
       <div className="border-t border-border px-4 py-3">
         <p className="text-[11px] leading-snug text-muted">
-          Aucune donnée personnelle patient n&apos;est conservée. La cotation
-          reste sous la responsabilité du praticien.
+          Le nom du patient n&apos;est conservé que si vous le choisissez à
+          l&apos;enregistrement. La cotation reste sous la responsabilité du
+          praticien.
         </p>
       </div>
     </div>

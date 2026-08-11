@@ -30,17 +30,19 @@ export default function CotationFlow() {
   const [aiStoppedReason, setAiStoppedReason] = useState<string | null>(null);
   const [apiError, setApiError] = useState<string | null>(null);
   const [patientName, setPatientName] = useState<PatientName | null>(null);
+  const [medecinNom, setMedecinNom] = useState<string | null>(null);
+  const [dateOrdonnance, setDateOrdonnance] = useState<string | null>(null);
   const [totalUsage, setTotalUsage] = useState({ inputTokens: 0, outputTokens: 0 });
 
   const currentNode = getNode(currentNodeId);
 
-  async function runAutoWalk(startNodeId: string, text: string, extractNameFirst: boolean) {
+  async function runAutoWalk(startNodeId: string, text: string, extractHeaderFirst: boolean) {
     setIsAiThinking(true);
     setAiStoppedReason(null);
     setApiError(null);
 
     let nodeId = startNodeId;
-    let first = extractNameFirst;
+    let first = extractHeaderFirst;
 
     while (true) {
       const node = getNode(nodeId);
@@ -54,7 +56,7 @@ export default function CotationFlow() {
           body: JSON.stringify({
             ordonnanceText: text,
             nodeId,
-            extractName: first,
+            extractHeader: first,
           }),
         });
         data = await res.json();
@@ -64,7 +66,7 @@ export default function CotationFlow() {
           break;
         }
       } catch {
-        setApiError("Impossible de contacter le service IA.");
+        setApiError("Connexion impossible, réessayez.");
         break;
       }
 
@@ -75,6 +77,8 @@ export default function CotationFlow() {
       if (data.patientName && (data.patientName.prenom || data.patientName.nom)) {
         setPatientName(data.patientName);
       }
+      if (data.medecinNom) setMedecinNom(data.medecinNom);
+      if (data.dateOrdonnance) setDateOrdonnance(data.dateOrdonnance);
 
       if (!data.answered) {
         setAiStoppedReason(data.justification);
@@ -83,7 +87,7 @@ export default function CotationFlow() {
 
       const chosen = node.options[data.optionIndex];
       if (!chosen) {
-        setApiError("Réponse IA incohérente (option inexistante).");
+        setApiError("Réponse incohérente (option inexistante).");
         break;
       }
 
@@ -93,7 +97,7 @@ export default function CotationFlow() {
         chosenLabel: chosen.label,
         chosenAide: data.justification,
         nextNodeId: chosen.next,
-        source: "ia",
+        source: "auto",
       };
       setPath((prev) => [...prev, step]);
       nodeId = chosen.next;
@@ -135,10 +139,11 @@ export default function CotationFlow() {
     }
   }
 
+  /** Rewind to right before `index` was answered, so its question is asked again. */
   function handleRewind(index: number) {
     const step = path[index];
-    setPath((prev) => prev.slice(0, index + 1));
-    setCurrentNodeId(step.nextNodeId);
+    setPath((prev) => prev.slice(0, index));
+    setCurrentNodeId(step.nodeId);
     setAiStoppedReason(null);
   }
 
@@ -151,6 +156,8 @@ export default function CotationFlow() {
     setAiStoppedReason(null);
     setApiError(null);
     setPatientName(null);
+    setMedecinNom(null);
+    setDateOrdonnance(null);
     setTotalUsage({ inputTokens: 0, outputTokens: 0 });
   }
 
@@ -166,18 +173,18 @@ export default function CotationFlow() {
           Patient détecté :{" "}
           <span className="font-medium text-foreground">
             {[patientName.prenom, patientName.nom].filter(Boolean).join(" ")}
-          </span>{" "}
-          — non conservé après la session.
+          </span>
         </p>
       )}
 
       {path.length > 0 && (
-        <div className="mb-4 flex flex-col gap-1 border-b border-border pb-2">
+        <div className="mb-4 flex flex-col gap-0 border-b border-border pb-2">
           {path.map((step, i) => (
             <BreadcrumbStep
               key={`${step.nodeId}-${i}`}
               step={step}
               onRewind={() => handleRewind(i)}
+              showConnector={i > 0}
             />
           ))}
         </div>
@@ -204,7 +211,7 @@ export default function CotationFlow() {
       ) : isAiThinking ? (
         <div className="flex items-center gap-2 rounded-xl border border-border bg-surface p-5 text-sm text-muted">
           <span className="h-2 w-2 animate-pulse rounded-full bg-accent" />
-          L&apos;IA analyse l&apos;ordonnance…
+          J&apos;analyse l&apos;ordonnance…
         </div>
       ) : nodeIsLeaf ? (
         <ResultCard
@@ -212,6 +219,12 @@ export default function CotationFlow() {
           path={path}
           currentNodeId={currentNodeId}
           onReset={handleReset}
+          ordonnanceHeader={{
+            patientName,
+            medecinNom,
+            dateOrdonnance,
+            prescription: ordonnanceText || null,
+          }}
         />
       ) : (
         <QuestionCard

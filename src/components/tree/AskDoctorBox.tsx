@@ -60,9 +60,9 @@ export default function AskDoctorBox({
       <button
         type="button"
         onClick={handleCopy}
-        className="mt-3 rounded-md border border-border px-3 py-1.5 text-sm font-medium transition-colors hover:bg-background"
+        className="mt-3 rounded-lg bg-neutral-900 px-4 py-2 text-sm font-medium text-white transition-opacity hover:opacity-90 dark:bg-neutral-100 dark:text-neutral-900"
       >
-        {copied ? "Copié ✓" : "📋 Copier"}
+        {copied ? "Copié ✓" : "📋 Copier le courrier"}
       </button>
     </div>
   );

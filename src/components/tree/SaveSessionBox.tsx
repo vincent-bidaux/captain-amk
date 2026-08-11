@@ -3,19 +3,22 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { notifySessionsChanged } from "@/lib/session/events";
-import type { PathStep } from "@/lib/ngap/types";
+import type { OrdonnanceHeaderData, PathStep } from "@/lib/ngap/types";
 
 export default function SaveSessionBox({
   defaultTitle,
   path,
   currentNodeId,
+  ordonnanceHeader,
 }: {
   defaultTitle: string;
   path: PathStep[];
   currentNodeId: string;
+  ordonnanceHeader?: OrdonnanceHeaderData;
 }) {
   const router = useRouter();
   const [title, setTitle] = useState(defaultTitle);
+  const [includePatientData, setIncludePatientData] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [saved, setSaved] = useState(false);
@@ -31,6 +34,14 @@ export default function SaveSessionBox({
           title: title.trim() || defaultTitle,
           path,
           currentNodeId,
+          ...(includePatientData && ordonnanceHeader
+            ? {
+                patientName: ordonnanceHeader.patientName,
+                medecinNom: ordonnanceHeader.medecinNom,
+                dateOrdonnance: ordonnanceHeader.dateOrdonnance,
+                prescription: ordonnanceHeader.prescription,
+              }
+            : {}),
         }),
       });
       const data = await res.json();
@@ -59,8 +70,20 @@ export default function SaveSessionBox({
       <p className="text-xs text-muted">
         Seul le cheminement (questions, réponses, justifications) est
         enregistré — jamais le texte de l&apos;ordonnance ni le nom du
-        patient.
+        patient, sauf si vous cochez la case ci-dessous.
       </p>
+
+      <label className="mt-2 flex items-start gap-2 text-xs text-foreground">
+        <input
+          type="checkbox"
+          checked={includePatientData}
+          onChange={(e) => setIncludePatientData(e.target.checked)}
+          className="mt-0.5"
+        />
+        Enregistrer aussi le nom du patient et la prescription avec cette
+        session
+      </label>
+
       <div className="mt-2 flex flex-col gap-2 sm:flex-row">
         <input
           value={title}
@@ -72,7 +95,7 @@ export default function SaveSessionBox({
           type="button"
           onClick={handleSave}
           disabled={saving}
-          className="rounded-md bg-accent px-3 py-1.5 text-sm font-medium text-accent-foreground transition-opacity hover:opacity-90 disabled:opacity-50"
+          className="rounded-lg bg-accent px-4 py-2 text-sm font-medium text-accent-foreground transition-opacity hover:opacity-90 disabled:opacity-50"
         >
           {saving ? "Enregistrement…" : "Enregistrer la session"}
         </button>

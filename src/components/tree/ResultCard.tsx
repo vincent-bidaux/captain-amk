@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import {
   formatEuros,
   ifsMontant,
@@ -5,7 +8,7 @@ import {
   tarifActe,
 } from "@/lib/ngap/tree";
 import SaveSessionBox from "./SaveSessionBox";
-import type { Acte, PathStep } from "@/lib/ngap/types";
+import type { Acte, OrdonnanceHeaderData, PathStep } from "@/lib/ngap/types";
 
 function InfoBlock({ title, items }: { title: string; items: string[] }) {
   if (items.length === 0) return null;
@@ -23,24 +26,90 @@ function InfoBlock({ title, items }: { title: string; items: string[] }) {
   );
 }
 
+function HeaderBlock({ header }: { header: OrdonnanceHeaderData }) {
+  const patient = header.patientName
+    ? [header.patientName.prenom, header.patientName.nom].filter(Boolean).join(" ")
+    : null;
+  const hasAnyField = patient || header.medecinNom || header.dateOrdonnance || header.prescription;
+  if (!hasAnyField) return null;
+
+  return (
+    <div className="mb-4 grid gap-x-6 gap-y-2 border-b border-border pb-4 sm:grid-cols-2">
+      {header.dateOrdonnance && (
+        <div>
+          <p className="text-xs text-muted">Date de l&apos;ordonnance</p>
+          <p className="text-sm font-medium text-foreground">{header.dateOrdonnance}</p>
+        </div>
+      )}
+      {header.medecinNom && (
+        <div>
+          <p className="text-xs text-muted">Médecin</p>
+          <p className="text-sm font-medium text-foreground">{header.medecinNom}</p>
+        </div>
+      )}
+      {patient && (
+        <div>
+          <p className="text-xs text-muted">Patient</p>
+          <p className="text-sm font-medium text-foreground">{patient}</p>
+        </div>
+      )}
+      {header.prescription && (
+        <div className="sm:col-span-2">
+          <p className="text-xs text-muted">Prescription</p>
+          <p className="whitespace-pre-wrap text-sm text-foreground">{header.prescription}</p>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function ResultCard({
   acte,
   path,
   currentNodeId,
   onReset,
   readOnly = false,
+  ordonnanceHeader,
 }: {
   acte: Acte;
   path: PathStep[];
   currentNodeId: string;
   onReset?: () => void;
   readOnly?: boolean;
+  ordonnanceHeader?: OrdonnanceHeaderData;
 }) {
+  const [resultsCopied, setResultsCopied] = useState(false);
   const tarif = tarifActe(acte);
   const ifsEligible = acte.ifs?.eligible === true || acte.ifs?.eligible === "conditionnel";
 
+  async function handleCopyResults() {
+    const lines = [
+      acte.libelle,
+      `Lettre-clé / coefficient : ${acte.lettreCle} ${acte.coefficient}`,
+      `Tarif (métropole) : ${formatEuros(tarif)}`,
+      ifsEligible ? `+ IFS : ${formatEuros(ifsMontant())}` : null,
+      acte.referentiel?.soumis ? "Acte soumis à référentiel HAS" : null,
+      acte.referentiel?.traitementHabituel
+        ? `Traitement habituel : ${acte.referentiel.traitementHabituel}`
+        : null,
+      acte.referentiel?.accordPrealable
+        ? `Accord préalable : ${acte.referentiel.accordPrealable}`
+        : null,
+    ].filter((line): line is string => line !== null);
+
+    try {
+      await navigator.clipboard.writeText(lines.join("\n"));
+      setResultsCopied(true);
+      setTimeout(() => setResultsCopied(false), 2000);
+    } catch {
+      // Clipboard API unavailable — nothing else to do here.
+    }
+  }
+
   return (
     <div className="rounded-xl border-2 border-accent bg-surface p-5">
+      {ordonnanceHeader && <HeaderBlock header={ordonnanceHeader} />}
+
       <p className="text-xs font-semibold uppercase tracking-wide text-accent">
         Cotation proposée
       </p>
@@ -104,21 +173,31 @@ export default function ResultCard({
         vérifier avant facturation.
       </p>
 
-      {!readOnly && onReset && (
+      <div className="mt-4 flex flex-wrap gap-2">
         <button
           type="button"
-          onClick={onReset}
-          className="mt-4 rounded-lg bg-accent px-4 py-2 text-sm font-medium text-accent-foreground transition-opacity hover:opacity-90"
+          onClick={handleCopyResults}
+          className="rounded-lg bg-neutral-900 px-4 py-2 text-sm font-medium text-white transition-opacity hover:opacity-90 dark:bg-neutral-100 dark:text-neutral-900"
         >
-          Nouvelle cotation
+          {resultsCopied ? "Copié ✓" : "📋 Copier les résultats"}
         </button>
-      )}
+        {!readOnly && onReset && (
+          <button
+            type="button"
+            onClick={onReset}
+            className="rounded-lg bg-accent px-4 py-2 text-sm font-medium text-accent-foreground transition-opacity hover:opacity-90"
+          >
+            Nouvelle cotation
+          </button>
+        )}
+      </div>
 
       {!readOnly && (
         <SaveSessionBox
           defaultTitle={`${acte.lettreCle} ${acte.coefficient} — ${new Date().toLocaleDateString("fr-FR")}`}
           path={path}
           currentNodeId={currentNodeId}
+          ordonnanceHeader={ordonnanceHeader}
         />
       )}
     </div>

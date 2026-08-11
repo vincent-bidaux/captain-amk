@@ -22,7 +22,7 @@ const TranscribeSchema = z.object({
 
 const SYSTEM_PROMPT = `Tu transcris fidèlement le texte d'une ordonnance médicale de kinésithérapie française à partir d'une image ou d'un PDF.
 
-Retranscris tout le texte pertinent à la prescription (indication médicale, localisation, contexte chirurgical éventuel, nombre de séances, toute précision du médecin) tel qu'il apparaît, sans reformuler ni interpréter. N'invente rien : si un passage est illisible ou incertain, indique-le entre crochets plutôt que de deviner. Ignore l'en-tête administratif (coordonnées du cabinet, logo) sauf s'il contient une information médicale utile.`;
+Retranscris tout le texte pertinent : l'identification du patient (nom, prénom, date de naissance si présente), le nom du médecin prescripteur, la date de l'ordonnance, et la prescription elle-même (indication médicale, localisation, contexte chirurgical éventuel, nombre de séances, toute précision du médecin). Ne saute JAMAIS l'identité du patient même si elle apparaît en haut du document au milieu d'informations administratives — c'est une information essentielle à transcrire, pas du bruit à ignorer. Transcris tel quel, sans reformuler ni interpréter. N'invente rien : si un passage est illisible ou incertain, indique-le entre crochets plutôt que de deviner. Tu peux en revanche ignorer les éléments purement décoratifs sans aucune information (logo, tampon vide, ligne de séparation).`;
 
 interface TranscribeRequestBody {
   mediaType?: string;
@@ -92,7 +92,7 @@ export async function POST(req: NextRequest) {
 
     const parsed = response.parsed_output;
     if (!parsed) {
-      return NextResponse.json({ error: "Réponse IA non structurée" }, { status: 502 });
+      return NextResponse.json({ error: "Réponse non structurée" }, { status: 502 });
     }
 
     return NextResponse.json({

@@ -37,6 +37,18 @@ const DecideSchema = z.object({
     .describe(
       "Nom de famille du patient détecté dans le texte, ou null si absent ou si l'extraction n'est pas demandée.",
     ),
+  medecinNom: z
+    .string()
+    .nullable()
+    .describe(
+      "Nom du médecin prescripteur détecté dans le texte, ou null si absent ou si l'extraction n'est pas demandée.",
+    ),
+  dateOrdonnance: z
+    .string()
+    .nullable()
+    .describe(
+      "Date de l'ordonnance telle qu'écrite dans le texte, ou null si absente ou si l'extraction n'est pas demandée.",
+    ),
 });
 
 const SYSTEM_PROMPT = `Tu aides à naviguer un arbre de décision de cotation NGAP (nomenclature des actes de kinésithérapie en France) à partir du texte d'une ordonnance médicale rédigée par un médecin.
@@ -46,7 +58,7 @@ On te donne une question de l'arbre avec ses options possibles, et le texte comp
 interface DecideRequestBody {
   ordonnanceText?: string;
   nodeId?: string;
-  extractName?: boolean;
+  extractHeader?: boolean;
 }
 
 export async function POST(req: NextRequest) {
@@ -57,7 +69,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "JSON invalide" }, { status: 400 });
   }
 
-  const { ordonnanceText, nodeId, extractName } = body;
+  const { ordonnanceText, nodeId, extractHeader } = body;
   if (!ordonnanceText || typeof ordonnanceText !== "string" || !nodeId) {
     return NextResponse.json({ error: "Paramètres manquants" }, { status: 400 });
   }
@@ -101,9 +113,9 @@ export async function POST(req: NextRequest) {
     ordonnanceText,
     '"""',
     "",
-    extractName
-      ? "Essaie aussi de détecter le prénom et le nom du patient dans le texte (champs patientPrenom / patientNom), sans les inventer."
-      : "Ne cherche pas à détecter le nom du patient (mets patientPrenom et patientNom à null).",
+    extractHeader
+      ? "Détecte aussi, si présents dans le texte : le prénom et le nom du patient (patientPrenom / patientNom), le nom du médecin prescripteur (medecinNom), et la date de l'ordonnance (dateOrdonnance). Ne les invente pas — laisse à null ce qui n'apparaît pas clairement."
+      : "Ne cherche pas à détecter le patient, le médecin ou la date (laisse ces champs à null).",
   ]
     .filter((line): line is string => line !== null)
     .join("\n");
@@ -123,7 +135,7 @@ export async function POST(req: NextRequest) {
 
     const parsed = response.parsed_output;
     if (!parsed) {
-      return NextResponse.json({ error: "Réponse IA non structurée" }, { status: 502 });
+      return NextResponse.json({ error: "Réponse non structurée" }, { status: 502 });
     }
 
     return NextResponse.json({
@@ -134,6 +146,8 @@ export async function POST(req: NextRequest) {
         parsed.patientPrenom || parsed.patientNom
           ? { prenom: parsed.patientPrenom, nom: parsed.patientNom }
           : null,
+      medecinNom: parsed.medecinNom,
+      dateOrdonnance: parsed.dateOrdonnance,
       usage: {
         inputTokens: response.usage.input_tokens,
         outputTokens: response.usage.output_tokens,

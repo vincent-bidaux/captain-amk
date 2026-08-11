@@ -20,6 +20,10 @@ interface CreateSessionBody {
   title?: string;
   path?: PathStep[];
   currentNodeId?: string;
+  patientName?: { prenom: string | null; nom: string | null } | null;
+  medecinNom?: string | null;
+  dateOrdonnance?: string | null;
+  prescription?: string | null;
 }
 
 export async function POST(req: NextRequest) {
@@ -43,6 +47,10 @@ export async function POST(req: NextRequest) {
     archived: false,
     path: body.path,
     currentNodeId: body.currentNodeId,
+    ...(body.patientName !== undefined ? { patientName: body.patientName } : {}),
+    ...(body.medecinNom !== undefined ? { medecinNom: body.medecinNom } : {}),
+    ...(body.dateOrdonnance !== undefined ? { dateOrdonnance: body.dateOrdonnance } : {}),
+    ...(body.prescription !== undefined ? { prescription: body.prescription } : {}),
   };
 
   try {

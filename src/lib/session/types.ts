@@ -9,6 +9,15 @@ export interface SavedSession {
   path: PathStep[];
   /** Node id where the session ended: a leaf (result) or a question still pending. */
   currentNodeId: string;
+  /**
+   * Patient name, doctor name, ordonnance date and prescription text — only
+   * present when the practitioner explicitly opted in at save time (checkbox
+   * in SaveSessionBox). Absent by default: see CLAUDE.md § Confidentialité.
+   */
+  patientName?: { prenom: string | null; nom: string | null } | null;
+  medecinNom?: string | null;
+  dateOrdonnance?: string | null;
+  prescription?: string | null;
 }
 
 /** Shape returned by the list endpoint — no need to ship the full path/text for the sidebar. */
@@ -18,4 +27,6 @@ export interface SavedSessionSummary {
   createdAt: string;
   updatedAt: string;
   archived: boolean;
+  /** Formatted "Prénom Nom", only present when opted in at save time. */
+  patientDisplay?: string | null;
 }

@@ -22,6 +22,9 @@ export async function listSessions(): Promise<SavedSessionSummary[]> {
       createdAt: s.createdAt,
       updatedAt: s.updatedAt,
       archived: s.archived,
+      patientDisplay: s.patientName
+        ? [s.patientName.prenom, s.patientName.nom].filter(Boolean).join(" ") || null
+        : null,
     }))
     .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
 }

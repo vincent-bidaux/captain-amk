@@ -13,10 +13,37 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const description =
+  "Aide à la cotation NGAP pour les masseurs-kinésithérapeutes : à partir du texte d'une ordonnance, l'app propose la cotation et montre son raisonnement, corrigeable à chaque étape.";
+
 export const metadata: Metadata = {
+  metadataBase: new URL("https://captain-amk.netlify.app"),
   title: "Captain AMK",
-  description:
-    "Aide à la cotation NGAP pour les masseurs-kinésithérapeutes : à partir du texte d'une ordonnance, l'app propose la cotation et montre son raisonnement, corrigeable à chaque étape.",
+  description,
+  icons: {
+    icon: "/captain-amk-favicon.png",
+    apple: "/captain-amk-app-icon.png",
+  },
+  openGraph: {
+    title: "Captain AMK",
+    description,
+    siteName: "Captain AMK",
+    locale: "fr_FR",
+    type: "website",
+    images: [
+      {
+        url: "/captain-amk-open-graph.png",
+        width: 2848,
+        height: 1504,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Captain AMK",
+    description,
+    images: ["/captain-amk-open-graph.png"],
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

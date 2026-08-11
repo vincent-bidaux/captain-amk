@@ -49,24 +49,32 @@ Modèle IA à utiliser : **`claude-opus-5`** (Opus 5 — vérifié via le skill 
   conversion € inventerait un taux de change à maintenir sans raison. Transparence sur le coût
   réel, pas une estimation vague.
 
-## Confidentialité — donnée sensible, lire avant de toucher au stockage
+## Confidentialité — historique de la décision, lire avant de toucher au stockage
 
-Directive du user, formulée de façon apparemment contradictoire : « Aucune donnée personnelle
-n'est autorisée, ou capturée, mais on essaye de choper le nom et prénom quand même. »
+**Ordre chronologique important, pour ne pas revenir en arrière par erreur :**
 
-**Interprétation retenue et implémentée** : le nom/prénom du patient est extrait par l'IA et
-affiché de façon **éphémère, côté client uniquement** (état React, jamais envoyé à une route de
-sauvegarde) — utile pour pré-remplir le texte à envoyer au médecin. Une session sauvegardée
-(`POST /api/sessions`) ne contient **que** `title`, `path` (questions/réponses/justifications IA)
-et `currentNodeId`. **Ni le texte de l'ordonnance, ni le nom du patient ne sont jamais envoyés au
-serveur pour être stockés** — c'est plus strict que ce qui avait été envisagé au départ (stocker
-le texte redigé n'était pas fiable : une redaction "best effort" du nom ne garantit rien sur les
-autres identifiants — date de naissance, adresse... — pouvant apparaître dans le texte).
+1. (2026-08-11, matin) Directive initiale, formulée de façon apparemment contradictoire :
+   « Aucune donnée personnelle n'est autorisée, ou capturée, mais on essaye de choper le nom et
+   prénom quand même. » → interprétée comme : extraction éphémère côté client uniquement, jamais
+   rien envoyé au serveur pour être stocké.
+2. (2026-08-11, après-midi) **Revirement explicite de l'utilisateur** : « oublie ce que j'avais
+   dit sur le nom du patient, d'une manière générale, il faut le nom du patient. » Le nom du
+   patient est désormais une donnée voulue, affichée en évidence (cartouche d'en-tête du
+   résultat : date d'ordonnance, médecin, patient, prescription).
 
-**Pourquoi c'est important** : c'est une donnée de santé, hébergée sur Netlify (pas
-d'hébergement de données de santé certifié HDS), dans un repo **public**. Ne pas réintroduire de
-persistance de texte brut ou d'identifiant patient sans en reparler explicitement avec
-l'utilisateur.
+**Implémentation actuelle (fait foi)** : l'extraction (nom/prénom patient, nom du médecin, date
+de l'ordonnance) se fait dès le premier appel `/api/decide` (`extractHeader: true`) et alimente un
+bandeau d'en-tête affiché en haut du cartouche de résultat, en direct pendant la session. La
+**persistance reste opt-in** : à l'enregistrement d'une session (`SaveSessionBox`), une case à
+cocher « Enregistrer aussi le nom du patient et la prescription » contrôle si `patientName`,
+`medecinNom`, `dateOrdonnance` et `prescription` (le texte brut de l'ordonnance) sont envoyés à
+`POST /api/sessions` et stockés. Non cochée par défaut. Si cochée, la barre latérale affiche le
+nom du patient sous le titre de la session.
+
+**Pourquoi l'opt-in reste utile** malgré le revirement : c'est une donnée de santé, hébergée sur
+Netlify (pas d'hébergement HDS certifié), dans un repo **public** — la case à cocher laisse le
+praticien décider au cas par cas s'il veut cette traçabilité nominative pour telle session, sans
+que ce soit automatique/invisible.
 
 ## Stack technique
 
@@ -100,12 +108,17 @@ Tous les groupes fonctionnels (1 à 7) terminés et validés en production :
 - Pilotage automatique par Opus 5 depuis le texte, arrêt propre + question au médecin quand le
   texte ne tranche pas (testé : genou/LCA entièrement auto → RIC 8.08 ; épaule ambiguë → arrêt
   correct)
-- Upload photo/PDF → transcription → pipeline complet automatique (testé : PDF entorse cheville
-  → RIM 8.10, bout en bout, nom patient détecté puis non conservé)
-- Sessions sauvegardées (cheminement seul, jamais texte/nom), liste/archivage/suppression
-- Coût IA réel affiché en $ à chaque session
+- Upload photo/PDF (drag&drop ou sélection) → transcription → pipeline complet automatique
+- Sessions sauvegardées, nom du patient + prescription en opt-in (case à cocher), liste/archivage/
+  suppression, patient affiché sous le titre dans la barre latérale quand enregistré
+- Coût réel affiché en $ à chaque session (pas de mention "IA" dans l'UI — voix à la première
+  personne, « je », pour les messages de statut/arrêt)
+- Cartouche de résultat avec en-tête (date ordonnance, médecin, patient, prescription) +
+  bouton « copier les résultats »
+- Fil d'Ariane : connecteurs visuels entre étapes, clic sur une étape passée = « Modifier le
+  choix » et **rejoue cette étape** (pas la suivante)
 
-Groupe 8 (polish) en cours : nettoyage code mort, relecture responsive/copie finale.
+Polish continu au fil des retours utilisateur (2026-08-11, après-midi) : voir git log pour le détail.
 
 - `docs/SPEC-NGAP.md` — spécification réglementaire complète, à lire en premier
 - `data/actes-ngap.json` — catalogue des 94 actes du titre XIV (lettre-clé, coefficient, référentiel, éligibilité IFS)

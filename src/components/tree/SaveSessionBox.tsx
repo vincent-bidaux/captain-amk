@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { notifySessionsChanged } from "@/lib/session/events";
 import type { PathStep } from "@/lib/ngap/types";
 
 export default function SaveSessionBox({
@@ -39,6 +40,7 @@ export default function SaveSessionBox({
         return;
       }
       setSaved(true);
+      notifySessionsChanged();
       router.push(`/sessions/${data.id}`);
     } catch {
       setError("Impossible de contacter le serveur.");

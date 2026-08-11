@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
+import { SESSIONS_CHANGED_EVENT, notifySessionsChanged } from "@/lib/session/events";
 import type { SavedSessionSummary } from "@/lib/session/types";
 
 export default function SessionsSidebar({ onNavigate }: { onNavigate?: () => void }) {
@@ -29,6 +30,12 @@ export default function SessionsSidebar({ onNavigate }: { onNavigate?: () => voi
     // Re-fetch whenever we navigate — catches sessions saved/renamed elsewhere.
   }, [pathname, refresh]);
 
+  useEffect(() => {
+    // Also re-fetch on same-page mutations (e.g. archiving from the detail page).
+    window.addEventListener(SESSIONS_CHANGED_EVENT, refresh);
+    return () => window.removeEventListener(SESSIONS_CHANGED_EVENT, refresh);
+  }, [refresh]);
+
   async function handleArchive(e: React.MouseEvent, id: string, archived: boolean) {
     e.preventDefault();
     e.stopPropagation();
@@ -37,6 +44,7 @@ export default function SessionsSidebar({ onNavigate }: { onNavigate?: () => voi
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ archived: !archived }),
     });
+    notifySessionsChanged();
     void refresh();
   }
 
@@ -45,6 +53,7 @@ export default function SessionsSidebar({ onNavigate }: { onNavigate?: () => voi
     e.stopPropagation();
     if (!window.confirm("Supprimer définitivement cette session ?")) return;
     await fetch(`/api/sessions/${id}`, { method: "DELETE" });
+    notifySessionsChanged();
     if (pathname === `/sessions/${id}`) router.push("/");
     void refresh();
   }

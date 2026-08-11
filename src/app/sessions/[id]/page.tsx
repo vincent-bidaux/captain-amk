@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { use, useEffect, useState } from "react";
 import BreadcrumbStep from "@/components/tree/BreadcrumbStep";
 import ResultCard from "@/components/tree/ResultCard";
+import { notifySessionsChanged } from "@/lib/session/events";
 import { getActeForNode, getNode } from "@/lib/ngap/tree";
 import { isFeuille } from "@/lib/ngap/types";
 import type { SavedSession } from "@/lib/session/types";
@@ -40,11 +41,13 @@ export default function SessionDetailPage({
       body: JSON.stringify({ archived: !session.archived }),
     });
     setSession({ ...session, archived: !session.archived });
+    notifySessionsChanged();
   }
 
   async function handleDelete() {
     if (!window.confirm("Supprimer définitivement cette session ?")) return;
     await fetch(`/api/sessions/${id}`, { method: "DELETE" });
+    notifySessionsChanged();
     router.push("/");
   }
 

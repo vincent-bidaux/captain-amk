@@ -1,3 +1,5 @@
+<img width="1024" height="1024" alt="captain-amk-logo" src="https://github.com/user-attachments/assets/f5f8a137-67b1-4f97-ba94-57fcb8371888" />
+
 # Captain AMK
 
 Aide à la cotation NGAP pour les masseurs-kinésithérapeutes libéraux.

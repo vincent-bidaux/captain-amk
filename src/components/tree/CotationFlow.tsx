@@ -193,6 +193,12 @@ export default function CotationFlow() {
         <OrdonnanceEntry
           onAnalyze={handleAnalyze}
           onSkip={handleSkipManual}
+          onTranscribeUsage={(usage) =>
+            setTotalUsage((prev) => ({
+              inputTokens: prev.inputTokens + usage.inputTokens,
+              outputTokens: prev.outputTokens + usage.outputTokens,
+            }))
+          }
           disabled={isAiThinking}
         />
       ) : isAiThinking ? (

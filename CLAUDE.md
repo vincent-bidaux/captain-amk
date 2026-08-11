@@ -43,6 +43,9 @@ Modèle IA à utiliser : **`claude-opus-5`** (Opus 5 — vérifié via le skill 
 - **Upload** : photo ou PDF de l'ordonnance possible ; la transcription détectée s'affiche en haut
   du fil d'Ariane avant le début du parcours de l'arbre.
 - **Responsive** obligatoire. Favicon + app-icon de base à prévoir.
+- **Coût IA affiché** : pour chaque cotation produite, afficher en haut du résultat le coût réel
+  des appels Opus 5 ayant servi à l'obtenir (somme input/output/cache tokens × tarif, en euros).
+  Transparence pour l'utilisateur, pas juste un total interne.
 
 ## Confidentialité — donnée sensible, lire avant de toucher au stockage
 

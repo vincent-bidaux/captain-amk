@@ -4,17 +4,14 @@ import type { PathStep } from "@/lib/ngap/types";
 export default function BreadcrumbStep({
   step,
   onRewind,
+  readOnly = false,
 }: {
   step: PathStep;
-  onRewind: () => void;
+  onRewind?: () => void;
+  readOnly?: boolean;
 }) {
-  return (
-    <button
-      type="button"
-      onClick={onRewind}
-      className="group flex w-full items-start gap-3 rounded-lg border border-transparent px-2 py-2 text-left transition-colors hover:border-border hover:bg-surface"
-      title="Reprendre l'arbre à partir de cette étape"
-    >
+  const content = (
+    <>
       <IconPlaceholder description={step.chosenLabel} />
       <div className="min-w-0 flex-1">
         <p className="flex items-center gap-1.5 text-xs font-medium uppercase tracking-wide text-muted">
@@ -30,6 +27,25 @@ export default function BreadcrumbStep({
           <p className="mt-0.5 text-xs text-muted">{step.chosenAide}</p>
         )}
       </div>
+    </>
+  );
+
+  if (readOnly) {
+    return (
+      <div className="flex w-full items-start gap-3 rounded-lg px-2 py-2">
+        {content}
+      </div>
+    );
+  }
+
+  return (
+    <button
+      type="button"
+      onClick={onRewind}
+      className="group flex w-full items-start gap-3 rounded-lg border border-transparent px-2 py-2 text-left transition-colors hover:border-border hover:bg-surface"
+      title="Reprendre l'arbre à partir de cette étape"
+    >
+      {content}
       <span className="mt-1 shrink-0 text-xs text-muted opacity-0 transition-opacity group-hover:opacity-100">
         reprendre ici →
       </span>

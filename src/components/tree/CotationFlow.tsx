@@ -201,7 +201,12 @@ export default function CotationFlow() {
           L&apos;IA analyse l&apos;ordonnance…
         </div>
       ) : nodeIsLeaf ? (
-        <ResultCard acte={getActeForNode(currentNodeId)} onReset={handleReset} />
+        <ResultCard
+          acte={getActeForNode(currentNodeId)}
+          path={path}
+          currentNodeId={currentNodeId}
+          onReset={handleReset}
+        />
       ) : (
         <QuestionCard
           node={currentNode}

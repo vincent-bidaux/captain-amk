@@ -4,7 +4,8 @@ import {
   lettreCleDescription,
   tarifActe,
 } from "@/lib/ngap/tree";
-import type { Acte } from "@/lib/ngap/types";
+import SaveSessionBox from "./SaveSessionBox";
+import type { Acte, PathStep } from "@/lib/ngap/types";
 
 function InfoBlock({ title, items }: { title: string; items: string[] }) {
   if (items.length === 0) return null;
@@ -24,10 +25,16 @@ function InfoBlock({ title, items }: { title: string; items: string[] }) {
 
 export default function ResultCard({
   acte,
+  path,
+  currentNodeId,
   onReset,
+  readOnly = false,
 }: {
   acte: Acte;
-  onReset: () => void;
+  path: PathStep[];
+  currentNodeId: string;
+  onReset?: () => void;
+  readOnly?: boolean;
 }) {
   const tarif = tarifActe(acte);
   const ifsEligible = acte.ifs?.eligible === true || acte.ifs?.eligible === "conditionnel";
@@ -97,13 +104,23 @@ export default function ResultCard({
         vérifier avant facturation.
       </p>
 
-      <button
-        type="button"
-        onClick={onReset}
-        className="mt-4 rounded-lg bg-accent px-4 py-2 text-sm font-medium text-accent-foreground transition-opacity hover:opacity-90"
-      >
-        Nouvelle cotation
-      </button>
+      {!readOnly && onReset && (
+        <button
+          type="button"
+          onClick={onReset}
+          className="mt-4 rounded-lg bg-accent px-4 py-2 text-sm font-medium text-accent-foreground transition-opacity hover:opacity-90"
+        >
+          Nouvelle cotation
+        </button>
+      )}
+
+      {!readOnly && (
+        <SaveSessionBox
+          defaultTitle={`${acte.lettreCle} ${acte.coefficient} — ${new Date().toLocaleDateString("fr-FR")}`}
+          path={path}
+          currentNodeId={currentNodeId}
+        />
+      )}
     </div>
   );
 }

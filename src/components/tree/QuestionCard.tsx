@@ -7,14 +7,23 @@ import type { ArbreOption, QuestionNoeud } from "@/lib/ngap/types";
 export default function QuestionCard({
   node,
   onChoose,
+  aiStoppedReason,
+  patientName,
 }: {
   node: QuestionNoeud;
   onChoose: (option: ArbreOption) => void;
+  aiStoppedReason?: string | null;
+  patientName?: { prenom: string | null; nom: string | null } | null;
 }) {
   const [dontKnow, setDontKnow] = useState(false);
 
   return (
     <div className="rounded-xl border border-border bg-surface p-5">
+      {aiStoppedReason && (
+        <p className="mb-3 rounded-md border border-gold/40 bg-gold/10 px-3 py-2 text-sm text-foreground">
+          L&apos;IA s&apos;arrête ici : {aiStoppedReason}
+        </p>
+      )}
       <p className="text-lg font-semibold">{node.question}</p>
       {node.aide && <p className="mt-1 text-sm text-muted">{node.aide}</p>}
 
@@ -48,6 +57,7 @@ export default function QuestionCard({
         <AskDoctorBox
           question={node.question}
           optionLabels={node.options.map((o) => o.label)}
+          patientName={patientName}
           onClose={() => setDontKnow(false)}
         />
       )}

@@ -17,8 +17,13 @@ export default function BreadcrumbStep({
     >
       <IconPlaceholder description={step.chosenLabel} />
       <div className="min-w-0 flex-1">
-        <p className="text-xs font-medium uppercase tracking-wide text-muted">
+        <p className="flex items-center gap-1.5 text-xs font-medium uppercase tracking-wide text-muted">
           {step.question}
+          {step.source === "ia" && (
+            <span className="rounded-sm bg-accent/20 px-1 py-0.5 text-[9px] font-semibold normal-case tracking-normal text-accent">
+              IA
+            </span>
+          )}
         </p>
         <p className="text-sm font-medium text-foreground">{step.chosenLabel}</p>
         {step.chosenAide && (

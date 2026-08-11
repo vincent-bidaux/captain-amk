@@ -5,18 +5,24 @@ import { useState } from "react";
 export default function AskDoctorBox({
   question,
   optionLabels,
+  patientName,
   onClose,
 }: {
   question: string;
   optionLabels: string[];
+  patientName?: { prenom: string | null; nom: string | null } | null;
   onClose: () => void;
 }) {
   const [copied, setCopied] = useState(false);
 
+  const patientMention = patientName
+    ? ` concernant ${[patientName.prenom, patientName.nom].filter(Boolean).join(" ")}`
+    : "";
+
   const message = [
     "Bonjour Docteur,",
     "",
-    `Pour coter précisément la séance de kinésithérapie prescrite, pourriez-vous préciser : ${question.replace(/\s*\?\s*$/, "")} ?`,
+    `Pour coter précisément la séance de kinésithérapie prescrite${patientMention}, pourriez-vous préciser : ${question.replace(/\s*\?\s*$/, "")} ?`,
     optionLabels.length > 0
       ? `Éléments de réponse possibles : ${optionLabels.join(", ")}.`
       : null,

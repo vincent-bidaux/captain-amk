@@ -94,4 +94,18 @@ export interface PathStep {
   chosenLabel: string;
   chosenAide?: string;
   nextNodeId: string;
+  /** Whether this step was decided by the AI from the ordonnance text, or answered manually. */
+  source: "ia" | "manuel";
+}
+
+/** Result of asking the AI to decide a single tree question from the ordonnance text. */
+export interface DecideResult {
+  answered: boolean;
+  optionIndex: number;
+  justification: string;
+  patientName?: { prenom: string | null; nom: string | null };
+  usage: {
+    inputTokens: number;
+    outputTokens: number;
+  };
 }

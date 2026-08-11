@@ -76,12 +76,12 @@ export default function SessionsSidebar({ onNavigate }: { onNavigate?: () => voi
       <Link
         href="/"
         onClick={onNavigate}
-        className="flex flex-col gap-2 border-b border-border px-4 py-5 transition-colors hover:bg-background"
+        className="flex flex-col items-center gap-2 border-b border-border px-4 py-5 text-center transition-colors hover:bg-background"
       >
         {/* Le logo n'apparaît ici qu'une fois le travail démarré : sur l'accueil replié,
             il est déjà affiché en grand au centre — jamais les deux à la fois. */}
         {expanded && (
-          <div className="w-[calc(100%/1.75)]">
+          <div className="mx-auto w-[calc(100%/1.75)]">
             <Logo size="full" className="rounded-md" />
           </div>
         )}

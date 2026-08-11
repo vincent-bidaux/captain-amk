@@ -73,10 +73,19 @@ export default function OrdonnanceEntry({
       }}
       onDragLeave={() => setDragging(false)}
       onDrop={handleDrop}
-      className={`rounded-xl border p-5 transition-colors ${
+      className={`relative rounded-xl border p-5 transition-colors ${
         dragging ? "border-accent bg-accent/10" : "border-border bg-surface"
       }`}
     >
+      {uploading && (
+        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-3 rounded-xl bg-surface/95 backdrop-blur-sm">
+          <span className="h-2.5 w-2.5 animate-pulse rounded-full bg-accent" />
+          <p className="text-sm font-medium text-foreground">
+            Je transcris l&apos;ordonnance…
+          </p>
+        </div>
+      )}
+
       <p className="text-lg font-semibold">Texte de l&apos;ordonnance</p>
       <p className="mt-1 text-sm text-muted">
         Collez le texte de la prescription, ou importez / glissez-déposez une

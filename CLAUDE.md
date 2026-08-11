@@ -1,28 +1,84 @@
-# cotation-kine
+# Captain AMK
 
-App d'aide à la cotation NGAP pour les masseurs-kinésithérapeutes libéraux.
+App d'aide à la cotation NGAP pour les masseurs-kinésithérapeutes libéraux, open source.
+
+- Repo : https://github.com/vincent-bidaux/captain-amk (public)
+- Live : https://captain-amk.netlify.app
 
 ## Objectif
 
 Un kiné reçoit une ordonnance rédigée en langage libre par un médecin. Il doit en déduire la
 cotation NGAP exacte de ses séances (lettre-clé + coefficient), ce qui détermine le tarif et le
 remboursement. L'app fait ce travail à sa place, puis **montre son raisonnement** sous forme de fil
-d'Ariane cliquable pour qu'il puisse corriger n'importe quelle étape.
+d'Ariane vertical, cliquable à n'importe quelle étape pour corriger et repartir en manuel.
 
 Phase 1 : saisie du texte de l'ordonnance.
-Phase 2 : photo / document en entrée, OCR par IA.
+Phase 2 : photo / PDF en entrée, transcription par IA (vision).
 
 ## Principe d'architecture non négociable
 
-Le LLM **n'invente jamais la cotation**. Il extrait des attributs du texte, qui alimentent un
-**arbre de décision déterministe et versionné**. C'est l'arbre qui produit l'acte. Conséquences :
-résultat traçable, corrigeable au clic, testable par jeu de cas.
+Le LLM **n'invente jamais la cotation**. Il suit l'arbre de décision et fait des déductions au
+maximum à partir du texte, mais s'arrête pour poser une question dès que l'ordonnance ne répond
+pas à un embranchement. C'est l'arbre — déterministe et versionné — qui produit l'acte, jamais le
+LLM directement. Conséquences : résultat traçable, corrigeable au clic, testable par jeu de cas.
+
+Modèle IA à utiliser : **`claude-opus-5`** (Opus 5 — vérifié via le skill claude-api le
+2026-08-11 ; ne pas utiliser Opus 4.8, qui est un modèle plus ancien).
+
+## UI — décisions produit fixées avec l'utilisateur (2026-08-11)
+
+- **Fil d'Ariane vertical** : chaque étape affiche son nom, la décision prise, et une explication
+  textuelle plus petite en dessous. Il continue de se dérouler au fur et à mesure.
+- **Icônes** : prévoir la place pour une icône par étape, mais pour l'instant afficher un carré
+  avec le texte « icone de [description] » en petit — les vraies icônes viendront plus tard.
+- **Questions à l'utilisateur** : présentées comme Claude Code — gros boutons cliquables pour
+  chaque réponse possible, toujours avec une option « Je ne sais pas répondre ». Si cliquée, l'app
+  propose d'écrire au médecin : elle génère un texte dans une box avec une icône « copier ».
+- **Historique** : une fois une question répondue, la question + la réponse restent visibles dans
+  le fil d'Ariane (jamais remplacées ni masquées).
+- **Fil d'Ariane éditable** : cliquer sur n'importe quel maillon passé permet de reprendre l'arbre
+  à la main à partir de ce point-là.
+- **Sessions** : sauvegardées, listées dans une barre latérale gauche, avec suppression et
+  archivage possibles depuis la liste.
+- **Upload** : photo ou PDF de l'ordonnance possible ; la transcription détectée s'affiche en haut
+  du fil d'Ariane avant le début du parcours de l'arbre.
+- **Responsive** obligatoire. Favicon + app-icon de base à prévoir.
+
+## Confidentialité — donnée sensible, lire avant de toucher au stockage
+
+Directive du user, formulée de façon apparemment contradictoire : « Aucune donnée personnelle
+n'est autorisée, ou capturée, mais on essaye de choper le nom et prénom quand même. »
+
+**Interprétation retenue (assumption à valider avec l'utilisateur si contestée)** : le nom/prénom
+du patient peut être extrait et affiché de façon éphémère (ex. pré-remplir le texte à envoyer au
+médecin), mais **n'est jamais persisté** dans une session sauvegardée. Les sessions stockées ne
+contiennent que le cheminement clinique (chemin dans l'arbre, texte de l'ordonnance transcrit) —
+pas de nom, prénom, ni autre identifiant patient.
+
+**Pourquoi c'est important** : c'est une donnée de santé, hébergée sur Netlify (pas
+d'hébergement de données de santé certifié HDS), dans un repo **public**. Ne pas construire un
+système qui persiste des identifiants patient sans en reparler explicitement avec l'utilisateur.
+
+## Stack technique
+
+- Next.js (App Router) + TypeScript + Tailwind CSS, déployé sur Netlify (Next.js Runtime auto).
+- IA : `@anthropic-ai/sdk`, modèle `claude-opus-5`.
+- Stockage sessions : à définir au Groupe 6 (Netlify Blobs pressenti — zéro provisioning DB, list
+  natif, correspond au besoin barre latérale + suppression/archivage). Pas de PII dans le schéma.
+
+## Workflow de travail avec l'utilisateur (2026-08-11)
+
+- On ne travaille jamais en local uniquement : chaque groupe de tâches se termine par une
+  publication (push GitHub + déploiement Netlify vérifié en ligne), puis un message à
+  l'utilisateur, puis on enchaîne sur le groupe suivant sans attendre de confirmation.
+- Commit après chaque étape terminée (voir mémoire globale `git-deploy-workflow-habits`).
+- Toujours donner l'URL Netlify après un déploiement qui la déclenche.
 
 ## État actuel
 
-Phase de spécification. Rien de codé.
+Groupe 1 (infra) en cours. Voir la liste des groupes dans les tâches de session.
 
-- `docs/SPEC-NGAP.md` — la spécification réglementaire complète, à lire en premier
+- `docs/SPEC-NGAP.md` — spécification réglementaire complète, à lire en premier
 - `data/actes-ngap.json` — catalogue des 94 actes du titre XIV (lettre-clé, coefficient, référentiel, éligibilité IFS)
 - `data/arbre-decision.json` — 138 nœuds, 90 feuilles ; graphe questions → acte
 - `data/sources/NGAP-21062026.pdf` — source normative officielle, + son extraction texte du titre XIV

@@ -79,7 +79,14 @@ système qui persiste des identifiants patient sans en reparler explicitement av
 
 ## État actuel
 
-Groupe 1 (infra) en cours. Voir la liste des groupes dans les tâches de session.
+Groupes 1 à 5 terminés et en production. L'app pilote automatiquement l'arbre depuis le
+texte d'une ordonnance (Opus 5, route `/api/decide`), s'arrête proprement pour poser une
+question quand le texte ne tranche pas, et affiche le coût IA réel. Validé en prod sur deux cas :
+cotation complète automatique (genou/LCA → RIC 8.08) et arrêt correct par manque d'info
+(épaule sans diagnostic précisé → bascule manuelle + texte pour le médecin).
+
+Reste à faire : persistance des sessions (Groupe 6), upload photo/PDF + OCR (Groupe 7),
+polish (Groupe 8). Voir la liste des groupes dans les tâches de session.
 
 - `docs/SPEC-NGAP.md` — spécification réglementaire complète, à lire en premier
 - `data/actes-ngap.json` — catalogue des 94 actes du titre XIV (lettre-clé, coefficient, référentiel, éligibilité IFS)

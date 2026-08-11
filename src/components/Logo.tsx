@@ -3,12 +3,12 @@ import Image from "next/image";
 const SIZES = {
   // Home hero — 2x the original placement size.
   large: "h-[320px] w-[320px] sm:h-[448px] sm:w-[448px]",
-  // Sidebar header, next to the title — small enough to sit inline with text.
-  tiny: "h-10 w-10",
+  // Sidebar header — fills the column width (parent controls padding), height follows.
+  full: "h-auto w-full",
 } as const;
 
 export default function Logo({
-  size = "tiny",
+  size = "full",
   className = "",
 }: {
   size?: keyof typeof SIZES;

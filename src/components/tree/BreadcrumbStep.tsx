@@ -4,15 +4,15 @@ import type { PathStep } from "@/lib/ngap/types";
 function Connector() {
   return (
     <div
-      className="flex w-[100px] shrink-0 justify-center py-1 pl-2"
+      className="flex w-[108px] shrink-0 justify-center py-1 pl-2"
       aria-hidden="true"
     >
-      <svg width="14" height="20" viewBox="0 0 14 20" fill="none" className="text-border">
-        <line x1="7" y1="0" x2="7" y2="13" stroke="currentColor" strokeWidth="1.5" />
+      <svg width="14" height="20" viewBox="0 0 14 20" fill="none" className="text-gold">
+        <line x1="7" y1="0" x2="7" y2="13" stroke="currentColor" strokeWidth="2" />
         <path
           d="M2 12L7 19L12 12"
           stroke="currentColor"
-          strokeWidth="1.5"
+          strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
         />

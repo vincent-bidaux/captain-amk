@@ -72,10 +72,10 @@ export default function SessionsSidebar({ onNavigate }: { onNavigate?: () => voi
       <Link
         href="/"
         onClick={onNavigate}
-        className="flex items-center gap-3 border-b border-border px-4 py-5 transition-colors hover:bg-background"
+        className="flex flex-col gap-2 border-b border-border px-4 py-5 transition-colors hover:bg-background"
       >
-        <Logo size="tiny" className="shrink-0 rounded-md" />
-        <div className="min-w-0">
+        <Logo size="full" className="rounded-md" />
+        <div>
           <p className="text-lg font-semibold tracking-tight">Captain AMK</p>
           <p className="text-xs text-muted">{DESCRIPTION}</p>
         </div>

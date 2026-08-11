@@ -20,6 +20,7 @@ interface CreateSessionBody {
   title?: string;
   path?: PathStep[];
   currentNodeId?: string;
+  usage?: { inputTokens: number; outputTokens: number };
   patientName?: { prenom: string | null; nom: string | null } | null;
   medecinNom?: string | null;
   medecinTelephone?: string | null;
@@ -48,6 +49,7 @@ export async function POST(req: NextRequest) {
     archived: false,
     path: body.path,
     currentNodeId: body.currentNodeId,
+    ...(body.usage !== undefined ? { usage: body.usage } : {}),
     ...(body.patientName !== undefined ? { patientName: body.patientName } : {}),
     ...(body.medecinNom !== undefined ? { medecinNom: body.medecinNom } : {}),
     ...(body.medecinTelephone !== undefined

@@ -7,6 +7,7 @@ import OrdonnanceEntry from "./OrdonnanceEntry";
 import OrdonnanceHeaderCard from "./OrdonnanceHeaderCard";
 import QuestionCard from "./QuestionCard";
 import ResultCard from "./ResultCard";
+import SectionLabel from "./SectionLabel";
 import { costUsd } from "@/lib/ngap/pricing";
 import { arbre, getActeForNode, getNode } from "@/lib/ngap/tree";
 import { isFeuille } from "@/lib/ngap/types";
@@ -187,6 +188,7 @@ export default function CotationFlow() {
 
       {path.length > 0 && (
         <div className="mb-4 flex flex-col gap-0 border-b border-border pb-2">
+          <SectionLabel>🧭 Cheminement</SectionLabel>
           {path.map((step, i) => (
             <BreadcrumbStep
               key={`${step.nodeId}-${i}`}
@@ -228,6 +230,7 @@ export default function CotationFlow() {
           currentNodeId={currentNodeId}
           onReset={handleReset}
           showHeader={false}
+          usage={totalUsage}
           ordonnanceHeader={ordonnanceHeader}
         />
       ) : (

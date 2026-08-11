@@ -1,3 +1,4 @@
+import SectionLabel from "./SectionLabel";
 import type { OrdonnanceHeaderData } from "@/lib/ngap/types";
 
 export default function OrdonnanceHeaderCard({ header }: { header: OrdonnanceHeaderData }) {
@@ -12,9 +13,7 @@ export default function OrdonnanceHeaderCard({ header }: { header: OrdonnanceHea
 
   return (
     <div className="mb-4 rounded-xl border border-border bg-surface p-4">
-      <p className="text-xs font-semibold uppercase tracking-wide text-accent">
-        📄 Dossier
-      </p>
+      <SectionLabel>📄 Dossier</SectionLabel>
       <div className="mt-2 grid gap-x-6 gap-y-2 sm:grid-cols-2">
         {header.dateOrdonnance && (
           <div>

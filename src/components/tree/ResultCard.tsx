@@ -34,6 +34,7 @@ export default function ResultCard({
   onReset,
   readOnly = false,
   showHeader = true,
+  usage,
   ordonnanceHeader,
 }: {
   acte: Acte;
@@ -43,6 +44,7 @@ export default function ResultCard({
   readOnly?: boolean;
   /** Set to false when the ordonnance header is already shown elsewhere on the page. */
   showHeader?: boolean;
+  usage?: { inputTokens: number; outputTokens: number };
   ordonnanceHeader?: OrdonnanceHeaderData;
 }) {
   const [resultsCopied, setResultsCopied] = useState(false);
@@ -164,6 +166,7 @@ export default function ResultCard({
           defaultTitle={`${acte.lettreCle} ${acte.coefficient} — ${new Date().toLocaleDateString("fr-FR")}`}
           path={path}
           currentNodeId={currentNodeId}
+          usage={usage}
           ordonnanceHeader={ordonnanceHeader}
         />
       )}

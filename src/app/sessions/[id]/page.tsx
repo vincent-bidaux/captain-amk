@@ -2,11 +2,15 @@
 
 import { useRouter } from "next/navigation";
 import { use, useEffect, useState } from "react";
+import AiCostBanner from "@/components/tree/AiCostBanner";
 import BreadcrumbStep from "@/components/tree/BreadcrumbStep";
+import OrdonnanceHeaderCard from "@/components/tree/OrdonnanceHeaderCard";
 import ResultCard from "@/components/tree/ResultCard";
+import SectionLabel from "@/components/tree/SectionLabel";
 import { notifySessionsChanged } from "@/lib/session/events";
 import { getActeForNode, getNode } from "@/lib/ngap/tree";
 import { isFeuille } from "@/lib/ngap/types";
+import { costUsd } from "@/lib/ngap/pricing";
 import type { SavedSession } from "@/lib/session/types";
 
 export default function SessionDetailPage({
@@ -69,12 +73,25 @@ export default function SessionDetailPage({
 
   const node = getNode(session.currentNodeId);
   const leaf = isFeuille(node);
+  const patientDisplay = session.patientName
+    ? [session.patientName.prenom, session.patientName.nom].filter(Boolean).join(" ")
+    : null;
+  const ordonnanceHeader = {
+    patientName: session.patientName ?? null,
+    medecinNom: session.medecinNom ?? null,
+    medecinTelephone: session.medecinTelephone ?? null,
+    dateOrdonnance: session.dateOrdonnance ?? null,
+    prescription: session.prescription ?? null,
+  };
 
   return (
     <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col px-4 py-8">
       <div className="mb-4 flex items-center justify-between gap-3">
         <div className="min-w-0">
           <p className="truncate text-lg font-semibold">{session.title}</p>
+          {patientDisplay && (
+            <p className="truncate text-sm text-muted">{patientDisplay}</p>
+          )}
           <p className="text-xs text-muted">
             {new Date(session.createdAt).toLocaleString("fr-FR")}
             {session.archived && " · archivée"}
@@ -98,8 +115,13 @@ export default function SessionDetailPage({
         </div>
       </div>
 
+      <AiCostBanner costUsd={costUsd(session.usage ?? { inputTokens: 0, outputTokens: 0 })} />
+
+      <OrdonnanceHeaderCard header={ordonnanceHeader} />
+
       {session.path.length > 0 && (
         <div className="mb-4 flex flex-col gap-0 border-b border-border pb-2">
+          <SectionLabel>🧭 Cheminement</SectionLabel>
           {session.path.map((step, i) => (
             <BreadcrumbStep
               key={`${step.nodeId}-${i}`}
@@ -117,13 +139,7 @@ export default function SessionDetailPage({
           path={session.path}
           currentNodeId={session.currentNodeId}
           readOnly
-          ordonnanceHeader={{
-            patientName: session.patientName ?? null,
-            medecinNom: session.medecinNom ?? null,
-            medecinTelephone: session.medecinTelephone ?? null,
-            dateOrdonnance: session.dateOrdonnance ?? null,
-            prescription: session.prescription ?? null,
-          }}
+          showHeader={false}
         />
       ) : (
         <div className="rounded-xl border border-dashed border-border bg-surface p-5">

@@ -13,7 +13,7 @@ function AppShellInner({ children }: { children: ReactNode }) {
     <div className="flex min-h-full flex-1">
       {/* Desktop docked sidebar — seulement une fois le travail démarré */}
       {expanded && (
-        <aside className="hidden w-72 shrink-0 border-r border-border bg-surface md:block">
+        <aside className="hidden w-72 shrink-0 border-r border-border bg-surface md:sticky md:top-0 md:block md:h-screen">
           <SessionsSidebar />
         </aside>
       )}

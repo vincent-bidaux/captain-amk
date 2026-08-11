@@ -9,11 +9,13 @@ export default function SaveSessionBox({
   defaultTitle,
   path,
   currentNodeId,
+  usage,
   ordonnanceHeader,
 }: {
   defaultTitle: string;
   path: PathStep[];
   currentNodeId: string;
+  usage?: { inputTokens: number; outputTokens: number };
   ordonnanceHeader?: OrdonnanceHeaderData;
 }) {
   const router = useRouter();
@@ -34,6 +36,7 @@ export default function SaveSessionBox({
           title: title.trim() || defaultTitle,
           path,
           currentNodeId,
+          ...(usage ? { usage } : {}),
           ...(includePatientData && ordonnanceHeader
             ? {
                 patientName: ordonnanceHeader.patientName,

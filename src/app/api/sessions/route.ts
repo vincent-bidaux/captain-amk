@@ -20,7 +20,6 @@ interface CreateSessionBody {
   title?: string;
   path?: PathStep[];
   currentNodeId?: string;
-  ordonnanceTextRedacted?: string | null;
 }
 
 export async function POST(req: NextRequest) {
@@ -44,7 +43,6 @@ export async function POST(req: NextRequest) {
     archived: false,
     path: body.path,
     currentNodeId: body.currentNodeId,
-    ordonnanceTextRedacted: body.ordonnanceTextRedacted ?? null,
   };
 
   try {

@@ -12,8 +12,8 @@ cotation NGAP exacte de ses séances (lettre-clé + coefficient), ce qui déterm
 remboursement. L'app fait ce travail à sa place, puis **montre son raisonnement** sous forme de fil
 d'Ariane vertical, cliquable à n'importe quelle étape pour corriger et repartir en manuel.
 
-Phase 1 : saisie du texte de l'ordonnance.
-Phase 2 : photo / PDF en entrée, transcription par IA (vision).
+Phase 1 : saisie du texte de l'ordonnance. ✅
+Phase 2 : photo / PDF en entrée, transcription par IA (vision). ✅
 
 ## Principe d'architecture non négociable
 
@@ -43,31 +43,46 @@ Modèle IA à utiliser : **`claude-opus-5`** (Opus 5 — vérifié via le skill 
 - **Upload** : photo ou PDF de l'ordonnance possible ; la transcription détectée s'affiche en haut
   du fil d'Ariane avant le début du parcours de l'arbre.
 - **Responsive** obligatoire. Favicon + app-icon de base à prévoir.
-- **Coût IA affiché** : pour chaque cotation produite, afficher en haut du résultat le coût réel
-  des appels Opus 5 ayant servi à l'obtenir (somme input/output/cache tokens × tarif, en euros).
-  Transparence pour l'utilisateur, pas juste un total interne.
+- **Coût IA affiché** : bandeau en haut de chaque session, cumul des tokens input/output de tous
+  les appels Opus 5 de la session (transcription + décisions) × tarif officiel. Affiché **en
+  dollars US ($)**, pas en euros : c'est la devise de facturation réelle d'Anthropic, une
+  conversion € inventerait un taux de change à maintenir sans raison. Transparence sur le coût
+  réel, pas une estimation vague.
 
 ## Confidentialité — donnée sensible, lire avant de toucher au stockage
 
 Directive du user, formulée de façon apparemment contradictoire : « Aucune donnée personnelle
 n'est autorisée, ou capturée, mais on essaye de choper le nom et prénom quand même. »
 
-**Interprétation retenue (assumption à valider avec l'utilisateur si contestée)** : le nom/prénom
-du patient peut être extrait et affiché de façon éphémère (ex. pré-remplir le texte à envoyer au
-médecin), mais **n'est jamais persisté** dans une session sauvegardée. Les sessions stockées ne
-contiennent que le cheminement clinique (chemin dans l'arbre, texte de l'ordonnance transcrit) —
-pas de nom, prénom, ni autre identifiant patient.
+**Interprétation retenue et implémentée** : le nom/prénom du patient est extrait par l'IA et
+affiché de façon **éphémère, côté client uniquement** (état React, jamais envoyé à une route de
+sauvegarde) — utile pour pré-remplir le texte à envoyer au médecin. Une session sauvegardée
+(`POST /api/sessions`) ne contient **que** `title`, `path` (questions/réponses/justifications IA)
+et `currentNodeId`. **Ni le texte de l'ordonnance, ni le nom du patient ne sont jamais envoyés au
+serveur pour être stockés** — c'est plus strict que ce qui avait été envisagé au départ (stocker
+le texte redigé n'était pas fiable : une redaction "best effort" du nom ne garantit rien sur les
+autres identifiants — date de naissance, adresse... — pouvant apparaître dans le texte).
 
 **Pourquoi c'est important** : c'est une donnée de santé, hébergée sur Netlify (pas
-d'hébergement de données de santé certifié HDS), dans un repo **public**. Ne pas construire un
-système qui persiste des identifiants patient sans en reparler explicitement avec l'utilisateur.
+d'hébergement de données de santé certifié HDS), dans un repo **public**. Ne pas réintroduire de
+persistance de texte brut ou d'identifiant patient sans en reparler explicitement avec
+l'utilisateur.
 
 ## Stack technique
 
 - Next.js (App Router) + TypeScript + Tailwind CSS, déployé sur Netlify (Next.js Runtime auto).
-- IA : `@anthropic-ai/sdk`, modèle `claude-opus-5`.
-- Stockage sessions : à définir au Groupe 6 (Netlify Blobs pressenti — zéro provisioning DB, list
-  natif, correspond au besoin barre latérale + suppression/archivage). Pas de PII dans le schéma.
+- IA : `@anthropic-ai/sdk`, modèle `claude-opus-5`, structured outputs via Zod
+  (`zodOutputFormat`) pour toutes les réponses (décision d'arbre, transcription).
+  `thinking: {type: "disabled"}` + `effort: "medium"` sur ces deux routes (classification bornée,
+  pas de raisonnement long — voir l'échange avec l'utilisateur sur Opus vs Sonnet, tranché en
+  faveur d'Opus 5 par prudence sur l'enjeu financier/légal de la cotation).
+- Stockage sessions : **Netlify Blobs** (`@netlify/blobs`, store `captain-amk-sessions`) — zéro
+  provisioning, identifiants injectés automatiquement au runtime Netlify. Aucune PII dans le
+  schéma stocké (voir section Confidentialité).
+- Routes API : `/api/decide` (une décision d'arbre), `/api/transcribe` (vision, image/PDF →
+  texte), `/api/sessions` + `/api/sessions/[id]` (CRUD sessions).
+- Upload : redimensionnement client-side des photos (1600px, JPEG 0.85) avant envoi
+  (`src/lib/image/prepareUpload.ts`) ; PDF envoyé tel quel (max 10 Mo).
 
 ## Workflow de travail avec l'utilisateur (2026-08-11)
 
@@ -79,14 +94,18 @@ système qui persiste des identifiants patient sans en reparler explicitement av
 
 ## État actuel
 
-Groupes 1 à 5 terminés et en production. L'app pilote automatiquement l'arbre depuis le
-texte d'une ordonnance (Opus 5, route `/api/decide`), s'arrête proprement pour poser une
-question quand le texte ne tranche pas, et affiche le coût IA réel. Validé en prod sur deux cas :
-cotation complète automatique (genou/LCA → RIC 8.08) et arrêt correct par manque d'info
-(épaule sans diagnostic précisé → bascule manuelle + texte pour le médecin).
+Tous les groupes fonctionnels (1 à 7) terminés et validés en production :
 
-Reste à faire : persistance des sessions (Groupe 6), upload photo/PDF + OCR (Groupe 7),
-polish (Groupe 8). Voir la liste des groupes dans les tâches de session.
+- Arbre de décision complet (94 actes, 138 nœuds) + fil d'Ariane vertical cliquable/corrigeable
+- Pilotage automatique par Opus 5 depuis le texte, arrêt propre + question au médecin quand le
+  texte ne tranche pas (testé : genou/LCA entièrement auto → RIC 8.08 ; épaule ambiguë → arrêt
+  correct)
+- Upload photo/PDF → transcription → pipeline complet automatique (testé : PDF entorse cheville
+  → RIM 8.10, bout en bout, nom patient détecté puis non conservé)
+- Sessions sauvegardées (cheminement seul, jamais texte/nom), liste/archivage/suppression
+- Coût IA réel affiché en $ à chaque session
+
+Groupe 8 (polish) en cours : nettoyage code mort, relecture responsive/copie finale.
 
 - `docs/SPEC-NGAP.md` — spécification réglementaire complète, à lire en premier
 - `data/actes-ngap.json` — catalogue des 94 actes du titre XIV (lettre-clé, coefficient, référentiel, éligibilité IFS)

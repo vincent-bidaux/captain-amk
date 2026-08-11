@@ -31,7 +31,6 @@ export default function SaveSessionBox({
           title: title.trim() || defaultTitle,
           path,
           currentNodeId,
-          ordonnanceTextRedacted: null,
         }),
       });
       const data = await res.json();

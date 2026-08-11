@@ -26,8 +26,11 @@ export default function SessionsSidebar({ onNavigate }: { onNavigate?: () => voi
   }, []);
 
   useEffect(() => {
-    void refresh();
     // Re-fetch whenever we navigate — catches sessions saved/renamed elsewhere.
+    // setState calls in `refresh` happen after an internal `await`, not
+    // synchronously in this effect body; the lint rule can't see that boundary.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    void refresh();
   }, [pathname, refresh]);
 
   useEffect(() => {

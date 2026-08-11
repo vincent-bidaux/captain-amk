@@ -153,6 +153,7 @@ export async function POST(req: NextRequest) {
           ? { prenom: parsed.patientPrenom, nom: parsed.patientNom }
           : null,
       medecinNom: parsed.medecinNom,
+      medecinTelephone: parsed.medecinTelephone,
       dateOrdonnance: parsed.dateOrdonnance,
       usage: {
         inputTokens: response.usage.input_tokens,

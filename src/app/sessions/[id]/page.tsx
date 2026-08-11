@@ -1,5 +1,6 @@
 "use client";
 
+import { Route } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { use, useEffect, useState } from "react";
 import AiCostBanner from "@/components/tree/AiCostBanner";
@@ -115,13 +116,19 @@ export default function SessionDetailPage({
         </div>
       </div>
 
-      <AiCostBanner costUsd={costUsd(session.usage ?? { inputTokens: 0, outputTokens: 0 })} />
+      <AiCostBanner
+        costUsd={costUsd(session.usage ?? { inputTokens: 0, outputTokens: 0 })}
+        usage={session.usage}
+      />
 
       <OrdonnanceHeaderCard header={ordonnanceHeader} />
 
       {session.path.length > 0 && (
         <div className="mb-4 flex flex-col gap-0 border-b border-border pb-2">
-          <SectionLabel>🧭 Cheminement</SectionLabel>
+          <SectionLabel>
+            <Route className="h-3.5 w-3.5" />
+            Cheminement
+          </SectionLabel>
           {session.path.map((step, i) => (
             <BreadcrumbStep
               key={`${step.nodeId}-${i}`}

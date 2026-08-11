@@ -1,5 +1,6 @@
 "use client";
 
+import { Paperclip } from "lucide-react";
 import { useRef, useState } from "react";
 import { prepareUpload } from "@/lib/image/prepareUpload";
 
@@ -91,11 +92,16 @@ export default function OrdonnanceEntry({
           type="button"
           onClick={() => fileInputRef.current?.click()}
           disabled={disabled || uploading}
-          className="cursor-pointer rounded-lg border border-border px-3 py-1.5 text-sm font-medium transition-colors hover:bg-background disabled:cursor-not-allowed disabled:opacity-40"
+          className="flex cursor-pointer items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 text-sm font-medium transition-colors hover:bg-background disabled:cursor-not-allowed disabled:opacity-40"
         >
-          {uploading
-            ? "Transcription en cours…"
-            : "📎 Importer une photo / un PDF (ou glissez-déposez)"}
+          {uploading ? (
+            "Transcription en cours…"
+          ) : (
+            <>
+              <Paperclip className="h-4 w-4" />
+              Importer une photo / un PDF (ou glissez-déposez)
+            </>
+          )}
         </button>
       </div>
       {uploadError && <p className="mt-2 text-xs text-danger">{uploadError}</p>}

@@ -1,3 +1,4 @@
+import { FileText } from "lucide-react";
 import SectionLabel from "./SectionLabel";
 import type { OrdonnanceHeaderData } from "@/lib/ngap/types";
 
@@ -13,7 +14,10 @@ export default function OrdonnanceHeaderCard({ header }: { header: OrdonnanceHea
 
   return (
     <div className="mb-4 rounded-xl border border-border bg-surface p-4">
-      <SectionLabel>📄 Dossier</SectionLabel>
+      <SectionLabel>
+        <FileText className="h-3.5 w-3.5" />
+        Dossier
+      </SectionLabel>
       <div className="mt-2 grid gap-x-6 gap-y-2 sm:grid-cols-2">
         {header.dateOrdonnance && (
           <div>

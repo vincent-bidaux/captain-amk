@@ -23,7 +23,7 @@ export default function AidePage() {
           Deux façons de faire, sur la page d&apos;accueil : coller le texte de la
           prescription directement dans la zone de texte, ou cliquer sur{" "}
           <strong className="text-foreground">
-            « 📎 Importer une photo / un PDF »
+            « Importer une photo / un PDF »
           </strong>{" "}
           (ou glisser-déposer le fichier) pour que Captain AMK transcrive
           l&apos;ordonnance à votre place. La transcription apparaît ensuite dans
@@ -69,7 +69,7 @@ export default function AidePage() {
           Le fil d&apos;Ariane (les cartes empilées verticalement) garde la trace
           de chaque question posée et de la réponse retenue. Survolez une carte
           passée et cliquez sur{" "}
-          <strong className="text-foreground">« ✏️ Modifier le choix »</strong> pour revenir à
+          <strong className="text-foreground">« Modifier le choix »</strong> pour revenir à
           cette étape précise et repartir avec une autre réponse — tout ce qui
           suivait cette étape est recalculé.
         </p>
@@ -80,7 +80,7 @@ export default function AidePage() {
           Une fois l&apos;arbre parcouru jusqu&apos;à une feuille, la cotation
           proposée s&apos;affiche : lettre-clé et coefficient, tarif, indemnité
           IFS le cas échéant, et les exclusions à vérifier. Le bouton{" "}
-          <strong className="text-foreground">« 📋 Copier les résultats »</strong> copie
+          <strong className="text-foreground">« Copier les résultats »</strong> copie
           l&apos;ensemble (cheminement + cotation) au format texte, prêt à coller
           dans votre logiciel de facturation ou un dossier patient.
         </p>
@@ -103,8 +103,8 @@ export default function AidePage() {
         </p>
         <p>
           Les sessions enregistrées apparaissent dans la barre latérale gauche.
-          Depuis la liste, vous pouvez les rouvrir, les archiver (📦) ou les
-          supprimer définitivement (🗑). Les sessions archivées restent
+          Depuis la liste, vous pouvez les rouvrir, les archiver ou les
+          supprimer définitivement. Les sessions archivées restent
           consultables via le lien « Voir les archivées » en bas de liste.
         </p>
       </Section>

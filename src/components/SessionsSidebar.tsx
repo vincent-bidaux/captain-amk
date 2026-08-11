@@ -1,5 +1,6 @@
 "use client";
 
+import { Archive, ArchiveRestore, ArrowLeft, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
@@ -79,7 +80,11 @@ export default function SessionsSidebar({ onNavigate }: { onNavigate?: () => voi
       >
         {/* Le logo n'apparaît ici qu'une fois le travail démarré : sur l'accueil replié,
             il est déjà affiché en grand au centre — jamais les deux à la fois. */}
-        {expanded && <Logo size="full" className="rounded-md" />}
+        {expanded && (
+          <div className="w-[calc(100%/1.75)]">
+            <Logo size="full" className="rounded-md" />
+          </div>
+        )}
         <div>
           <p className="text-lg font-semibold tracking-tight">Captain AMK</p>
           <p className="text-xs text-muted">{DESCRIPTION}</p>
@@ -96,7 +101,7 @@ export default function SessionsSidebar({ onNavigate }: { onNavigate?: () => voi
         </Link>
       </div>
 
-      <nav className="flex-1 overflow-y-auto px-3 py-1">
+      <nav className="min-h-[5.625rem] flex-1 overflow-y-auto px-3 py-1">
         {loading ? (
           <p className="px-1 py-6 text-center text-xs text-muted">Chargement…</p>
         ) : visible.length === 0 ? (
@@ -127,17 +132,21 @@ export default function SessionsSidebar({ onNavigate }: { onNavigate?: () => voi
                       type="button"
                       title={s.archived ? "Désarchiver" : "Archiver"}
                       onClick={(e) => handleArchive(e, s.id, s.archived)}
-                      className="rounded p-1 text-xs text-muted hover:text-foreground"
+                      className="rounded p-1 text-muted hover:text-foreground"
                     >
-                      {s.archived ? "📤" : "📦"}
+                      {s.archived ? (
+                        <ArchiveRestore className="h-3.5 w-3.5" />
+                      ) : (
+                        <Archive className="h-3.5 w-3.5" />
+                      )}
                     </button>
                     <button
                       type="button"
                       title="Supprimer"
                       onClick={(e) => handleDelete(e, s.id)}
-                      className="rounded p-1 text-xs text-muted hover:text-danger"
+                      className="rounded p-1 text-muted hover:text-danger"
                     >
-                      🗑
+                      <Trash2 className="h-3.5 w-3.5" />
                     </button>
                   </span>
                 </Link>
@@ -150,9 +159,10 @@ export default function SessionsSidebar({ onNavigate }: { onNavigate?: () => voi
           <button
             type="button"
             onClick={() => setShowArchived((v) => !v)}
-            className="mt-2 w-full px-1 py-1 text-center text-xs text-muted hover:text-foreground"
+            className="mt-2 flex w-full items-center justify-center gap-1 px-1 py-1 text-center text-xs text-muted hover:text-foreground"
           >
-            {showArchived ? "← Sessions actives" : "Voir les archivées"}
+            {showArchived && <ArrowLeft className="h-3.5 w-3.5" />}
+            {showArchived ? "Sessions actives" : "Voir les archivées"}
           </button>
         )}
       </nav>

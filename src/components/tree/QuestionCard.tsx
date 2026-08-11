@@ -21,7 +21,7 @@ export default function QuestionCard({
     <div className="rounded-xl border border-border bg-surface p-5">
       {aiStoppedReason && (
         <p className="mb-3 rounded-md border border-gold/40 bg-gold/10 px-3 py-2 text-sm text-foreground">
-          Je m&apos;arrête ici : {aiStoppedReason}
+          Je fais une pause ici : {aiStoppedReason}
         </p>
       )}
       <p className="text-lg font-semibold">{node.question}</p>

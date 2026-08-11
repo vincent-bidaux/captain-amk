@@ -1,3 +1,4 @@
+import { Pencil } from "lucide-react";
 import IconPlaceholder from "./IconPlaceholder";
 import type { PathStep } from "@/lib/ngap/types";
 
@@ -73,8 +74,9 @@ export default function BreadcrumbStep({
         title="Modifier le choix fait à cette étape"
       >
         {content}
-        <span className="pointer-events-none absolute right-2 top-2 text-xs font-semibold text-accent opacity-0 transition-opacity group-hover:opacity-100">
-          ✏️ Modifier le choix
+        <span className="pointer-events-none absolute right-2 top-2 flex items-center gap-1 text-xs font-semibold text-accent opacity-0 transition-opacity group-hover:opacity-100">
+          <Pencil className="h-3.5 w-3.5" />
+          Modifier le choix
         </span>
       </button>
     </>

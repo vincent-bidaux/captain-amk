@@ -1,3 +1,6 @@
+/** Modèle Claude utilisé pour toutes les routes IA (décision d'arbre, transcription). */
+export const AI_MODEL_NAME = "claude-opus-5";
+
 /** Tarification Opus 5 (claude-opus-5) — $5 / MTok input, $25 / MTok output. */
 const INPUT_PER_MTOK_USD = 5;
 const OUTPUT_PER_MTOK_USD = 25;

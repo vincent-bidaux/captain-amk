@@ -1,5 +1,6 @@
 "use client";
 
+import { Check, Copy } from "lucide-react";
 import { useState } from "react";
 import {
   formatEuros,
@@ -146,9 +147,19 @@ export default function ResultCard({
         <button
           type="button"
           onClick={handleCopyResults}
-          className="rounded-lg bg-neutral-900 px-4 py-2 text-sm font-medium text-white transition-opacity hover:opacity-90 dark:bg-neutral-100 dark:text-neutral-900"
+          className="flex items-center gap-1.5 rounded-lg bg-neutral-900 px-4 py-2 text-sm font-medium text-white transition-opacity hover:opacity-90 dark:bg-neutral-100 dark:text-neutral-900"
         >
-          {resultsCopied ? "Copié ✓" : "📋 Copier les résultats"}
+          {resultsCopied ? (
+            <>
+              <Check className="h-4 w-4" />
+              Copié
+            </>
+          ) : (
+            <>
+              <Copy className="h-4 w-4" />
+              Copier les résultats
+            </>
+          )}
         </button>
         {!readOnly && onReset && (
           <button

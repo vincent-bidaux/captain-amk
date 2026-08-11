@@ -108,11 +108,19 @@ que ce soit automatique/invisible.
 ## Stack technique
 
 - Next.js (App Router) + TypeScript + Tailwind CSS, déployé sur Netlify (Next.js Runtime auto).
-- IA : `@anthropic-ai/sdk`, modèle `claude-opus-5`, structured outputs via Zod
+- IA : `@anthropic-ai/sdk`, modèle `claude-opus-5` (constante unique `AI_MODEL_NAME` dans
+  `src/lib/ngap/pricing.ts`, utilisée par les deux routes ET par le bandeau de coût affiché à
+  l'écran — ne jamais hardcoder le nom du modèle ailleurs), structured outputs via Zod
   (`zodOutputFormat`) pour toutes les réponses (décision d'arbre, transcription).
   `thinking: {type: "disabled"}` + `effort: "medium"` sur ces deux routes (classification bornée,
   pas de raisonnement long — voir l'échange avec l'utilisateur sur Opus vs Sonnet, tranché en
   faveur d'Opus 5 par prudence sur l'enjeu financier/légal de la cotation).
+- Icônes : **`lucide-react`** (installé le 2026-08-11) — l'utilisateur n'aime pas les emoji comme
+  icônes UI. Ne plus jamais réintroduire d'emoji comme icône de bouton/label ; utiliser un
+  composant `lucide-react` (style trait fin, cohérent avec Material Symbols outlined). Les
+  placeholders `icone de [description]` dans le fil d'Ariane (`IconPlaceholder.tsx`) restent du
+  texte volontairement temporaire, pas concernés par cette règle — ils seront remplacés par de
+  vraies icônes d'illustration (voir prompts générés séparément pour Nano Banana / Gemini).
 - Stockage sessions : **Netlify Blobs** (`@netlify/blobs`, store `captain-amk-sessions`) — zéro
   provisioning, identifiants injectés automatiquement au runtime Netlify. Aucune PII dans le
   schéma stocké (voir section Confidentialité).

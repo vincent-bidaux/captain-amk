@@ -1,5 +1,6 @@
 "use client";
 
+import { Menu } from "lucide-react";
 import { useState } from "react";
 import type { ReactNode } from "react";
 import SessionsSidebar from "./SessionsSidebar";
@@ -43,9 +44,9 @@ function AppShellInner({ children }: { children: ReactNode }) {
             type="button"
             aria-label="Ouvrir le menu"
             onClick={() => setOpen(true)}
-            className="cursor-pointer rounded-md border border-border px-2 py-1 text-sm"
+            className="cursor-pointer rounded-md border border-border p-1.5"
           >
-            ☰
+            <Menu className="h-4 w-4" />
           </button>
           <p className="text-sm font-semibold">Captain AMK</p>
         </header>

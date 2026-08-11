@@ -1,5 +1,6 @@
 "use client";
 
+import { Route } from "lucide-react";
 import { useState } from "react";
 import AiCostBanner from "./AiCostBanner";
 import BreadcrumbStep from "./BreadcrumbStep";
@@ -182,13 +183,16 @@ export default function CotationFlow() {
 
   return (
     <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col px-4 py-8">
-      <AiCostBanner costUsd={cost} />
+      <AiCostBanner costUsd={cost} usage={totalUsage} />
 
       {started && <OrdonnanceHeaderCard header={ordonnanceHeader} />}
 
       {path.length > 0 && (
         <div className="mb-4 flex flex-col gap-0 border-b border-border pb-2">
-          <SectionLabel>🧭 Cheminement</SectionLabel>
+          <SectionLabel>
+            <Route className="h-3.5 w-3.5" />
+            Cheminement
+          </SectionLabel>
           {path.map((step, i) => (
             <BreadcrumbStep
               key={`${step.nodeId}-${i}`}

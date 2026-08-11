@@ -1,5 +1,6 @@
 "use client";
 
+import { Check } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { notifySessionsChanged } from "@/lib/session/events";
@@ -65,7 +66,10 @@ export default function SaveSessionBox({
 
   if (saved) {
     return (
-      <p className="mt-4 text-sm text-accent">Session enregistrée ✓</p>
+      <p className="mt-4 flex items-center gap-1.5 text-sm text-accent">
+        <Check className="h-4 w-4" />
+        Session enregistrée
+      </p>
     );
   }
 

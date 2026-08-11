@@ -4,6 +4,7 @@ import { zodOutputFormat } from "@anthropic-ai/sdk/helpers/zod";
 import { z } from "zod";
 import { getNode } from "@/lib/ngap/tree";
 import { isQuestion } from "@/lib/ngap/types";
+import { AI_MODEL_NAME } from "@/lib/ngap/pricing";
 
 export const runtime = "nodejs";
 
@@ -128,7 +129,7 @@ export async function POST(req: NextRequest) {
 
   try {
     const response = await client.messages.parse({
-      model: "claude-opus-5",
+      model: AI_MODEL_NAME,
       max_tokens: 1024,
       thinking: { type: "disabled" },
       output_config: {

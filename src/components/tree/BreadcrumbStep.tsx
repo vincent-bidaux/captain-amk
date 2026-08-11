@@ -2,6 +2,26 @@ import { Pencil } from "lucide-react";
 import IconPlaceholder from "./IconPlaceholder";
 import type { PathStep } from "@/lib/ngap/types";
 
+/**
+ * Réponses génériques qui ne veulent rien dire hors contexte (« Non » à quelle question ?) —
+ * pour celles-ci l'icône doit représenter le sujet de la question, pas la réponse brute.
+ * Les autres libellés (ex. « Hanche ou cuisse », « Après reconstruction du LCA ») sont déjà
+ * suffisamment spécifiques pour servir directement de sujet d'icône.
+ */
+const GENERIC_ANSWER_LABELS = new Set([
+  "Oui",
+  "Non",
+  "Sans chirurgie",
+  "Avec chirurgie",
+  "Opérée",
+  "Non opérée",
+  "Individuelle",
+]);
+
+function iconTopic(step: PathStep): string {
+  return GENERIC_ANSWER_LABELS.has(step.chosenLabel) ? step.question : step.chosenLabel;
+}
+
 function Connector() {
   return (
     <div
@@ -35,7 +55,7 @@ export default function BreadcrumbStep({
 }) {
   const content = (
     <>
-      <IconPlaceholder description={step.chosenLabel} />
+      <IconPlaceholder description={iconTopic(step)} />
       <div className="min-w-0 flex-1">
         <p className="flex items-center gap-1.5 text-xs font-medium uppercase tracking-wide text-muted">
           {step.question}

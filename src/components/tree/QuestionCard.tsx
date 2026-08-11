@@ -33,11 +33,11 @@ export default function QuestionCard({
             key={option.label}
             type="button"
             onClick={() => onChoose(option)}
-            className="rounded-lg border border-border bg-background px-4 py-3 text-left text-sm font-medium transition-colors hover:border-accent hover:bg-accent/10"
+            className="rounded-lg border border-border bg-white px-4 py-3 text-left text-sm font-medium text-black transition-colors hover:bg-neutral-100"
           >
             {option.label}
             {option.aide && (
-              <span className="mt-1 block text-xs font-normal text-muted">
+              <span className="mt-1 block text-xs font-normal text-neutral-600">
                 {option.aide}
               </span>
             )}

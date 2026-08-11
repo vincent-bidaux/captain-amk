@@ -125,9 +125,22 @@ que ce soit automatique/invisible.
 - Icônes : **`lucide-react`** (installé le 2026-08-11) — l'utilisateur n'aime pas les emoji comme
   icônes UI. Ne plus jamais réintroduire d'emoji comme icône de bouton/label ; utiliser un
   composant `lucide-react` (style trait fin, cohérent avec Material Symbols outlined). Les
-  placeholders `icone de [description]` dans le fil d'Ariane (`IconPlaceholder.tsx`) restent du
-  texte volontairement temporaire, pas concernés par cette règle — ils seront remplacés par de
+  placeholders du fil d'Ariane (`IconPlaceholder.tsx` : fond bleu, texte bleu très pâle,
+  capitales, police condensée `Barlow Condensed` via `--font-condensed`) restent du texte
+  volontairement temporaire, pas concernés par la règle anti-emoji — ils seront remplacés par de
   vraies icônes d'illustration (voir prompts générés séparément pour Nano Banana / Gemini).
+  **Important (2026-08-11, tard)** : le texte affiché dans le placeholder n'est PAS toujours
+  `step.chosenLabel`. Pour les réponses génériques hors-contexte (« Oui », « Non », « Sans
+  chirurgie », « Avec chirurgie », « Opérée », « Non opérée », « Individuelle » — voir
+  `GENERIC_ANSWER_LABELS` dans `BreadcrumbStep.tsx`), l'icône doit représenter le *sujet de la
+  question* (`step.question`), pas la réponse brute : « Non » à la question amputation ne veut
+  rien dire tout seul. **Conséquence pour la génération des vraies icônes** : le fichier
+  `prompt-generation-icones.md` envoyé à l'utilisateur (103 icônes, une par libellé de réponse
+  unique) est maintenant **partiellement obsolète** pour ces 7 libellés génériques — dans l'arbre
+  réel, « Non » sert à la fois pour la question amputation et pour la question
+  neuro/musculaire (deux sens différents), donc il faudra en réalité une icône par *question*
+  concernée pour ces cas-là, pas une icône générique par libellé. Prévenir l'utilisateur avant de
+  regénérer ce fichier de prompts.
 - Stockage sessions : **Netlify Blobs** (`@netlify/blobs`, store `captain-amk-sessions`) — zéro
   provisioning, identifiants injectés automatiquement au runtime Netlify. Aucune PII dans le
   schéma stocké (voir section Confidentialité).

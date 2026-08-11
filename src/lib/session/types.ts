@@ -16,6 +16,7 @@ export interface SavedSession {
    */
   patientName?: { prenom: string | null; nom: string | null } | null;
   medecinNom?: string | null;
+  medecinTelephone?: string | null;
   dateOrdonnance?: string | null;
   prescription?: string | null;
 }

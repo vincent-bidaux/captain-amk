@@ -38,6 +38,7 @@ export default function SaveSessionBox({
             ? {
                 patientName: ordonnanceHeader.patientName,
                 medecinNom: ordonnanceHeader.medecinNom,
+                medecinTelephone: ordonnanceHeader.medecinTelephone,
                 dateOrdonnance: ordonnanceHeader.dateOrdonnance,
                 prescription: ordonnanceHeader.prescription,
               }

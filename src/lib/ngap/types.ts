@@ -102,6 +102,7 @@ export interface PathStep {
 export interface OrdonnanceHeaderData {
   patientName: { prenom: string | null; nom: string | null } | null;
   medecinNom: string | null;
+  medecinTelephone: string | null;
   dateOrdonnance: string | null;
   prescription: string | null;
 }
@@ -113,6 +114,7 @@ export interface DecideResult {
   justification: string;
   patientName?: { prenom: string | null; nom: string | null };
   medecinNom?: string | null;
+  medecinTelephone?: string | null;
   dateOrdonnance?: string | null;
   usage: {
     inputTokens: number;

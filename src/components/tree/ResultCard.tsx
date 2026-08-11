@@ -7,6 +7,7 @@ import {
   lettreCleDescription,
   tarifActe,
 } from "@/lib/ngap/tree";
+import OrdonnanceHeaderCard from "./OrdonnanceHeaderCard";
 import SaveSessionBox from "./SaveSessionBox";
 import type { Acte, OrdonnanceHeaderData, PathStep } from "@/lib/ngap/types";
 
@@ -26,49 +27,13 @@ function InfoBlock({ title, items }: { title: string; items: string[] }) {
   );
 }
 
-function HeaderBlock({ header }: { header: OrdonnanceHeaderData }) {
-  const patient = header.patientName
-    ? [header.patientName.prenom, header.patientName.nom].filter(Boolean).join(" ")
-    : null;
-  const hasAnyField = patient || header.medecinNom || header.dateOrdonnance || header.prescription;
-  if (!hasAnyField) return null;
-
-  return (
-    <div className="mb-4 grid gap-x-6 gap-y-2 border-b border-border pb-4 sm:grid-cols-2">
-      {header.dateOrdonnance && (
-        <div>
-          <p className="text-xs text-muted">Date de l&apos;ordonnance</p>
-          <p className="text-sm font-medium text-foreground">{header.dateOrdonnance}</p>
-        </div>
-      )}
-      {header.medecinNom && (
-        <div>
-          <p className="text-xs text-muted">Médecin</p>
-          <p className="text-sm font-medium text-foreground">{header.medecinNom}</p>
-        </div>
-      )}
-      {patient && (
-        <div>
-          <p className="text-xs text-muted">Patient</p>
-          <p className="text-sm font-medium text-foreground">{patient}</p>
-        </div>
-      )}
-      {header.prescription && (
-        <div className="sm:col-span-2">
-          <p className="text-xs text-muted">Prescription</p>
-          <p className="whitespace-pre-wrap text-sm text-foreground">{header.prescription}</p>
-        </div>
-      )}
-    </div>
-  );
-}
-
 export default function ResultCard({
   acte,
   path,
   currentNodeId,
   onReset,
   readOnly = false,
+  showHeader = true,
   ordonnanceHeader,
 }: {
   acte: Acte;
@@ -76,6 +41,8 @@ export default function ResultCard({
   currentNodeId: string;
   onReset?: () => void;
   readOnly?: boolean;
+  /** Set to false when the ordonnance header is already shown elsewhere on the page. */
+  showHeader?: boolean;
   ordonnanceHeader?: OrdonnanceHeaderData;
 }) {
   const [resultsCopied, setResultsCopied] = useState(false);
@@ -108,7 +75,7 @@ export default function ResultCard({
 
   return (
     <div className="rounded-xl border-2 border-accent bg-surface p-5">
-      {ordonnanceHeader && <HeaderBlock header={ordonnanceHeader} />}
+      {showHeader && ordonnanceHeader && <OrdonnanceHeaderCard header={ordonnanceHeader} />}
 
       <p className="text-xs font-semibold uppercase tracking-wide text-accent">
         Cotation proposée

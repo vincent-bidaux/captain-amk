@@ -22,6 +22,7 @@ interface CreateSessionBody {
   currentNodeId?: string;
   patientName?: { prenom: string | null; nom: string | null } | null;
   medecinNom?: string | null;
+  medecinTelephone?: string | null;
   dateOrdonnance?: string | null;
   prescription?: string | null;
 }
@@ -49,6 +50,9 @@ export async function POST(req: NextRequest) {
     currentNodeId: body.currentNodeId,
     ...(body.patientName !== undefined ? { patientName: body.patientName } : {}),
     ...(body.medecinNom !== undefined ? { medecinNom: body.medecinNom } : {}),
+    ...(body.medecinTelephone !== undefined
+      ? { medecinTelephone: body.medecinTelephone }
+      : {}),
     ...(body.dateOrdonnance !== undefined ? { dateOrdonnance: body.dateOrdonnance } : {}),
     ...(body.prescription !== undefined ? { prescription: body.prescription } : {}),
   };

@@ -73,7 +73,7 @@ export default function BreadcrumbStep({
         title="Modifier le choix fait à cette étape"
       >
         {content}
-        <span className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 rounded-md bg-accent px-2 py-1 text-xs font-semibold text-accent-foreground opacity-0 shadow-sm transition-opacity group-hover:opacity-100">
+        <span className="pointer-events-none absolute right-2 top-2 text-xs font-semibold text-accent opacity-0 transition-opacity group-hover:opacity-100">
           ✏️ Modifier le choix
         </span>
       </button>

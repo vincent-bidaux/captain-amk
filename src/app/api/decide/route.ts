@@ -41,7 +41,13 @@ const DecideSchema = z.object({
     .string()
     .nullable()
     .describe(
-      "Nom du médecin prescripteur détecté dans le texte, ou null si absent ou si l'extraction n'est pas demandée.",
+      "Nom (et prénom si présent) du médecin prescripteur détecté dans le texte, ou null si absent ou si l'extraction n'est pas demandée.",
+    ),
+  medecinTelephone: z
+    .string()
+    .nullable()
+    .describe(
+      "Numéro de téléphone du médecin prescripteur détecté dans le texte, ou null si absent ou si l'extraction n'est pas demandée.",
     ),
   dateOrdonnance: z
     .string()
@@ -114,7 +120,7 @@ export async function POST(req: NextRequest) {
     '"""',
     "",
     extractHeader
-      ? "Détecte aussi, si présents dans le texte : le prénom et le nom du patient (patientPrenom / patientNom), le nom du médecin prescripteur (medecinNom), et la date de l'ordonnance (dateOrdonnance). Ne les invente pas — laisse à null ce qui n'apparaît pas clairement."
+      ? "Détecte aussi, si présents dans le texte : le prénom et le nom du patient (patientPrenom / patientNom), le nom du médecin prescripteur (medecinNom), son numéro de téléphone (medecinTelephone), et la date de l'ordonnance (dateOrdonnance). Ne les invente pas — laisse à null ce qui n'apparaît pas clairement."
       : "Ne cherche pas à détecter le patient, le médecin ou la date (laisse ces champs à null).",
   ]
     .filter((line): line is string => line !== null)

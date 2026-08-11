@@ -4,6 +4,7 @@ import { useState } from "react";
 import AiCostBanner from "./AiCostBanner";
 import BreadcrumbStep from "./BreadcrumbStep";
 import OrdonnanceEntry from "./OrdonnanceEntry";
+import OrdonnanceHeaderCard from "./OrdonnanceHeaderCard";
 import QuestionCard from "./QuestionCard";
 import ResultCard from "./ResultCard";
 import { costUsd } from "@/lib/ngap/pricing";
@@ -33,6 +34,7 @@ export default function CotationFlow() {
   const [apiError, setApiError] = useState<string | null>(null);
   const [patientName, setPatientName] = useState<PatientName | null>(null);
   const [medecinNom, setMedecinNom] = useState<string | null>(null);
+  const [medecinTelephone, setMedecinTelephone] = useState<string | null>(null);
   const [dateOrdonnance, setDateOrdonnance] = useState<string | null>(null);
   const [totalUsage, setTotalUsage] = useState({ inputTokens: 0, outputTokens: 0 });
 
@@ -80,6 +82,7 @@ export default function CotationFlow() {
         setPatientName(data.patientName);
       }
       if (data.medecinNom) setMedecinNom(data.medecinNom);
+      if (data.medecinTelephone) setMedecinTelephone(data.medecinTelephone);
       if (data.dateOrdonnance) setDateOrdonnance(data.dateOrdonnance);
 
       if (!data.answered) {
@@ -161,25 +164,26 @@ export default function CotationFlow() {
     setApiError(null);
     setPatientName(null);
     setMedecinNom(null);
+    setMedecinTelephone(null);
     setDateOrdonnance(null);
     setTotalUsage({ inputTokens: 0, outputTokens: 0 });
   }
 
   const cost = costUsd(totalUsage);
   const nodeIsLeaf = isFeuille(currentNode);
+  const ordonnanceHeader = {
+    patientName,
+    medecinNom,
+    medecinTelephone,
+    dateOrdonnance,
+    prescription: ordonnanceText || null,
+  };
 
   return (
     <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col px-4 py-8">
       <AiCostBanner costUsd={cost} />
 
-      {patientName && (patientName.prenom || patientName.nom) && (
-        <p className="mb-3 text-xs text-muted">
-          Patient détecté :{" "}
-          <span className="font-medium text-foreground">
-            {[patientName.prenom, patientName.nom].filter(Boolean).join(" ")}
-          </span>
-        </p>
-      )}
+      {started && <OrdonnanceHeaderCard header={ordonnanceHeader} />}
 
       {path.length > 0 && (
         <div className="mb-4 flex flex-col gap-0 border-b border-border pb-2">
@@ -223,12 +227,8 @@ export default function CotationFlow() {
           path={path}
           currentNodeId={currentNodeId}
           onReset={handleReset}
-          ordonnanceHeader={{
-            patientName,
-            medecinNom,
-            dateOrdonnance,
-            prescription: ordonnanceText || null,
-          }}
+          showHeader={false}
+          ordonnanceHeader={ordonnanceHeader}
         />
       ) : (
         <QuestionCard

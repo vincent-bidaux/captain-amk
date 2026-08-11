@@ -120,6 +120,7 @@ export default function SessionDetailPage({
           ordonnanceHeader={{
             patientName: session.patientName ?? null,
             medecinNom: session.medecinNom ?? null,
+            medecinTelephone: session.medecinTelephone ?? null,
             dateOrdonnance: session.dateOrdonnance ?? null,
             prescription: session.prescription ?? null,
           }}

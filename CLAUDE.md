@@ -62,14 +62,18 @@ Modèle IA à utiliser : **`claude-opus-5`** (Opus 5 — vérifié via le skill 
    patient est désormais une donnée voulue, affichée en évidence (cartouche d'en-tête du
    résultat : date d'ordonnance, médecin, patient, prescription).
 
-**Implémentation actuelle (fait foi)** : l'extraction (nom/prénom patient, nom du médecin, date
-de l'ordonnance) se fait dès le premier appel `/api/decide` (`extractHeader: true`) et alimente un
-bandeau d'en-tête affiché en haut du cartouche de résultat, en direct pendant la session. La
-**persistance reste opt-in** : à l'enregistrement d'une session (`SaveSessionBox`), une case à
-cocher « Enregistrer aussi le nom du patient et la prescription » contrôle si `patientName`,
-`medecinNom`, `dateOrdonnance` et `prescription` (le texte brut de l'ordonnance) sont envoyés à
-`POST /api/sessions` et stockés. Non cochée par défaut. Si cochée, la barre latérale affiche le
-nom du patient sous le titre de la session.
+**Implémentation actuelle (fait foi)** : l'extraction (nom/prénom patient, nom et téléphone du
+médecin, date de l'ordonnance) se fait dès le premier appel `/api/decide` (`extractHeader: true`)
+et alimente `OrdonnanceHeaderCard` (`src/components/tree/OrdonnanceHeaderCard.tsx`), un bandeau
+d'en-tête clairement identifiable (« 📄 Dossier ») affiché **dès que l'analyse démarre** dans
+`CotationFlow` (pas seulement sur le résultat final) — `ResultCard` réutilise le même composant
+pour l'affichage en lecture seule (page session, `showHeader` par défaut à `true` ; `CotationFlow`
+passe `showHeader={false}` sur son propre `ResultCard` pour ne pas dupliquer le bandeau déjà
+affiché au-dessus). La **persistance reste opt-in** : à l'enregistrement d'une session
+(`SaveSessionBox`), une case à cocher « Enregistrer aussi le nom du patient et la prescription »
+contrôle si `patientName`, `medecinNom`, `medecinTelephone`, `dateOrdonnance` et `prescription`
+(le texte brut de l'ordonnance) sont envoyés à `POST /api/sessions` et stockés. Non cochée par
+défaut. Si cochée, la barre latérale affiche le nom du patient sous le titre de la session.
 
 **Pourquoi l'opt-in reste utile** malgré le revirement : c'est une donnée de santé, hébergée sur
 Netlify (pas d'hébergement HDS certifié), dans un repo **public** — la case à cocher laisse le

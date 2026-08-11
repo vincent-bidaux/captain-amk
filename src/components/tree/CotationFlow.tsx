@@ -9,10 +9,11 @@ import OrdonnanceHeaderCard from "./OrdonnanceHeaderCard";
 import QuestionCard from "./QuestionCard";
 import ResultCard from "./ResultCard";
 import SectionLabel from "./SectionLabel";
-import { costUsd } from "@/lib/ngap/pricing";
+import { costUsd, DEFAULT_AI_MODEL } from "@/lib/ngap/pricing";
 import { arbre, getActeForNode, getNode } from "@/lib/ngap/tree";
 import { isFeuille } from "@/lib/ngap/types";
 import { useWorkState } from "@/lib/ui/workState";
+import type { AiModel } from "@/lib/ngap/pricing";
 import type { ArbreOption, DecideResult, PathStep } from "@/lib/ngap/types";
 
 type PatientName = { prenom: string | null; nom: string | null };
@@ -27,6 +28,7 @@ export default function CotationFlow() {
   const [started, setStarted] = useState(false);
   const [aiEnabled, setAiEnabled] = useState(false);
   const [ordonnanceText, setOrdonnanceText] = useState("");
+  const [aiModel, setAiModel] = useState<AiModel>(DEFAULT_AI_MODEL);
 
   const [path, setPath] = useState<PathStep[]>([]);
   const [currentNodeId, setCurrentNodeId] = useState<string>(arbre.racine);
@@ -63,6 +65,7 @@ export default function CotationFlow() {
             ordonnanceText: text,
             nodeId,
             extractHeader: first,
+            model: aiModel,
           }),
         });
         data = await res.json();
@@ -169,9 +172,10 @@ export default function CotationFlow() {
     setMedecinTelephone(null);
     setDateOrdonnance(null);
     setTotalUsage({ inputTokens: 0, outputTokens: 0 });
+    setAiModel(DEFAULT_AI_MODEL);
   }
 
-  const cost = costUsd(totalUsage);
+  const cost = costUsd(totalUsage, aiModel);
   const nodeIsLeaf = isFeuille(currentNode);
   const ordonnanceHeader = {
     patientName,
@@ -183,7 +187,7 @@ export default function CotationFlow() {
 
   return (
     <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col px-4 py-8">
-      <AiCostBanner costUsd={cost} usage={totalUsage} />
+      <AiCostBanner costUsd={cost} usage={totalUsage} model={aiModel} />
 
       {started && <OrdonnanceHeaderCard header={ordonnanceHeader} />}
 
@@ -220,6 +224,8 @@ export default function CotationFlow() {
               outputTokens: prev.outputTokens + usage.outputTokens,
             }))
           }
+          aiModel={aiModel}
+          onModelChange={setAiModel}
           disabled={isAiThinking}
         />
       ) : isAiThinking ? (
@@ -235,6 +241,7 @@ export default function CotationFlow() {
           onReset={handleReset}
           showHeader={false}
           usage={totalUsage}
+          aiModel={aiModel}
           ordonnanceHeader={ordonnanceHeader}
         />
       ) : (

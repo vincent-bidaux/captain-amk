@@ -4,7 +4,8 @@ import { zodOutputFormat } from "@anthropic-ai/sdk/helpers/zod";
 import { z } from "zod";
 import { getNode } from "@/lib/ngap/tree";
 import { isQuestion } from "@/lib/ngap/types";
-import { AI_MODEL_NAME } from "@/lib/ngap/pricing";
+import { DEFAULT_AI_MODEL, isAiModel } from "@/lib/ngap/pricing";
+import type { AiModel } from "@/lib/ngap/pricing";
 
 export const runtime = "nodejs";
 
@@ -66,6 +67,7 @@ interface DecideRequestBody {
   ordonnanceText?: string;
   nodeId?: string;
   extractHeader?: boolean;
+  model?: AiModel;
 }
 
 export async function POST(req: NextRequest) {
@@ -80,6 +82,7 @@ export async function POST(req: NextRequest) {
   if (!ordonnanceText || typeof ordonnanceText !== "string" || !nodeId) {
     return NextResponse.json({ error: "Paramètres manquants" }, { status: 400 });
   }
+  const model = isAiModel(body.model) ? body.model : DEFAULT_AI_MODEL;
 
   let node;
   try {
@@ -129,7 +132,7 @@ export async function POST(req: NextRequest) {
 
   try {
     const response = await client.messages.parse({
-      model: AI_MODEL_NAME,
+      model,
       max_tokens: 1024,
       thinking: { type: "disabled" },
       output_config: {
@@ -162,7 +165,7 @@ export async function POST(req: NextRequest) {
       },
     });
   } catch (err) {
-    console.error("Erreur appel Opus 5 (/api/decide)", err);
+    console.error(`Erreur appel ${model} (/api/decide)`, err);
     return NextResponse.json(
       { error: "Erreur lors de l'appel au modèle" },
       { status: 502 },

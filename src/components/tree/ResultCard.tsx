@@ -10,6 +10,7 @@ import {
 } from "@/lib/ngap/tree";
 import OrdonnanceHeaderCard from "./OrdonnanceHeaderCard";
 import SaveSessionBox from "./SaveSessionBox";
+import type { AiModel } from "@/lib/ngap/pricing";
 import type { Acte, OrdonnanceHeaderData, PathStep } from "@/lib/ngap/types";
 
 function InfoBlock({ title, items }: { title: string; items: string[] }) {
@@ -36,6 +37,7 @@ export default function ResultCard({
   readOnly = false,
   showHeader = true,
   usage,
+  aiModel,
   ordonnanceHeader,
 }: {
   acte: Acte;
@@ -46,6 +48,7 @@ export default function ResultCard({
   /** Set to false when the ordonnance header is already shown elsewhere on the page. */
   showHeader?: boolean;
   usage?: { inputTokens: number; outputTokens: number };
+  aiModel?: AiModel;
   ordonnanceHeader?: OrdonnanceHeaderData;
 }) {
   const [resultsCopied, setResultsCopied] = useState(false);
@@ -178,6 +181,7 @@ export default function ResultCard({
           path={path}
           currentNodeId={currentNodeId}
           usage={usage}
+          aiModel={aiModel}
           ordonnanceHeader={ordonnanceHeader}
         />
       )}

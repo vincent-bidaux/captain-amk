@@ -74,6 +74,9 @@ export default function SessionDetailPage({
 
   const node = getNode(session.currentNodeId);
   const leaf = isFeuille(node);
+  // Sessions antérieures au choix de modèle (2026-08-11) n'ont pas ce champ : elles étaient
+  // toutes en Opus 5, seul modèle disponible à l'époque — ne pas retomber sur DEFAULT_AI_MODEL.
+  const aiModel = session.aiModel ?? "claude-opus-5";
   const patientDisplay = session.patientName
     ? [session.patientName.prenom, session.patientName.nom].filter(Boolean).join(" ")
     : null;
@@ -117,8 +120,9 @@ export default function SessionDetailPage({
       </div>
 
       <AiCostBanner
-        costUsd={costUsd(session.usage ?? { inputTokens: 0, outputTokens: 0 })}
+        costUsd={costUsd(session.usage ?? { inputTokens: 0, outputTokens: 0 }, aiModel)}
         usage={session.usage}
+        model={aiModel}
       />
 
       <OrdonnanceHeaderCard header={ordonnanceHeader} />

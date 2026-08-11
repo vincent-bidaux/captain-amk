@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { randomUUID } from "crypto";
 import { listSessions, putSession } from "@/lib/session/store";
+import { isAiModel } from "@/lib/ngap/pricing";
+import type { AiModel } from "@/lib/ngap/pricing";
 import type { SavedSession } from "@/lib/session/types";
 import type { PathStep } from "@/lib/ngap/types";
 
@@ -21,6 +23,7 @@ interface CreateSessionBody {
   path?: PathStep[];
   currentNodeId?: string;
   usage?: { inputTokens: number; outputTokens: number };
+  aiModel?: AiModel;
   patientName?: { prenom: string | null; nom: string | null } | null;
   medecinNom?: string | null;
   medecinTelephone?: string | null;
@@ -50,6 +53,7 @@ export async function POST(req: NextRequest) {
     path: body.path,
     currentNodeId: body.currentNodeId,
     ...(body.usage !== undefined ? { usage: body.usage } : {}),
+    ...(isAiModel(body.aiModel) ? { aiModel: body.aiModel } : {}),
     ...(body.patientName !== undefined ? { patientName: body.patientName } : {}),
     ...(body.medecinNom !== undefined ? { medecinNom: body.medecinNom } : {}),
     ...(body.medecinTelephone !== undefined

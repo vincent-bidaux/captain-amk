@@ -22,8 +22,14 @@ maximum à partir du texte, mais s'arrête pour poser une question dès que l'or
 pas à un embranchement. C'est l'arbre — déterministe et versionné — qui produit l'acte, jamais le
 LLM directement. Conséquences : résultat traçable, corrigeable au clic, testable par jeu de cas.
 
-Modèle IA à utiliser : **`claude-opus-5`** (Opus 5 — vérifié via le skill claude-api le
-2026-08-11 ; ne pas utiliser Opus 4.8, qui est un modèle plus ancien).
+**Choix du modèle (revu le 2026-08-11, soir)** : au départ Opus 5 imposé « par prudence sur
+l'enjeu financier/légal de la cotation ». Revenu sur cette décision après que l'utilisateur a vu
+un coût réel de ~0,07-0,09 $/session et redemandé si Sonnet 5 suffirait. Sonnet 5 est maintenant
+**le modèle par défaut** (`DEFAULT_AI_MODEL` dans `src/lib/ngap/pricing.ts`), avec Opus 5
+sélectionnable par le praticien via un petit sélecteur dans `OrdonnanceEntry` (visible uniquement
+avant le démarrage du travail, comme le reste de cette zone). Le choix s'applique à tous les
+appels IA de la session (transcription + décisions d'arbre). Ne pas figer un seul modèle en dur
+nulle part dans le code — toujours passer par `AiModel` / `AI_MODELS` / `isAiModel()`.
 
 ## UI — décisions produit fixées avec l'utilisateur (2026-08-11)
 
@@ -44,7 +50,8 @@ Modèle IA à utiliser : **`claude-opus-5`** (Opus 5 — vérifié via le skill 
   du fil d'Ariane avant le début du parcours de l'arbre.
 - **Responsive** obligatoire. Favicon + app-icon de base à prévoir.
 - **Coût IA affiché** : bandeau en haut de chaque session, cumul des tokens input/output de tous
-  les appels Opus 5 de la session (transcription + décisions) × tarif officiel. Affiché **en
+  les appels IA de la session (transcription + décisions) × tarif du modèle sélectionné, avec le
+  nom du modèle et le nombre de tokens dans le libellé. Affiché **en
   dollars US ($)**, pas en euros : c'est la devise de facturation réelle d'Anthropic, une
   conversion € inventerait un taux de change à maintenir sans raison. Transparence sur le coût
   réel, pas une estimation vague.
@@ -108,13 +115,13 @@ que ce soit automatique/invisible.
 ## Stack technique
 
 - Next.js (App Router) + TypeScript + Tailwind CSS, déployé sur Netlify (Next.js Runtime auto).
-- IA : `@anthropic-ai/sdk`, modèle `claude-opus-5` (constante unique `AI_MODEL_NAME` dans
-  `src/lib/ngap/pricing.ts`, utilisée par les deux routes ET par le bandeau de coût affiché à
-  l'écran — ne jamais hardcoder le nom du modèle ailleurs), structured outputs via Zod
+- IA : `@anthropic-ai/sdk`, modèle choisi par le praticien entre `claude-sonnet-5` (défaut) et
+  `claude-opus-5` (type `AiModel`, liste `AI_MODELS`, garde `isAiModel()` — tout dans
+  `src/lib/ngap/pricing.ts`, utilisé par les deux routes ET par le bandeau de coût affiché à
+  l'écran — ne jamais hardcoder le nom d'un modèle ailleurs), structured outputs via Zod
   (`zodOutputFormat`) pour toutes les réponses (décision d'arbre, transcription).
   `thinking: {type: "disabled"}` + `effort: "medium"` sur ces deux routes (classification bornée,
-  pas de raisonnement long — voir l'échange avec l'utilisateur sur Opus vs Sonnet, tranché en
-  faveur d'Opus 5 par prudence sur l'enjeu financier/légal de la cotation).
+  pas de raisonnement long — c'est justement pourquoi Sonnet 5 est jugé suffisant).
 - Icônes : **`lucide-react`** (installé le 2026-08-11) — l'utilisateur n'aime pas les emoji comme
   icônes UI. Ne plus jamais réintroduire d'emoji comme icône de bouton/label ; utiliser un
   composant `lucide-react` (style trait fin, cohérent avec Material Symbols outlined). Les
@@ -142,9 +149,9 @@ que ce soit automatique/invisible.
 Tous les groupes fonctionnels (1 à 7) terminés et validés en production :
 
 - Arbre de décision complet (94 actes, 138 nœuds) + fil d'Ariane vertical cliquable/corrigeable
-- Pilotage automatique par Opus 5 depuis le texte, arrêt propre + question au médecin quand le
-  texte ne tranche pas (testé : genou/LCA entièrement auto → RIC 8.08 ; épaule ambiguë → arrêt
-  correct)
+- Pilotage automatique par IA (Sonnet 5 par défaut, Opus 5 en option) depuis le texte, arrêt
+  propre + question au médecin quand le texte ne tranche pas (testé : genou/LCA entièrement
+  auto → RIC 8.08 ; épaule ambiguë → arrêt correct)
 - Upload photo/PDF (drag&drop ou sélection) → transcription → pipeline complet automatique
 - Sessions sauvegardées, nom du patient + prescription en opt-in (case à cocher), liste/archivage/
   suppression, patient affiché sous le titre dans la barre latérale quand enregistré

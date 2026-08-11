@@ -109,11 +109,19 @@ export default function AidePage() {
         </p>
       </Section>
 
-      <Section title="7. Le coût affiché">
+      <Section title="7. Choisir le modèle et lire le coût">
+        <p>
+          Avant de lancer l&apos;analyse, un petit sélecteur permet de choisir le
+          modèle utilisé : <strong className="text-foreground">Sonnet 5</strong>{" "}
+          par défaut (rapide et moins cher), ou{" "}
+          <strong className="text-foreground">Opus 5</strong> si vous préférez
+          plus de prudence sur un cas complexe. Ce choix s&apos;applique à toute
+          la session (transcription et décisions d&apos;arbre).
+        </p>
         <p>
           Le bandeau en haut de chaque session affiche le coût réel des appels
-          au modèle d&apos;IA (transcription + décisions d&apos;arbre) pour cette
-          session, en dollars US — la devise de facturation d&apos;Anthropic.
+          au modèle choisi pour cette session, avec le nombre de tokens
+          utilisés, en dollars US — la devise de facturation d&apos;Anthropic.
         </p>
       </Section>
     </StaticPage>

@@ -4,6 +4,7 @@ import { Check } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { notifySessionsChanged } from "@/lib/session/events";
+import type { AiModel } from "@/lib/ngap/pricing";
 import type { OrdonnanceHeaderData, PathStep } from "@/lib/ngap/types";
 
 export default function SaveSessionBox({
@@ -11,12 +12,14 @@ export default function SaveSessionBox({
   path,
   currentNodeId,
   usage,
+  aiModel,
   ordonnanceHeader,
 }: {
   defaultTitle: string;
   path: PathStep[];
   currentNodeId: string;
   usage?: { inputTokens: number; outputTokens: number };
+  aiModel?: AiModel;
   ordonnanceHeader?: OrdonnanceHeaderData;
 }) {
   const router = useRouter();
@@ -38,6 +41,7 @@ export default function SaveSessionBox({
           path,
           currentNodeId,
           ...(usage ? { usage } : {}),
+          ...(aiModel ? { aiModel } : {}),
           ...(includePatientData && ordonnanceHeader
             ? {
                 patientName: ordonnanceHeader.patientName,

@@ -37,8 +37,9 @@ export default function SourcesPage() {
           Toute la logique de cotation est un{" "}
           <strong className="text-foreground">arbre de décision déterministe et versionné</strong>{" "}
           (94 actes, 138 nœuds, 90 feuilles), construit à la main à partir du
-          texte réglementaire de la NGAP. Le modèle d&apos;IA (Claude Opus 5) ne
-          fait qu&apos;une chose : lire le texte de l&apos;ordonnance et choisir,
+          texte réglementaire de la NGAP. Le modèle d&apos;IA (Claude Sonnet 5
+          par défaut, Opus 5 en option) ne fait qu&apos;une chose : lire le
+          texte de l&apos;ordonnance et choisir,
           à chaque embranchement de l&apos;arbre, l&apos;option la plus probable —
           ou s&apos;arrêter et poser la question si le texte ne permet pas de
           trancher. C&apos;est l&apos;arbre qui produit la cotation, jamais le

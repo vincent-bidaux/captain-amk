@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
 import { zodOutputFormat } from "@anthropic-ai/sdk/helpers/zod";
 import { z } from "zod";
-import { AI_MODEL_NAME } from "@/lib/ngap/pricing";
+import { DEFAULT_AI_MODEL, isAiModel } from "@/lib/ngap/pricing";
+import type { AiModel } from "@/lib/ngap/pricing";
 
 export const runtime = "nodejs";
 
@@ -46,6 +47,7 @@ Transcris les informations conservées telles quelles, sans reformuler ni interp
 interface TranscribeRequestBody {
   mediaType?: string;
   dataBase64?: string;
+  model?: AiModel;
 }
 
 export async function POST(req: NextRequest) {
@@ -63,6 +65,7 @@ export async function POST(req: NextRequest) {
       { status: 400 },
     );
   }
+  const model = isAiModel(body.model) ? body.model : DEFAULT_AI_MODEL;
 
   if (!process.env.ANTHROPIC_API_KEY) {
     return NextResponse.json(
@@ -90,7 +93,7 @@ export async function POST(req: NextRequest) {
 
   try {
     const response = await client.messages.parse({
-      model: AI_MODEL_NAME,
+      model,
       max_tokens: 2000,
       thinking: { type: "disabled" },
       output_config: {
@@ -122,7 +125,7 @@ export async function POST(req: NextRequest) {
       },
     });
   } catch (err) {
-    console.error("Erreur appel Opus 5 (/api/transcribe)", err);
+    console.error(`Erreur appel ${model} (/api/transcribe)`, err);
     return NextResponse.json(
       { error: "Erreur lors de la transcription par le modèle." },
       { status: 502 },

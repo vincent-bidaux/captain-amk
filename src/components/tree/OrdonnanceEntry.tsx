@@ -3,16 +3,22 @@
 import { Paperclip } from "lucide-react";
 import { useRef, useState } from "react";
 import { prepareUpload } from "@/lib/image/prepareUpload";
+import { AI_MODELS } from "@/lib/ngap/pricing";
+import type { AiModel } from "@/lib/ngap/pricing";
 
 export default function OrdonnanceEntry({
   onAnalyze,
   onSkip,
   onTranscribeUsage,
+  aiModel,
+  onModelChange,
   disabled,
 }: {
   onAnalyze: (text: string) => void;
   onSkip: () => void;
   onTranscribeUsage: (usage: { inputTokens: number; outputTokens: number }) => void;
+  aiModel: AiModel;
+  onModelChange: (model: AiModel) => void;
   disabled: boolean;
 }) {
   const [text, setText] = useState("");
@@ -29,7 +35,7 @@ export default function OrdonnanceEntry({
       const res = await fetch("/api/transcribe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ mediaType, dataBase64 }),
+        body: JSON.stringify({ mediaType, dataBase64, model: aiModel }),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -78,6 +84,31 @@ export default function OrdonnanceEntry({
         de décision et s&apos;arrête pour vous demander dès qu&apos;une
         information manque.
       </p>
+
+      <div className="mt-3 flex flex-wrap items-center gap-2">
+        <span className="text-xs text-muted">Modèle :</span>
+        <div className="inline-flex items-center gap-1 rounded-lg border border-border p-1">
+          {AI_MODELS.map((m) => (
+            <button
+              key={m.value}
+              type="button"
+              title={m.description}
+              disabled={disabled}
+              onClick={() => onModelChange(m.value)}
+              className={`rounded-md px-2.5 py-1 text-xs font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-40 ${
+                aiModel === m.value
+                  ? "bg-accent text-accent-foreground"
+                  : "text-muted hover:text-foreground"
+              }`}
+            >
+              {m.label}
+            </button>
+          ))}
+        </div>
+        <span className="text-xs text-muted">
+          {AI_MODELS.find((m) => m.value === aiModel)?.description}
+        </span>
+      </div>
 
       <div className="mt-3 flex flex-wrap items-center gap-2">
         <input

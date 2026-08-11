@@ -26,6 +26,31 @@ function Version({
 export default function ChangelogPage() {
   return (
     <StaticPage title="Changelog" subtitle="Historique des versions de Captain AMK.">
+      <Version version="1.1.0" date="11 août 2026">
+        <li>
+          Choix du modèle IA avant l&apos;analyse : Sonnet 5 par défaut (rapide,
+          moins cher), Opus 5 disponible en option pour les cas où vous
+          préférez plus de prudence.
+        </li>
+        <li>
+          Le coût de la session est désormais conservé avec la session
+          sauvegardée, retrouvé tel quel à la réouverture.
+        </li>
+        <li>
+          Le dossier (patient, médecin et son téléphone, date, prescription)
+          s&apos;affiche dès le lancement de l&apos;analyse, plus seulement sur
+          le résultat final.
+        </li>
+        <li>
+          Nom du patient affiché sous le titre d&apos;une session sauvegardée,
+          comme dans la barre latérale.
+        </li>
+        <li>Icônes de l&apos;interface harmonisées, sans emoji.</li>
+        <li>
+          Barre latérale fixe : elle ne défile plus avec la page.
+        </li>
+      </Version>
+
       <Version version="1.0.0" date="11 août 2026">
         <li>Première version complète et publique de Captain AMK.</li>
         <li>

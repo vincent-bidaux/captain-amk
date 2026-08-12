@@ -3,6 +3,21 @@
 Toutes les versions notables de Captain AMK. Le détail lisible par les praticiens est sur
 [captain-amk.netlify.app/changelog](https://captain-amk.netlify.app/changelog).
 
+## 1.2.0 — 2026-08-12
+
+Préparation de la bêta publique.
+
+- **Confidentialité renforcée pour la bêta** : les sessions sont désormais sauvegardées en
+  `localStorage`, uniquement sur l'appareil du praticien — plus aucun stockage central partagé.
+  La case « Enregistrer aussi le nom du patient et la prescription » est désactivée : une session
+  sauvegardée ne contient plus jamais de donnée patient, quoi qu'il arrive.
+- **Mode test** : 6 ordonnances de démonstration (couvrant rachis, membre inférieur, membre
+  supérieur, neurologique, respiratoire), dont deux volontairement pièges pour montrer comment
+  l'app gère les cas ambigus, accessibles depuis la page d'accueil sans donnée réelle.
+- **Feedback bêta** : un bouton « Laisser des commentaires » à la fin de chaque cotation permet
+  de remonter un avis (nom, email, commentaire — tout facultatif), consultable par l'équipe sur
+  une page dédiée protégée par mot de passe.
+
 ## 1.1.0 — 2026-08-11
 
 - Choix du modèle IA avant l'analyse : **Sonnet 5 par défaut** (rapide, moins cher), Opus 5

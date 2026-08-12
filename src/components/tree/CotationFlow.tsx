@@ -4,6 +4,7 @@ import { Route } from "lucide-react";
 import { useState } from "react";
 import AiCostBanner from "./AiCostBanner";
 import BreadcrumbStep from "./BreadcrumbStep";
+import FeedbackBox from "./FeedbackBox";
 import OrdonnanceEntry from "./OrdonnanceEntry";
 import OrdonnanceHeaderCard from "./OrdonnanceHeaderCard";
 import QuestionCard from "./QuestionCard";
@@ -234,16 +235,19 @@ export default function CotationFlow() {
           J&apos;analyse l&apos;ordonnance…
         </div>
       ) : nodeIsLeaf ? (
-        <ResultCard
-          acte={getActeForNode(currentNodeId)}
-          path={path}
-          currentNodeId={currentNodeId}
-          onReset={handleReset}
-          showHeader={false}
-          usage={totalUsage}
-          aiModel={aiModel}
-          ordonnanceHeader={ordonnanceHeader}
-        />
+        <>
+          <ResultCard
+            acte={getActeForNode(currentNodeId)}
+            path={path}
+            currentNodeId={currentNodeId}
+            onReset={handleReset}
+            showHeader={false}
+            usage={totalUsage}
+            aiModel={aiModel}
+            ordonnanceHeader={ordonnanceHeader}
+          />
+          <FeedbackBox />
+        </>
       ) : (
         <QuestionCard
           node={currentNode}

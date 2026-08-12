@@ -6,6 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import Logo from "@/components/Logo";
 import { SESSIONS_CHANGED_EVENT, notifySessionsChanged } from "@/lib/session/events";
+import { deleteSession, listSessions, patchSession } from "@/lib/session/localStore";
 import { APP_VERSION } from "@/lib/version";
 import { useWorkState } from "@/lib/ui/workState";
 import type { SavedSessionSummary } from "@/lib/session/types";
@@ -21,24 +22,15 @@ export default function SessionsSidebar({ onNavigate }: { onNavigate?: () => voi
   const [showArchived, setShowArchived] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  const refresh = useCallback(async () => {
-    try {
-      const res = await fetch("/api/sessions");
-      const data = await res.json();
-      setSessions(res.ok ? (data.sessions ?? []) : []);
-    } catch {
-      setSessions([]);
-    } finally {
-      setLoading(false);
-    }
+  const refresh = useCallback(() => {
+    setSessions(listSessions());
+    setLoading(false);
   }, []);
 
   useEffect(() => {
-    // Re-fetch whenever we navigate — catches sessions saved/renamed elsewhere.
-    // setState calls in `refresh` happen after an internal `await`, not
-    // synchronously in this effect body; the lint rule can't see that boundary.
+    // localStorage n'existe pas côté serveur — cette lecture ne peut se faire qu'après montage.
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    void refresh();
+    refresh();
   }, [pathname, refresh]);
 
   useEffect(() => {
@@ -47,26 +39,22 @@ export default function SessionsSidebar({ onNavigate }: { onNavigate?: () => voi
     return () => window.removeEventListener(SESSIONS_CHANGED_EVENT, refresh);
   }, [refresh]);
 
-  async function handleArchive(e: React.MouseEvent, id: string, archived: boolean) {
+  function handleArchive(e: React.MouseEvent, id: string, archived: boolean) {
     e.preventDefault();
     e.stopPropagation();
-    await fetch(`/api/sessions/${id}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ archived: !archived }),
-    });
+    patchSession(id, { archived: !archived });
     notifySessionsChanged();
-    void refresh();
+    refresh();
   }
 
-  async function handleDelete(e: React.MouseEvent, id: string) {
+  function handleDelete(e: React.MouseEvent, id: string) {
     e.preventDefault();
     e.stopPropagation();
     if (!window.confirm("Supprimer définitivement cette session ?")) return;
-    await fetch(`/api/sessions/${id}`, { method: "DELETE" });
+    deleteSession(id);
     notifySessionsChanged();
     if (pathname === `/sessions/${id}`) router.push("/");
-    void refresh();
+    refresh();
   }
 
   const visible = sessions.filter((s) => s.archived === showArchived);
@@ -169,9 +157,10 @@ export default function SessionsSidebar({ onNavigate }: { onNavigate?: () => voi
 
       <div className="border-t border-border px-4 py-3">
         <p className="text-[11px] leading-snug text-muted">
-          Le nom du patient n&apos;est conservé que si vous le choisissez à
-          l&apos;enregistrement. La cotation reste sous la responsabilité du
-          praticien.
+          Version bêta : les sessions sont enregistrées uniquement sur cet
+          appareil (pas de compte, pas de serveur central), et aucune donnée
+          patient n&apos;est conservée. La cotation reste sous la
+          responsabilité du praticien.
         </p>
         <div className="mt-2 flex items-center gap-3 text-[11px] text-muted">
           <Link href="/aide" onClick={onNavigate} className="hover:text-foreground hover:underline">

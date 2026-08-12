@@ -26,6 +26,27 @@ function Version({
 export default function ChangelogPage() {
   return (
     <StaticPage title="Changelog" subtitle="Historique des versions de Captain AMK.">
+      <Version version="1.2.0" date="12 août 2026">
+        <li>
+          Sessions sauvegardées uniquement sur votre appareil (localStorage) —
+          plus aucun stockage central partagé, préparation de la bêta
+          publique.
+        </li>
+        <li>
+          L&apos;enregistrement du nom du patient est désactivé pendant la
+          bêta : une session sauvegardée ne contient plus jamais de donnée
+          patient.
+        </li>
+        <li>
+          Mode test : 6 ordonnances de démonstration pour découvrir l&apos;app
+          sans donnée réelle, dont deux cas volontairement ambigus.
+        </li>
+        <li>
+          Un bouton « Laisser des commentaires » à la fin de chaque cotation
+          permet de nous faire un retour.
+        </li>
+      </Version>
+
       <Version version="1.1.0" date="11 août 2026">
         <li>
           Choix du modèle IA avant l&apos;analyse : Sonnet 5 par défaut (rapide,

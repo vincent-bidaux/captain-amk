@@ -9,6 +9,7 @@ import OrdonnanceHeaderCard from "@/components/tree/OrdonnanceHeaderCard";
 import ResultCard from "@/components/tree/ResultCard";
 import SectionLabel from "@/components/tree/SectionLabel";
 import { notifySessionsChanged } from "@/lib/session/events";
+import { deleteSession, getSession, patchSession } from "@/lib/session/localStore";
 import { getActeForNode, getNode } from "@/lib/ngap/tree";
 import { isFeuille } from "@/lib/ngap/types";
 import { costUsd } from "@/lib/ngap/pricing";
@@ -24,34 +25,21 @@ export default function SessionDetailPage({
   const [session, setSession] = useState<SavedSession | null | undefined>(undefined);
 
   useEffect(() => {
-    let cancelled = false;
-    fetch(`/api/sessions/${id}`)
-      .then((res) => (res.ok ? res.json() : Promise.resolve({ session: null })))
-      .then((data) => {
-        if (!cancelled) setSession(data.session ?? null);
-      })
-      .catch(() => {
-        if (!cancelled) setSession(null);
-      });
-    return () => {
-      cancelled = true;
-    };
+    // localStorage n'existe pas côté serveur — cette lecture ne peut se faire qu'après montage.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setSession(getSession(id));
   }, [id]);
 
-  async function handleArchive() {
+  function handleArchive() {
     if (!session) return;
-    await fetch(`/api/sessions/${id}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ archived: !session.archived }),
-    });
+    patchSession(id, { archived: !session.archived });
     setSession({ ...session, archived: !session.archived });
     notifySessionsChanged();
   }
 
-  async function handleDelete() {
+  function handleDelete() {
     if (!window.confirm("Supprimer définitivement cette session ?")) return;
-    await fetch(`/api/sessions/${id}`, { method: "DELETE" });
+    deleteSession(id);
     notifySessionsChanged();
     router.push("/");
   }

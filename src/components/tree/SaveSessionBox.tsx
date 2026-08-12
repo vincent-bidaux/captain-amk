@@ -4,8 +4,10 @@ import { Check } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { notifySessionsChanged } from "@/lib/session/events";
+import { putSession } from "@/lib/session/localStore";
 import type { AiModel } from "@/lib/ngap/pricing";
-import type { OrdonnanceHeaderData, PathStep } from "@/lib/ngap/types";
+import type { PathStep } from "@/lib/ngap/types";
+import type { SavedSession } from "@/lib/session/types";
 
 export default function SaveSessionBox({
   defaultTitle,
@@ -13,59 +15,34 @@ export default function SaveSessionBox({
   currentNodeId,
   usage,
   aiModel,
-  ordonnanceHeader,
 }: {
   defaultTitle: string;
   path: PathStep[];
   currentNodeId: string;
   usage?: { inputTokens: number; outputTokens: number };
   aiModel?: AiModel;
-  ordonnanceHeader?: OrdonnanceHeaderData;
 }) {
   const router = useRouter();
   const [title, setTitle] = useState(defaultTitle);
-  const [includePatientData, setIncludePatientData] = useState(false);
-  const [saving, setSaving] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const [saved, setSaved] = useState(false);
 
-  async function handleSave() {
-    setSaving(true);
-    setError(null);
-    try {
-      const res = await fetch("/api/sessions", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          title: title.trim() || defaultTitle,
-          path,
-          currentNodeId,
-          ...(usage ? { usage } : {}),
-          ...(aiModel ? { aiModel } : {}),
-          ...(includePatientData && ordonnanceHeader
-            ? {
-                patientName: ordonnanceHeader.patientName,
-                medecinNom: ordonnanceHeader.medecinNom,
-                medecinTelephone: ordonnanceHeader.medecinTelephone,
-                dateOrdonnance: ordonnanceHeader.dateOrdonnance,
-                prescription: ordonnanceHeader.prescription,
-              }
-            : {}),
-        }),
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        setError(data.error ?? "Erreur lors de l'enregistrement.");
-        return;
-      }
-      setSaved(true);
-      notifySessionsChanged();
-      router.push(`/sessions/${data.id}`);
-    } catch {
-      setError("Impossible de contacter le serveur.");
-    } finally {
-      setSaving(false);
-    }
+  function handleSave() {
+    const now = new Date().toISOString();
+    const session: SavedSession = {
+      id: crypto.randomUUID(),
+      title: title.trim() || defaultTitle,
+      createdAt: now,
+      updatedAt: now,
+      archived: false,
+      path,
+      currentNodeId,
+      ...(usage ? { usage } : {}),
+      ...(aiModel ? { aiModel } : {}),
+    };
+    putSession(session);
+    setSaved(true);
+    notifySessionsChanged();
+    router.push(`/sessions/${session.id}`);
   }
 
   if (saved) {
@@ -81,19 +58,14 @@ export default function SaveSessionBox({
     <div className="mt-4 rounded-lg border border-border bg-background p-3">
       <p className="text-xs text-muted">
         Seul le cheminement (questions, réponses, justifications) est
-        enregistré — jamais le texte de l&apos;ordonnance ni le nom du
-        patient, sauf si vous cochez la case ci-dessous.
+        enregistré, uniquement sur cet appareil (version bêta — aucun serveur
+        central, aucun autre utilisateur ne peut le voir).
       </p>
 
-      <label className="mt-2 flex items-start gap-2 text-xs text-foreground">
-        <input
-          type="checkbox"
-          checked={includePatientData}
-          onChange={(e) => setIncludePatientData(e.target.checked)}
-          className="mt-0.5"
-        />
+      <label className="mt-2 flex items-start gap-2 text-xs text-muted opacity-50">
+        <input type="checkbox" checked={false} disabled className="mt-0.5" />
         Enregistrer aussi le nom du patient et la prescription avec cette
-        session
+        session <span className="italic">(désactivé pendant la bêta)</span>
       </label>
 
       <div className="mt-2 flex flex-col gap-2 sm:flex-row">
@@ -106,13 +78,11 @@ export default function SaveSessionBox({
         <button
           type="button"
           onClick={handleSave}
-          disabled={saving}
-          className="rounded-lg bg-accent px-4 py-2 text-sm font-medium text-accent-foreground transition-opacity hover:opacity-90 disabled:opacity-50"
+          className="rounded-lg bg-accent px-4 py-2 text-sm font-medium text-accent-foreground transition-opacity hover:opacity-90"
         >
-          {saving ? "Enregistrement…" : "Enregistrer la session"}
+          Enregistrer la session
         </button>
       </div>
-      {error && <p className="mt-2 text-xs text-danger">{error}</p>}
     </div>
   );
 }

@@ -68,6 +68,15 @@ nulle part dans le code — toujours passer par `AiModel` / `AI_MODELS` / `isAiM
    dit sur le nom du patient, d'une manière générale, il faut le nom du patient. » Le nom du
    patient est désormais une donnée voulue, affichée en évidence (cartouche d'en-tête du
    résultat : date d'ordonnance, médecin, patient, prescription).
+3. (2026-08-12, préparation bêta) **Re-durcissement pour la mise en bêta publique**, distinct des
+   deux points précédents (qui restent vrais pour l'affichage en direct pendant une session — le
+   cartouche « Dossier » continue d'afficher patient/médecin/téléphone) : la **persistance** d'une
+   session passe de Netlify Blobs (stockage central partagé) à **`localStorage`** (uniquement sur
+   l'appareil du praticien, jamais transmis à un serveur), et la case « Enregistrer aussi le nom
+   du patient et la prescription » est **désactivée et grisée** dans `SaveSessionBox` — plus moyen
+   d'opt-in pendant la bêta, même si le composant reste en place pour une réactivation ultérieure.
+   Raison : éviter tout risque de fuite de données patient entre utilisateurs d'une bêta publique
+   tant qu'il n'y a pas de compte/authentification par praticien.
 
 **Implémentation actuelle (fait foi)** : l'extraction (nom/prénom patient, nom et téléphone du
 médecin, date de l'ordonnance) se fait dès le premier appel `/api/decide` (`extractHeader: true`)
@@ -76,16 +85,47 @@ d'en-tête clairement identifiable (« 📄 Dossier ») affiché **dès que l'an
 `CotationFlow` (pas seulement sur le résultat final) — `ResultCard` réutilise le même composant
 pour l'affichage en lecture seule (page session, `showHeader` par défaut à `true` ; `CotationFlow`
 passe `showHeader={false}` sur son propre `ResultCard` pour ne pas dupliquer le bandeau déjà
-affiché au-dessus). La **persistance reste opt-in** : à l'enregistrement d'une session
-(`SaveSessionBox`), une case à cocher « Enregistrer aussi le nom du patient et la prescription »
-contrôle si `patientName`, `medecinNom`, `medecinTelephone`, `dateOrdonnance` et `prescription`
-(le texte brut de l'ordonnance) sont envoyés à `POST /api/sessions` et stockés. Non cochée par
-défaut. Si cochée, la barre latérale affiche le nom du patient sous le titre de la session.
+affiché au-dessus). Ça, ça n'a pas changé : le nom du patient reste affiché en direct pendant la
+session, en mémoire dans le navigateur.
 
-**Pourquoi l'opt-in reste utile** malgré le revirement : c'est une donnée de santé, hébergée sur
-Netlify (pas d'hébergement HDS certifié), dans un repo **public** — la case à cocher laisse le
-praticien décider au cas par cas s'il veut cette traçabilité nominative pour telle session, sans
-que ce soit automatique/invisible.
+**Ce qui a changé pour la bêta (2026-08-12)** : la **persistance** (bouton « Enregistrer la
+session ») ne propose plus du tout d'enregistrer les données patient — la case à cocher existe
+encore dans `SaveSessionBox` mais est **désactivée et grisée en permanence**
+(`checked={false} disabled`), avec la mention « désactivé pendant la bêta ». Une session
+enregistrée ne contient plus que le cheminement (questions/réponses/justifications), le coût et
+le modèle utilisé — jamais `patientName`/`medecinNom`/`medecinTelephone`/`dateOrdonnance`/
+`prescription`. Et la session elle-même est stockée en **`localStorage`**
+(`src/lib/session/localStore.ts`), pas sur un serveur : chaque praticien ne voit que ses propres
+sessions, sur son propre appareil. Netlify Blobs n'est donc plus utilisé pour les sessions (voir
+Stack technique) — uniquement pour le feedback bêta, qui lui doit au contraire être centralisé.
+
+**Pourquoi ce nouveau resserrement** : en bêta publique, plusieurs praticiens inconnus vont
+utiliser l'app en même temps sans compte ni cloisonnement — l'opt-in précédent (case à cocher)
+supposait un seul utilisateur de confiance et un stockage qu'on maîtrisait. Sans authentification
+par praticien, un stockage central partagé aurait pu exposer les sessions d'un praticien à un
+autre. `localStorage` élimine le risque par construction (rien ne quitte l'appareil), au prix de
+sessions non synchronisées entre appareils — acceptable pour une bêta.
+
+## Mode bêta (2026-08-12)
+
+- **Mode test / ordonnances de démo** : `src/data/demoOrdonnances.ts` contient 6 ordonnances
+  fictives (`DEMO_ORDONNANCES`), choisies pour couvrir des branches variées de l'arbre (rachis,
+  membre inférieur avec référentiel HAS, membre supérieur, neurologique, respiratoire), dont
+  deux volontairement pièges : `genou-cheville` teste la règle « 2 territoires du même membre »
+  (ne doit pas être coté TER) et `epaule-ambigue` ne précise jamais le contexte chirurgical pour
+  vérifier que l'app s'arrête et demande plutôt que de deviner. Affichées dans
+  `DemoSection.tsx`, rendu en haut de `OrdonnanceEntry` (section verte « Mode test », visible
+  uniquement avant le démarrage du travail comme le reste de cette zone). Sélectionner une
+  ordonnance remplit le textarea ET fait apparaître un bouton vert « Scanner « [titre] » » qui
+  déclenche `onAnalyze` exactement comme le flux normal — pas de code dupliqué.
+- **Feedback bêta** : `FeedbackBox.tsx` (section verte « Version bêta », bouton « Laisser des
+  commentaires » qui déplie nom/fonction + email + commentaire, tout facultatif) s'affiche
+  seulement à la fin du parcours **en direct** (`CotationFlow`, branche `nodeIsLeaf`) — pas sur
+  les pages de sessions déjà sauvegardées. Envoie vers `POST /api/feedback` (public, stocké dans
+  Netlify Blobs, jamais lié à une session ni à un patient). Consultable sur `/feedbacks`, protégé
+  par un mot de passe (`amk-feedback`, vérifié uniquement côté serveur dans
+  `/api/feedback/list` — ne jamais le déplacer côté client). Page marquée `robots: noindex` via
+  `src/app/feedbacks/layout.tsx` (un composant client ne peut pas exporter `metadata`).
 
 ## Versioning et changelog
 
@@ -141,11 +181,15 @@ que ce soit automatique/invisible.
   neuro/musculaire (deux sens différents), donc il faudra en réalité une icône par *question*
   concernée pour ces cas-là, pas une icône générique par libellé. Prévenir l'utilisateur avant de
   regénérer ce fichier de prompts.
-- Stockage sessions : **Netlify Blobs** (`@netlify/blobs`, store `captain-amk-sessions`) — zéro
-  provisioning, identifiants injectés automatiquement au runtime Netlify. Aucune PII dans le
-  schéma stocké (voir section Confidentialité).
+- Stockage sessions : **`localStorage`** côté navigateur (`src/lib/session/localStore.ts`,
+  clé `captain-amk-sessions`), depuis le 2026-08-12 (voir section Confidentialité). Pas de route
+  API pour les sessions : tout est synchrone, client-side, dans les composants qui en ont besoin.
+- Stockage feedback bêta : **Netlify Blobs** (`@netlify/blobs`, store `captain-amk-feedback`,
+  via `src/lib/feedback/store.ts`) — c'est le seul usage restant de Blobs dans l'app ; volontaire,
+  car le feedback doit au contraire être centralisé pour que l'utilisateur puisse le consulter.
 - Routes API : `/api/decide` (une décision d'arbre), `/api/transcribe` (vision, image/PDF →
-  texte), `/api/sessions` + `/api/sessions/[id]` (CRUD sessions).
+  texte), `/api/feedback` (POST public, dépose un retour bêta), `/api/feedback/list` (POST avec
+  mot de passe `amk-feedback` codé en dur côté serveur uniquement — jamais exposé au client).
 - Upload : redimensionnement client-side des photos (1600px, JPEG 0.85) avant envoi
   (`src/lib/image/prepareUpload.ts`) ; PDF envoyé tel quel (max 10 Mo).
 
@@ -166,8 +210,8 @@ Tous les groupes fonctionnels (1 à 7) terminés et validés en production :
   propre + question au médecin quand le texte ne tranche pas (testé : genou/LCA entièrement
   auto → RIC 8.08 ; épaule ambiguë → arrêt correct)
 - Upload photo/PDF (drag&drop ou sélection) → transcription → pipeline complet automatique
-- Sessions sauvegardées, nom du patient + prescription en opt-in (case à cocher), liste/archivage/
-  suppression, patient affiché sous le titre dans la barre latérale quand enregistré
+- Sessions sauvegardées en `localStorage` (aucune donnée patient, voir Confidentialité),
+  liste/archivage/suppression
 - Coût réel affiché en $ à chaque session (pas de mention "IA" dans l'UI — voix à la première
   personne, « je », pour les messages de statut/arrêt)
 - Cartouche de résultat avec en-tête (date ordonnance, médecin, patient, prescription) +
@@ -176,6 +220,9 @@ Tous les groupes fonctionnels (1 à 7) terminés et validés en production :
   choix » et **rejoue cette étape** (pas la suivante)
 - **v1.0.0** : pied de barre latérale avec version (lien `/changelog`) et signature, pages
   `/aide` et `/sources`, barre latérale repliable (voir section dédiée ci-dessus)
+- **v1.2.0 (préparation bêta)** : sessions passées en `localStorage`, case données patient
+  désactivée, mode test (6 ordonnances de démo), formulaire de feedback + `/feedbacks` (voir
+  section « Mode bêta » ci-dessus)
 
 Polish continu au fil des retours utilisateur (2026-08-11, après-midi et soir) : voir git log et
 `CHANGELOG.md` pour le détail.

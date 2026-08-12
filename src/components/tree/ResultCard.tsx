@@ -182,7 +182,6 @@ export default function ResultCard({
           currentNodeId={currentNodeId}
           usage={usage}
           aiModel={aiModel}
-          ordonnanceHeader={ordonnanceHeader}
         />
       )}
     </div>

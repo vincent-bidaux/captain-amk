@@ -1,0 +1,14 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "captain-amk",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-11-01",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": { "directory": ".open-next/assets", "binding": "ASSETS" },
+  "routes": [{ "pattern": "captain-amk.abpq.cc", "custom_domain": true }],
+  "workers_dev": false,
+  "observability": { "enabled": true },
+  // Retours bêta (ex-Netlify Blobs, store captain-amk-feedback)
+  "kv_namespaces": [{ "binding": "FEEDBACK_KV", "id": "0cf627b3b78d4af4aff4394dbfb33266" }]
+  // Secret runtime (posé via l'API Cloudflare, jamais commité) : ANTHROPIC_API_KEY
+}

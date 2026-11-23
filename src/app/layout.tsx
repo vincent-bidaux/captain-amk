@@ -23,7 +23,7 @@ const description =
   "Cotation NGAP en 1 clic pour kinésithérapeutes — AMK, AMS, AMC, majorations et indemnités";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://captain-amk.netlify.app"),
+  metadataBase: new URL("https://captain-amk.abpq.cc"),
   title: "Captain AMK",
   description,
   icons: {

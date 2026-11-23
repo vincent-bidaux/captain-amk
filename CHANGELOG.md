@@ -1,7 +1,7 @@
 # Changelog
 
 Toutes les versions notables de Captain AMK. Le détail lisible par les praticiens est sur
-[captain-amk.netlify.app/changelog](https://captain-amk.netlify.app/changelog).
+[captain-amk.abpq.cc/changelog](https://captain-amk.abpq.cc/changelog).
 
 ## 1.2.0 — 2026-08-12
 

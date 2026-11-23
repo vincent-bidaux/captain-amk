@@ -3,7 +3,8 @@
 App d'aide à la cotation NGAP pour les masseurs-kinésithérapeutes libéraux, open source.
 
 - Repo : https://github.com/vincent-bidaux/captain-amk (public)
-- Live : https://captain-amk.netlify.app
+- Live : https://captain-amk.abpq.cc (Cloudflare Workers, Worker `captain-amk` ; migré depuis Netlify le
+  2026-11-23 — l'ancien site `captain-amk.netlify.app` est conservé temporairement, à supprimer après validation)
 
 ## Objectif
 
@@ -71,7 +72,7 @@ nulle part dans le code — toujours passer par `AiModel` / `AI_MODELS` / `isAiM
 3. (2026-08-12, préparation bêta) **Re-durcissement pour la mise en bêta publique**, distinct des
    deux points précédents (qui restent vrais pour l'affichage en direct pendant une session — le
    cartouche « Dossier » continue d'afficher patient/médecin/téléphone) : la **persistance** d'une
-   session passe de Netlify Blobs (stockage central partagé) à **`localStorage`** (uniquement sur
+   session passe de Netlify Blobs (stockage central partagé, aujourd'hui Cloudflare KV) à **`localStorage`** (uniquement sur
    l'appareil du praticien, jamais transmis à un serveur), et la case « Enregistrer aussi le nom
    du patient et la prescription » est **désactivée et grisée** dans `SaveSessionBox` — plus moyen
    d'opt-in pendant la bêta, même si le composant reste en place pour une réactivation ultérieure.
@@ -96,7 +97,7 @@ enregistrée ne contient plus que le cheminement (questions/réponses/justificat
 le modèle utilisé — jamais `patientName`/`medecinNom`/`medecinTelephone`/`dateOrdonnance`/
 `prescription`. Et la session elle-même est stockée en **`localStorage`**
 (`src/lib/session/localStore.ts`), pas sur un serveur : chaque praticien ne voit que ses propres
-sessions, sur son propre appareil. Netlify Blobs n'est donc plus utilisé pour les sessions (voir
+sessions, sur son propre appareil. Le stockage serveur (Netlify Blobs à l'époque, Cloudflare KV depuis 2026-11-23) n'est donc plus utilisé pour les sessions (voir
 Stack technique) — uniquement pour le feedback bêta, qui lui doit au contraire être centralisé.
 
 **Pourquoi ce nouveau resserrement** : en bêta publique, plusieurs praticiens inconnus vont
@@ -122,7 +123,7 @@ sessions non synchronisées entre appareils — acceptable pour une bêta.
   commentaires » qui déplie nom/fonction + email + commentaire, tout facultatif) s'affiche
   seulement à la fin du parcours **en direct** (`CotationFlow`, branche `nodeIsLeaf`) — pas sur
   les pages de sessions déjà sauvegardées. Envoie vers `POST /api/feedback` (public, stocké dans
-  Netlify Blobs, jamais lié à une session ni à un patient). Consultable sur `/feedbacks`, protégé
+  Cloudflare KV, jamais lié à une session ni à un patient). Consultable sur `/feedbacks`, protégé
   par un mot de passe (`amk-feedback`, vérifié uniquement côté serveur dans
   `/api/feedback/list` — ne jamais le déplacer côté client). Page marquée `robots: noindex` via
   `src/app/feedbacks/layout.tsx` (un composant client ne peut pas exporter `metadata`).
@@ -154,7 +155,11 @@ sessions non synchronisées entre appareils — acceptable pour une bêta.
 
 ## Stack technique
 
-- Next.js (App Router) + TypeScript + Tailwind CSS, déployé sur Netlify (Next.js Runtime auto).
+- Next.js (App Router) + TypeScript + Tailwind CSS, déployé sur Cloudflare Workers via OpenNext
+  (`@opennextjs/cloudflare`, `open-next.config.ts`, `wrangler.jsonc`). Déploiement continu : Workers Builds
+  relié au repo GitHub (`npx opennextjs-cloudflare build` puis `npx opennextjs-cloudflare deploy` à chaque
+  push sur `main`). Secret runtime `ANTHROPIC_API_KEY` posé sur le Worker (jamais commité).
+  Vérifier localement avant de pousser : `npx opennextjs-cloudflare build`.
 - IA : `@anthropic-ai/sdk`, modèle choisi par le praticien entre `claude-sonnet-5` (défaut) et
   `claude-opus-5` (type `AiModel`, liste `AI_MODELS`, garde `isAiModel()` — tout dans
   `src/lib/ngap/pricing.ts`, utilisé par les deux routes ET par le bandeau de coût affiché à
@@ -184,8 +189,10 @@ sessions non synchronisées entre appareils — acceptable pour une bêta.
 - Stockage sessions : **`localStorage`** côté navigateur (`src/lib/session/localStore.ts`,
   clé `captain-amk-sessions`), depuis le 2026-08-12 (voir section Confidentialité). Pas de route
   API pour les sessions : tout est synchrone, client-side, dans les composants qui en ont besoin.
-- Stockage feedback bêta : **Netlify Blobs** (`@netlify/blobs`, store `captain-amk-feedback`,
-  via `src/lib/feedback/store.ts`) — c'est le seul usage restant de Blobs dans l'app ; volontaire,
+- Stockage feedback bêta : **Cloudflare KV** (namespace `captain-amk-feedback`, binding `FEEDBACK_KV`
+  déclaré dans `wrangler.jsonc` et typé dans `cloudflare-env.d.ts`, accès via
+  `src/lib/feedback/store.ts` + `getCloudflareContext()`) — remplace Netlify Blobs depuis la
+  migration du 2026-11-23 (0 retour existait côté Netlify, rien à reprendre) ; c'est le seul stockage serveur de l'app ; volontaire,
   car le feedback doit au contraire être centralisé pour que l'utilisateur puisse le consulter.
 - Routes API : `/api/decide` (une décision d'arbre), `/api/transcribe` (vision, image/PDF →
   texte), `/api/feedback` (POST public, dépose un retour bêta), `/api/feedback/list` (POST avec
@@ -196,10 +203,10 @@ sessions non synchronisées entre appareils — acceptable pour une bêta.
 ## Workflow de travail avec l'utilisateur (2026-08-11)
 
 - On ne travaille jamais en local uniquement : chaque groupe de tâches se termine par une
-  publication (push GitHub + déploiement Netlify vérifié en ligne), puis un message à
+  publication (push GitHub + déploiement Cloudflare Workers Builds vérifié en ligne), puis un message à
   l'utilisateur, puis on enchaîne sur le groupe suivant sans attendre de confirmation.
 - Commit après chaque étape terminée (voir mémoire globale `git-deploy-workflow-habits`).
-- Toujours donner l'URL Netlify après un déploiement qui la déclenche.
+- Toujours donner l'URL (https://captain-amk.abpq.cc) après un déploiement qui la déclenche.
 
 ## État actuel
 

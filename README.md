@@ -25,7 +25,14 @@ npm run dev
 
 ## Déploiement
 
-Déployé automatiquement sur Netlify à chaque push sur `main` : https://captain-amk.netlify.app
+Déployé sur Cloudflare Workers (Next.js empaqueté par OpenNext, `@opennextjs/cloudflare`) : Workers Builds
+lance automatiquement le build et le déploiement à chaque push sur `main` : https://captain-amk.abpq.cc
+
+Vérifier le build Cloudflare en local avant de pousser :
+
+```bash
+npx opennextjs-cloudflare build && npx wrangler dev
+```
 
 ## Licence
 

@@ -188,7 +188,7 @@ export default function SourcesPage() {
           </li>
           <li>
             <strong className="text-foreground">Hébergement.</strong> L&apos;app
-            est hébergée sur Netlify, qui n&apos;est pas un hébergeur certifié
+            est hébergée sur Cloudflare, qui n&apos;est pas un hébergeur certifié
             HDS (données de santé). C&apos;est pourquoi la conservation du nom du
             patient et du texte de l&apos;ordonnance reste une option explicite
             (case à cocher), jamais automatique.
